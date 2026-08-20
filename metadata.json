@@ -1,0 +1,6 @@
+{
+  "name": "Botanica Rituals",
+  "description": "Boutique et rituels de savons artisanaux et soins botaniques haut de gamme.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

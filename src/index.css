@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "EB Garamond", Georgia, serif;
+  --font-sans: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  --font-headline: "EB Garamond", Georgia, serif;
+  --font-body: "Hanken Grotesk", sans-serif;
+
+  --color-primary: #4f614e;
+  --color-primary-container: #677965;
+  --color-primary-fixed: #d4e8d0;
+  --color-primary-fixed-dim: #b8ccb5;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #f7fff2;
+  --color-on-primary-fixed-variant: #3a4b39;
+  --color-on-primary-fixed: #0f1f10;
+
+  --color-secondary: #5f5f58;
+  --color-secondary-container: #e2e0d7;
+  --color-on-secondary-container: #64635c;
+  --color-secondary-fixed: #e5e2da;
+  --color-secondary-fixed-dim: #c9c6be;
+
+  --color-tertiary: #824f39;
+  --color-tertiary-container: #9f6750;
+  --color-tertiary-fixed: #ffdbce;
+  --color-tertiary-fixed-dim: #fbb79c;
+  --color-on-tertiary-fixed-variant: #693a26;
+
+  --color-surface: #f9f9f9;
+  --color-surface-dim: #dadada;
+  --color-surface-bright: #f9f9f9;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f3f3f4;
+  --color-surface-container: #eeeeee;
+  --color-surface-container-high: #e8e8e8;
+  --color-surface-container-highest: #e2e2e2;
+  --color-surface-variant: #e2e2e2;
+
+  --color-on-surface: #1a1c1c;
+  --color-on-surface-variant: #434842;
+  --color-outline: #747871;
+  --color-outline-variant: #c4c8c0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #f9f9f9;
+  color: #1a1c1c;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, .font-serif-luxury {
+  font-family: var(--font-serif);
+}
+
+.ambient-shadow {
+  box-shadow: 0 20px 40px -10px rgba(79, 97, 78, 0.08);
+}
+
+.ambient-shadow-sm {
+  box-shadow: 0 10px 30px -8px rgba(79, 97, 78, 0.06);
+}
+
+.ambient-shadow-strong {
+  box-shadow: 0 25px 50px -12px rgba(79, 97, 78, 0.14);
+}
+
+.glass-nav {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Custom scrollbar for minimalist quiet luxury */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f3f3f4;
+}
+::-webkit-scrollbar-thumb {
+  background: #c4c8c0;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #747871;
+}
