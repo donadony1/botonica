@@ -8,41 +8,41 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   return (
     <footer
-      id="botanica-footer"
+      id="Ndolo-footer"
       className="bg-[#e2e0d7] w-full py-16 mb-20 md:mb-0 flex flex-col items-center gap-8 px-6 text-center border-t border-[#c4c8c0]/40 transition-colors"
     >
-      <div className="font-serif-luxury text-3xl md:text-4xl tracking-[0.2em] text-[#4f614e]">
-        BOTANICA
+      <div className="font-serif-luxury text-3xl md:text-4xl tracking-[0.2em] text-[#bb0a4a]">
+        Ndolo
       </div>
 
       <nav className="flex flex-wrap justify-center gap-6 md:gap-10 text-[#64635c] text-sm md:text-base font-normal">
         <button
           onClick={() => onNavigate('rituals')}
-          className="hover:text-[#4f614e] hover:underline decoration-[#4f614e]/30 underline-offset-4 transition-all"
+          className="hover:text-[#bb0a4a] hover:underline decoration-[#bb0a4a]/30 underline-offset-4 transition-all"
         >
           Our Story
         </button>
         <button
           onClick={() => onNavigate('shop')}
-          className="hover:text-[#4f614e] hover:underline decoration-[#4f614e]/30 underline-offset-4 transition-all"
+          className="hover:text-[#bb0a4a] hover:underline decoration-[#bb0a4a]/30 underline-offset-4 transition-all"
         >
           Ingredients
         </button>
         <button
           onClick={() => onNavigate('home')}
-          className="hover:text-[#4f614e] hover:underline decoration-[#4f614e]/30 underline-offset-4 transition-all"
+          className="hover:text-[#bb0a4a] hover:underline decoration-[#bb0a4a]/30 underline-offset-4 transition-all"
         >
           Sustainability
         </button>
         <button
           onClick={() => onNavigate('cart')}
-          className="hover:text-[#4f614e] hover:underline decoration-[#4f614e]/30 underline-offset-4 transition-all"
+          className="hover:text-[#bb0a4a] hover:underline decoration-[#bb0a4a]/30 underline-offset-4 transition-all"
         >
           Shipping
         </button>
         <a
-          href="mailto:contact@botanicarituals.com"
-          className="hover:text-[#4f614e] hover:underline decoration-[#4f614e]/30 underline-offset-4 transition-all"
+          href="mailto:contact@Ndolorituals.com"
+          className="hover:text-[#bb0a4a] hover:underline decoration-[#bb0a4a]/30 underline-offset-4 transition-all"
         >
           Contact
         </a>
@@ -53,7 +53,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       </div>
 
       <p className="text-[#64635c] text-xs tracking-wider opacity-80 mt-2">
-        © 2024 BOTANICA RITUALS. TOUS DROITS RÉSERVÉS.
+        © 2024 Ndolo RITUALS. TOUS DROITS RÉSERVÉS.
       </p>
     </footer>
   );

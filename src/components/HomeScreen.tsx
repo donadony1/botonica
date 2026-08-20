@@ -24,7 +24,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       <section className="relative w-full min-h-[85vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 w-full h-full">
           <img
-            alt="Botanica Hero Image"
+            alt="Ndolo Hero Image"
             className="w-full h-full object-cover object-center opacity-90 transition-transform duration-1000 scale-105"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrgCV7TNRmoM256IPC0HLS--65-VqXkjHcN0FtpCoa6yN_c9_VejaiVe0fiLcQ7EwKOEhuaV3tqmScY4jNywR6vhdQb_coyOCurMDDtd9jCF6czlSgRMjjIBmf6nW5SQAQauU8JbDpUbr_u_Om1GvPKJgJyLrSc7If1pb9PPg_QSg8QSD8jkgDn4i6yJtr3ghQEtXRNmFwSf87DNgAK6rcEGuRfNSpcDnPcsl45CwrmF9izFOTfaSi"
           />
@@ -32,15 +32,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         </div>
 
         <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-3xl mx-auto mt-16 md:mt-20">
-          <span className="text-xs uppercase tracking-[0.25em] text-[#4f614e] font-semibold bg-[#f9f9f9]/80 backdrop-blur-sm px-4 py-1.5 rounded-full mb-6 ambient-shadow-sm">
+          <span className="text-xs uppercase tracking-[0.25em] text-[#bb0a4a] font-semibold bg-[#f9f9f9]/80 backdrop-blur-sm px-4 py-1.5 rounded-full mb-6 ambient-shadow-sm">
             Maison de Savonnerie Botanique
           </span>
-          <h1 className="font-serif-luxury text-4xl sm:text-5xl md:text-6xl text-[#4f614e] mb-6 drop-shadow-sm leading-[1.15] tracking-tight">
+          <h1 className="font-serif-luxury text-4xl sm:text-5xl md:text-6xl text-[#bb0a4a] mb-6 drop-shadow-sm leading-[1.15] tracking-tight">
             L'art du Bain Naturel
           </h1>
           <p className="text-base sm:text-lg text-[#434842] mb-10 max-w-xl leading-relaxed font-light">
-            Embrace the quiet luxury of botanical rituals. Handcrafted with intention to elevate
-            your daily cleansing into a restorative sensory experience.
+            Découvrez le luxe discret des rituels Ndolol. Confectionnés artisanalement avec
+            l'intention de transformer votre purification quotidienne en une expérience sensorielle régénératrice.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 items-center">
             <button
@@ -53,13 +53,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   onNavigate('shop');
                 }
               }}
-              className="bg-[#4f614e] text-white px-9 py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#3a4b39] transition-all duration-300 ambient-shadow hover:scale-105 active:scale-95 cursor-pointer"
+              className="bg-[#bb0a4a] text-white px-9 py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#b7003a] transition-all duration-300 ambient-shadow hover:scale-105 active:scale-95 cursor-pointer"
             >
               Découvrir
             </button>
             <button
               onClick={() => onNavigate('rituals')}
-              className="bg-[#f9f9f9]/90 text-[#4f614e] border border-[#4f614e]/30 px-8 py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#e2e0d7] transition-all duration-300 ambient-shadow-sm"
+              className="bg-[#f9f9f9]/90 text-[#bb0a4a] border border-[#bb0a4a]/30 px-8 py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#e2e0d7] transition-all duration-300 ambient-shadow-sm"
             >
               Le Savon Signature
             </button>
@@ -72,12 +72,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
           <div className="order-2 md:order-1 relative h-[420px] md:h-[500px] rounded-3xl overflow-hidden ambient-shadow group">
             <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQos6I8xLro9gluD79yAfRwVOtdnQLuvKxZL5il1VkG0acC4U57cCpU3a1slkDk0tqzO5GSLMwr6fQGMYm9GSp5-Dg3CLxnllku77mPwkcW_1cfyXh34SmWpHrNAk2V4YDQ4I0ko_DXazQmymITdRXLYcW0zQ6bpbguJtr-m4Pa4ZqXkfUFLRULqbtUjRtcPpadVGOpXUBCKt1_1t_rdHoPl6WB68PTLuv0SUN9JlEex_dtPr5zM1I"
+              src="https://scontent.fkbi1-1.fna.fbcdn.net/v/t39.30808-6/706020754_122172378194893728_3880789243033241386_n.jpg?stp=dst-jpg_tt6&cstp=mx896x1190&ctp=s896x1190&_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEPm3h6-YoYGgzjukGx-q79pkJYkDFg0XGmQliQMWDRcTbEabnzs7vPBo7vU-CO2dWdS8ElVoy8ktzu7rGlk1S_&_nc_ohc=6Zrk21YuNPEQ7kNvwGuBlvJ&_nc_oc=AdoTPLQ1Ki-RmZp2VTsmRsjyrUBR_PM_1vgQe_b5eDghDY-3F1vMkXT5cDsk0WRGPoI&_nc_zt=23&_nc_ht=scontent.fkbi1-1.fna&_nc_gid=BRWWCIOp7ZgEjOXddLWk9w&_nc_ss=7b2a8&oh=00_AQGaNVC75WolKyZydaAi9i_CHdznJO0J2P4Dalf1CDkvtw&oe=6A8CC997"
               alt="Artisanal soap bar with water droplets"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
             <div className="absolute bottom-4 left-4 right-4 bg-[#f9f9f9]/90 backdrop-blur-md rounded-2xl p-4 border border-[#c4c8c0]/30 flex justify-between items-center text-xs text-[#434842]">
-              <span className="font-serif italic text-sm text-[#4f614e]">
+              <span className="font-serif italic text-sm text-[#bb0a4a]">
                 Saponifié à froid — Cure de 6 semaines
               </span>
               <span className="font-semibold text-[#824f39]">100% Végétal</span>
@@ -88,33 +88,33 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             <span className="text-[#824f39] text-xs font-bold uppercase tracking-[0.2em] mb-4">
               Notre Vision
             </span>
-            <h2 className="font-serif-luxury text-3xl md:text-5xl text-[#4f614e] mb-6 leading-tight">
-              Purity in Every Pour
+            <h2 className="font-serif-luxury text-3xl md:text-5xl text-[#bb0a4a] mb-6 leading-tight">
+              Pureté à chaque service
             </h2>
             <p className="text-[#434842] text-base md:text-lg mb-8 text-left leading-relaxed font-light">
-              We believe that skincare should be an uncomplicated ritual, rooted in nature. Our
-              formulations are stripped of the unnecessary, leaving only wildcrafted botanicals,
-              nourishing clays, and pure essential oils. The result is a tactile, earthy experience
-              that reconnects you with the physical world while gently cleansing the body.
+              Nous croyons que les soins de la peau doivent être un rituel simple, ancré dans la nature.
+              Nos formules sont épurées de tout superflu et ne conservent que des Ndolols sauvages,
+              des argiles nourrissantes et des huiles essentielles pures.
+              Il en résulte une expérience tactile et authentique qui vous reconnecte au monde physique tout en purifiant délicatement votre corps.
             </p>
             <ul className="space-y-4 text-base text-[#1a1c1c] w-full">
               <li className="flex items-center gap-3.5 bg-white/70 p-3 rounded-2xl border border-[#e2e2e2]">
-                <span className="material-symbols-outlined text-[#4f614e] bg-[#d4e8d0]/50 p-2 rounded-xl text-[20px]">
+                <span className="material-symbols-outlined text-[#bb0a4a] bg-[#d4e8d0]/50 p-2 rounded-xl text-[20px]">
                   eco
                 </span>
-                <span className="font-medium text-sm md:text-base">100% Natural Ingredients</span>
+                <span className="font-medium text-sm md:text-base">Ingrédients 100% naturels</span>
               </li>
               <li className="flex items-center gap-3.5 bg-white/70 p-3 rounded-2xl border border-[#e2e2e2]">
-                <span className="material-symbols-outlined text-[#4f614e] bg-[#d4e8d0]/50 p-2 rounded-xl text-[20px]">
+                <span className="material-symbols-outlined text-[#bb0a4a] bg-[#d4e8d0]/50 p-2 rounded-xl text-[20px]">
                   water_drop
                 </span>
-                <span className="font-medium text-sm md:text-base">Cold-Processed for Potency</span>
+                <span className="font-medium text-sm md:text-base">Saponifié à froid pour préserver la puissance</span>
               </li>
               <li className="flex items-center gap-3.5 bg-white/70 p-3 rounded-2xl border border-[#e2e2e2]">
-                <span className="material-symbols-outlined text-[#4f614e] bg-[#d4e8d0]/50 p-2 rounded-xl text-[20px]">
+                <span className="material-symbols-outlined text-[#bb0a4a] bg-[#d4e8d0]/50 p-2 rounded-xl text-[20px]">
                   recycling
                 </span>
-                <span className="font-medium text-sm md:text-base">Plastic-Free Packaging</span>
+                <span className="font-medium text-sm md:text-base">Emballage sans plastique</span>
               </li>
             </ul>
           </div>
@@ -128,8 +128,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             <span className="text-[#824f39] text-xs font-bold uppercase tracking-[0.2em] block mb-2">
               Collection Botanique
             </span>
-            <h2 className="font-serif-luxury text-3xl md:text-5xl text-[#4f614e] mb-4">
-              The Signature Collection
+            <h2 className="font-serif-luxury text-3xl md:text-5xl text-[#bb0a4a] mb-4">
+              La Collection Signature
             </h2>
             <p className="text-sm md:text-base text-[#434842] font-light">
               Des créations pures et sensorielles élaborées pour transformer le geste quotidien en
@@ -150,13 +150,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                     alt={eucalyptus.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <span className="absolute top-3 left-3 bg-[#d4e8d0]/90 text-[#3a4b39] text-[11px] font-semibold uppercase px-2.5 py-1 rounded-full backdrop-blur-xs">
+                  <span className="absolute top-3 left-3 bg-[#d4e8d0]/90 text-[#b7003a] text-[11px] font-semibold uppercase px-2.5 py-1 rounded-full backdrop-blur-xs">
                     Purifiant
                   </span>
                 </div>
                 <h3
                   onClick={() => onSelectProduct(eucalyptus)}
-                  className="font-serif-luxury text-2xl text-[#4f614e] mb-2 cursor-pointer hover:underline"
+                  className="font-serif-luxury text-2xl text-[#bb0a4a] mb-2 cursor-pointer hover:underline"
                 >
                   {eucalyptus.name}
                 </h3>
@@ -169,13 +169,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 <div className="mt-auto w-full flex flex-col gap-2.5">
                   <button
                     onClick={() => onSelectProduct(eucalyptus)}
-                    className="w-full py-2.5 border border-[#4f614e] text-[#4f614e] rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#e2e0d7] transition-colors"
+                    className="w-full py-2.5 border border-[#bb0a4a] text-[#bb0a4a] rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#e2e0d7] transition-colors"
                   >
                     View Details
                   </button>
                   <button
                     onClick={() => onAddToCart(eucalyptus, 1)}
-                    className="w-full py-2.5 bg-[#4f614e] text-white rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#3a4b39] transition-colors flex items-center justify-center gap-1.5"
+                    className="w-full py-2.5 bg-[#bb0a4a] text-white rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#b7003a] transition-colors flex items-center justify-center gap-1.5"
                   >
                     <span className="material-symbols-outlined text-[16px]">shopping_bag</span>
                     Ajouter au Panier
@@ -205,7 +205,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 </div>
                 <h3
                   onClick={() => onSelectProduct(wildOrange)}
-                  className="font-serif-luxury text-2xl text-[#4f614e] mb-2 cursor-pointer hover:underline"
+                  className="font-serif-luxury text-2xl text-[#bb0a4a] mb-2 cursor-pointer hover:underline"
                 >
                   {wildOrange.name}
                 </h3>
@@ -218,13 +218,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 <div className="mt-auto w-full flex flex-col gap-2.5">
                   <button
                     onClick={() => onSelectProduct(wildOrange)}
-                    className="w-full py-2.5 border border-[#4f614e] text-[#4f614e] rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#e2e0d7] transition-colors"
+                    className="w-full py-2.5 border border-[#bb0a4a] text-[#bb0a4a] rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#e2e0d7] transition-colors"
                   >
                     View Details
                   </button>
                   <button
                     onClick={() => onAddToCart(wildOrange, 1)}
-                    className="w-full py-2.5 bg-[#4f614e] text-white rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#3a4b39] transition-colors flex items-center justify-center gap-1.5"
+                    className="w-full py-2.5 bg-[#bb0a4a] text-white rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#b7003a] transition-colors flex items-center justify-center gap-1.5"
                   >
                     <span className="material-symbols-outlined text-[16px]">shopping_bag</span>
                     Ajouter au Panier
@@ -251,7 +251,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 </div>
                 <h3
                   onClick={() => onSelectProduct(oatMilk)}
-                  className="font-serif-luxury text-2xl text-[#4f614e] mb-2 cursor-pointer hover:underline"
+                  className="font-serif-luxury text-2xl text-[#bb0a4a] mb-2 cursor-pointer hover:underline"
                 >
                   {oatMilk.name}
                 </h3>
@@ -264,13 +264,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 <div className="mt-auto w-full flex flex-col gap-2.5">
                   <button
                     onClick={() => onSelectProduct(oatMilk)}
-                    className="w-full py-2.5 border border-[#4f614e] text-[#4f614e] rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#e2e0d7] transition-colors"
+                    className="w-full py-2.5 border border-[#bb0a4a] text-[#bb0a4a] rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#e2e0d7] transition-colors"
                   >
                     View Details
                   </button>
                   <button
                     onClick={() => onAddToCart(oatMilk, 1)}
-                    className="w-full py-2.5 bg-[#4f614e] text-white rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#3a4b39] transition-colors flex items-center justify-center gap-1.5"
+                    className="w-full py-2.5 bg-[#bb0a4a] text-white rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#b7003a] transition-colors flex items-center justify-center gap-1.5"
                   >
                     <span className="material-symbols-outlined text-[16px]">shopping_bag</span>
                     Ajouter au Panier
@@ -284,7 +284,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           <div className="mt-16">
             <button
               onClick={() => onNavigate('shop')}
-              className="inline-flex items-center gap-2 text-sm uppercase tracking-widest text-[#4f614e] font-semibold hover:gap-3 transition-all border-b-2 border-[#4f614e]/40 pb-1"
+              className="inline-flex items-center gap-2 text-sm uppercase tracking-widest text-[#bb0a4a] font-semibold hover:gap-3 transition-all border-b-2 border-[#bb0a4a]/40 pb-1"
             >
               Explorer Tous Les Soins Botaniques
               <span className="material-symbols-outlined text-sm">arrow_forward</span>
@@ -295,12 +295,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
       {/* Scent & Atmosphere Banner */}
       <section className="py-20 px-6 md:px-16 max-w-[1280px] mx-auto w-full">
-        <div className="bg-[#d4e8d0]/30 rounded-3xl p-8 md:p-14 border border-[#4f614e]/15 flex flex-col md:flex-row items-center justify-between gap-8 ambient-shadow-sm">
+        <div className="bg-[#d4e8d0]/30 rounded-3xl p-8 md:p-14 border border-[#bb0a4a]/15 flex flex-col md:flex-row items-center justify-between gap-8 ambient-shadow-sm">
           <div className="max-w-xl">
             <span className="text-[#824f39] text-xs font-bold uppercase tracking-[0.2em] block mb-2">
               L'Expérience Sensorielle
             </span>
-            <h3 className="font-serif-luxury text-3xl md:text-4xl text-[#4f614e] mb-4">
+            <h3 className="font-serif-luxury text-3xl md:text-4xl text-[#bb0a4a] mb-4">
               L'équilibre d'une formule surgrasse
             </h3>
             <p className="text-[#434842] text-sm md:text-base leading-relaxed font-light">
@@ -311,7 +311,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </div>
           <button
             onClick={() => onNavigate('rituals')}
-            className="whitespace-nowrap bg-[#4f614e] text-white px-8 py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#3a4b39] transition-colors ambient-shadow shrink-0"
+            className="whitespace-nowrap bg-[#bb0a4a] text-white px-8 py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#b7003a] transition-colors ambient-shadow shrink-0"
           >
             Découvrir le Rituel
           </button>

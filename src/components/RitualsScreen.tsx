@@ -34,19 +34,19 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
 
           <ul className="space-y-3.5 mb-10">
             <li className="flex items-center text-sm md:text-base text-[#434842] font-normal">
-              <span className="material-symbols-outlined text-[#4f614e] mr-3 text-[22px]">
+              <span className="material-symbols-outlined text-[#bb0a4a] mr-3 text-[22px]">
                 eco
               </span>
               100% Naturel & Fait Main
             </li>
             <li className="flex items-center text-sm md:text-base text-[#434842] font-normal">
-              <span className="material-symbols-outlined text-[#4f614e] mr-3 text-[22px]">
+              <span className="material-symbols-outlined text-[#bb0a4a] mr-3 text-[22px]">
                 water_drop
               </span>
               Hydratation Intense (Surgras 8%)
             </li>
             <li className="flex items-center text-sm md:text-base text-[#434842] font-normal">
-              <span className="material-symbols-outlined text-[#4f614e] mr-3 text-[22px]">
+              <span className="material-symbols-outlined text-[#bb0a4a] mr-3 text-[22px]">
                 local_florist
               </span>
               Parfum Subtil Floral & Boisé
@@ -57,7 +57,7 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
             <button
               id="rituals-buy-signature-btn"
               onClick={() => onAddToCart(signatureProduct, 1)}
-              className="bg-[#4f614e] text-white text-xs font-semibold uppercase tracking-[0.2em] py-4 px-8 rounded-full hover:bg-[#3a4b39] transition-all shadow-md active:scale-95 text-center cursor-pointer"
+              className="bg-[#bb0a4a] text-white text-xs font-semibold uppercase tracking-[0.2em] py-4 px-8 rounded-full hover:bg-[#b7003a] transition-all shadow-md active:scale-95 text-center cursor-pointer"
             >
               Acheter maintenant - {signatureProduct.price.toFixed(2)}€
             </button>
@@ -70,11 +70,11 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
           </div>
         </div>
 
-        <div className="order-1 md:order-2 w-full h-[380px] sm:h-[480px] md:h-[580px] rounded-3xl overflow-hidden ambient-shadow ring-1 ring-[#4f614e]/10 group">
+        <div className="order-1 md:order-2 w-full h-[380px] sm:h-[480px] md:h-[580px] rounded-3xl overflow-hidden ambient-shadow ring-1 ring-[#bb0a4a]/10 group">
           <img
-            alt="Le Savon Signature Botanica"
+            alt="Le Savon Signature Ndolo"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlb95X_tVwmD75ICxZBkyfNbkuJQlEKNCEA9gfFxN3wjMJCtQW9bNfEYPyAL6OnHIFjvTgYsal78OwB5elaEfx0VhGwOJ0SEPT6MPvnfSOk3DMVtc5u5k7Bn4tPzwjdWgH0wR8CkQkl87OsJhk_exEX-VMQxPmab7RjsjVFD-EydgaCgpjEM4IF7Vu_ooaHuy1EpbhhSIjYtdTtboyqn6nOkRIp3pDWATbccTDBPMZwxi1e5c504Lc"
+            src="https://scontent.fkbi1-1.fna.fbcdn.net/v/t39.30808-6/706020754_122172378194893728_3880789243033241386_n.jpg?stp=dst-jpg_tt6&cstp=mx896x1190&ctp=s896x1190&_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEPm3h6-YoYGgzjukGx-q79pkJYkDFg0XGmQliQMWDRcTbEabnzs7vPBo7vU-CO2dWdS8ElVoy8ktzu7rGlk1S_&_nc_ohc=6Zrk21YuNPEQ7kNvwGuBlvJ&_nc_oc=AdoTPLQ1Ki-RmZp2VTsmRsjyrUBR_PM_1vgQe_b5eDghDY-3F1vMkXT5cDsk0WRGPoI&_nc_zt=23&_nc_ht=scontent.fkbi1-1.fna&_nc_gid=BRWWCIOp7ZgEjOXddLWk9w&_nc_ss=7b2a8&oh=00_AQGaNVC75WolKyZydaAi9i_CHdznJO0J2P4Dalf1CDkvtw&oe=6A8CC997"
           />
         </div>
       </section>
@@ -83,7 +83,7 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
       <section className="mb-28 md:mb-36">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="text-xs font-bold text-[#824f39] uppercase tracking-[0.2em] block mb-2">
-            La Méthode Botanica
+            La Méthode Ndolo
           </span>
           <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl text-[#1a1c1c]">
             L'Équilibre Parfait
@@ -94,7 +94,7 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
           {/* Benefit 1 */}
           <div className="bg-white p-8 rounded-3xl border border-[#e2e2e2] ambient-shadow flex flex-col justify-between">
             <div>
-              <div className="w-12 h-12 rounded-full bg-[#d4e8d0]/40 flex items-center justify-center mb-6 text-[#4f614e]">
+              <div className="w-12 h-12 rounded-full bg-[#d4e8d0]/40 flex items-center justify-center mb-6 text-[#bb0a4a]">
                 <span className="material-symbols-outlined text-[24px]">spa</span>
               </div>
               <h3 className="font-serif-luxury text-2xl text-[#1a1c1c] mb-4">Pureté Végétale</h3>
@@ -147,7 +147,7 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
       </section>
 
       {/* Testimonials: Ce qu'elles en disent */}
-      <section className="mb-28 md:mb-36 bg-[#d4e8d0]/25 -mx-5 md:-mx-12 px-6 md:px-12 py-20 md:py-24 rounded-3xl border border-[#4f614e]/10">
+      <section className="mb-28 md:mb-36 bg-[#d4e8d0]/25 -mx-5 md:-mx-12 px-6 md:px-12 py-20 md:py-24 rounded-3xl border border-[#bb0a4a]/10">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="text-xs font-bold text-[#824f39] uppercase tracking-[0.2em] block mb-2">
             Avis Vérifiés
@@ -184,7 +184,7 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
                   — {review.author}
                 </p>
                 {review.productName && (
-                  <span className="text-[11px] text-[#4f614e] font-serif">
+                  <span className="text-[11px] text-[#bb0a4a] font-serif">
                     {review.productName}
                   </span>
                 )}
@@ -209,12 +209,12 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
         <button
           id="rituals-cta-add-to-cart-btn"
           onClick={() => onAddToCart(signatureProduct, 1)}
-          className="bg-[#4f614e] text-white text-xs font-semibold uppercase tracking-[0.2em] py-4 px-12 rounded-full hover:bg-[#3a4b39] transition-all shadow-md hover:-translate-y-0.5 active:scale-95 duration-300 cursor-pointer"
+          className="bg-[#bb0a4a] text-white text-xs font-semibold uppercase tracking-[0.2em] py-4 px-12 rounded-full hover:bg-[#b7003a] transition-all shadow-md hover:-translate-y-0.5 active:scale-95 duration-300 cursor-pointer"
         >
           Ajouter au Panier - {signatureProduct.price.toFixed(2)}€
         </button>
         <p className="text-xs text-[#434842] mt-6 opacity-80 flex items-center gap-1.5">
-          <span className="material-symbols-outlined text-[16px] text-[#4f614e]">
+          <span className="material-symbols-outlined text-[16px] text-[#bb0a4a]">
             local_shipping
           </span>
           Livraison offerte dès 50€ d'achat • Expédition sous 24h

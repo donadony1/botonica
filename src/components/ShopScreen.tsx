@@ -29,10 +29,10 @@ export const ShopScreen: React.FC<ShopScreenProps> = ({
       selectedTag === 'all'
         ? true
         : selectedTag === 'soaps'
-        ? product.category === 'soaps'
-        : selectedTag === 'oils'
-        ? product.category === 'oils'
-        : product.tags.some((t) => t.toLowerCase().includes(selectedTag.toLowerCase()));
+          ? product.category === 'soaps'
+          : selectedTag === 'oils'
+            ? product.category === 'oils'
+            : product.tags.some((t) => t.toLowerCase().includes(selectedTag.toLowerCase()));
 
     const matchesSearch =
       searchQuery.trim() === '' ||
@@ -67,11 +67,10 @@ export const ShopScreen: React.FC<ShopScreenProps> = ({
             <button
               key={tag.id}
               onClick={() => setSelectedTag(tag.id)}
-              className={`px-4 py-2 rounded-full text-xs uppercase tracking-wider font-semibold transition-all duration-200 cursor-pointer ${
-                selectedTag === tag.id
-                  ? 'bg-[#4f614e] text-white shadow-sm'
-                  : 'bg-white text-[#434842] hover:bg-[#e2e0d7] border border-[#c4c8c0]/40'
-              }`}
+              className={`px-4 py-2 rounded-full text-xs uppercase tracking-wider font-semibold transition-all duration-200 cursor-pointer ${selectedTag === tag.id
+                ? 'bg-[#bb0a4a] text-white shadow-sm'
+                : 'bg-white text-[#434842] hover:bg-[#e2e0d7] border border-[#c4c8c0]/40'
+                }`}
             >
               {tag.label}
             </button>
@@ -85,7 +84,7 @@ export const ShopScreen: React.FC<ShopScreenProps> = ({
             placeholder="Rechercher un soin..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white border border-[#c4c8c0]/60 rounded-full pl-10 pr-4 py-2.5 text-sm text-[#1a1c1c] placeholder:text-[#747871] focus:outline-none focus:border-[#4f614e] focus:ring-1 focus:ring-[#4f614e] transition-all"
+            className="w-full bg-white border border-[#c4c8c0]/60 rounded-full pl-10 pr-4 py-2.5 text-sm text-[#1a1c1c] placeholder:text-[#747871] focus:outline-none focus:border-[#bb0a4a] focus:ring-1 focus:ring-[#bb0a4a] transition-all"
           />
           <span className="material-symbols-outlined absolute left-3.5 top-2.5 text-[18px] text-[#747871]">
             search
@@ -114,7 +113,7 @@ export const ShopScreen: React.FC<ShopScreenProps> = ({
               setSelectedTag('all');
               setSearchQuery('');
             }}
-            className="px-6 py-2.5 bg-[#4f614e] text-white rounded-full text-xs uppercase font-semibold tracking-wider"
+            className="px-6 py-2.5 bg-[#bb0a4a] text-white rounded-full text-xs uppercase font-semibold tracking-wider"
           >
             Réinitialiser les filtres
           </button>
@@ -143,7 +142,7 @@ export const ShopScreen: React.FC<ShopScreenProps> = ({
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   {product.surgrasPercentage && (
-                    <span className="absolute bottom-3 right-3 bg-[#f9f9f9]/90 text-[#4f614e] text-[11px] font-semibold px-2.5 py-1 rounded-full backdrop-blur-xs">
+                    <span className="absolute bottom-3 right-3 bg-[#f9f9f9]/90 text-[#bb0a4a] text-[11px] font-semibold px-2.5 py-1 rounded-full backdrop-blur-xs">
                       Surgras {product.surgrasPercentage}
                     </span>
                   )}
@@ -162,7 +161,7 @@ export const ShopScreen: React.FC<ShopScreenProps> = ({
 
                 <h3
                   onClick={() => onSelectProduct(product)}
-                  className="font-serif-luxury text-2xl text-[#1a1c1c] mb-2 hover:text-[#4f614e] transition-colors cursor-pointer"
+                  className="font-serif-luxury text-2xl text-[#1a1c1c] mb-2 hover:text-[#bb0a4a] transition-colors cursor-pointer"
                 >
                   {product.name}
                 </h3>
@@ -173,7 +172,7 @@ export const ShopScreen: React.FC<ShopScreenProps> = ({
 
               <div className="pt-4 border-t border-[#f3f3f4]">
                 <div className="flex justify-between items-baseline mb-4">
-                  <span className="font-serif-luxury text-2xl text-[#4f614e] font-semibold">
+                  <span className="font-serif-luxury text-2xl text-[#bb0a4a] font-semibold">
                     {product.price.toFixed(2)} €
                   </span>
                   <span className="text-xs text-[#747871]">{product.weight || '120g'}</span>
@@ -182,13 +181,13 @@ export const ShopScreen: React.FC<ShopScreenProps> = ({
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => onSelectProduct(product)}
-                    className="py-2.5 px-3 border border-[#4f614e] text-[#4f614e] rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#e2e0d7] transition-colors text-center cursor-pointer"
+                    className="py-2.5 px-3 border border-[#bb0a4a] text-[#bb0a4a] rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#e2e0d7] transition-colors text-center cursor-pointer"
                   >
                     Détails
                   </button>
                   <button
                     onClick={() => onAddToCart(product, 1)}
-                    className="py-2.5 px-3 bg-[#4f614e] text-white rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#3a4b39] transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                    className="py-2.5 px-3 bg-[#bb0a4a] text-white rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#b7003a] transition-colors flex items-center justify-center gap-1 cursor-pointer"
                   >
                     <span className="material-symbols-outlined text-[16px]">shopping_bag</span>
                     Ajouter

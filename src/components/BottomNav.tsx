@@ -10,7 +10,7 @@ interface BottomNavProps {
 export const BottomNav: React.FC<BottomNavProps> = ({ currentScreen, onNavigate, cartCount }) => {
   return (
     <nav
-      id="botanica-bottom-nav"
+      id="Ndolo-bottom-nav"
       className="md:hidden fixed bottom-0 w-full z-50 bg-[#f9f9f9]/95 backdrop-blur-md shadow-[0_-4px_25px_rgba(79,97,78,0.08)] border-t border-[#c4c8c0]/30"
     >
       <div className="flex justify-around items-center h-20 pb-safe px-4 max-w-md mx-auto">
@@ -18,11 +18,10 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentScreen, onNavigate,
         <button
           id="nav-tab-home"
           onClick={() => onNavigate('home')}
-          className={`flex flex-col items-center justify-center px-3 py-1 text-xs tracking-wider transition-all duration-200 ${
-            currentScreen === 'home'
-              ? 'text-[#4f614e] font-bold bg-[#d4e8d0]/40 rounded-xl'
-              : 'text-[#434842] hover:text-[#4f614e] active:scale-95'
-          }`}
+          className={`flex flex-col items-center justify-center px-3 py-1 text-xs tracking-wider transition-all duration-200 ${currentScreen === 'home'
+            ? 'text-[#bb0a4a] font-bold bg-[#d4e8d0]/40 rounded-xl'
+            : 'text-[#434842] hover:text-[#bb0a4a] active:scale-95'
+            }`}
         >
           <span
             className="material-symbols-outlined mb-1 text-[22px]"
@@ -37,11 +36,10 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentScreen, onNavigate,
         <button
           id="nav-tab-shop"
           onClick={() => onNavigate('shop')}
-          className={`flex flex-col items-center justify-center px-3 py-1 text-xs tracking-wider transition-all duration-200 ${
-            currentScreen === 'shop' || currentScreen === 'product-detail'
-              ? 'text-[#4f614e] font-bold bg-[#d4e8d0]/40 rounded-xl'
-              : 'text-[#434842] hover:text-[#4f614e] active:scale-95'
-          }`}
+          className={`flex flex-col items-center justify-center px-3 py-1 text-xs tracking-wider transition-all duration-200 ${currentScreen === 'shop' || currentScreen === 'product-detail'
+            ? 'text-[#bb0a4a] font-bold bg-[#d4e8d0]/40 rounded-xl'
+            : 'text-[#434842] hover:text-[#bb0a4a] active:scale-95'
+            }`}
         >
           <span
             className="material-symbols-outlined mb-1 text-[22px]"
@@ -61,11 +59,10 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentScreen, onNavigate,
         <button
           id="nav-tab-rituals"
           onClick={() => onNavigate('rituals')}
-          className={`flex flex-col items-center justify-center px-3 py-1 text-xs tracking-wider transition-all duration-200 ${
-            currentScreen === 'rituals'
-              ? 'text-[#4f614e] font-bold bg-[#d4e8d0]/40 rounded-xl'
-              : 'text-[#434842] hover:text-[#4f614e] active:scale-95'
-          }`}
+          className={`flex flex-col items-center justify-center px-3 py-1 text-xs tracking-wider transition-all duration-200 ${currentScreen === 'rituals'
+            ? 'text-[#bb0a4a] font-bold bg-[#d4e8d0]/40 rounded-xl'
+            : 'text-[#434842] hover:text-[#bb0a4a] active:scale-95'
+            }`}
         >
           <span
             className="material-symbols-outlined mb-1 text-[22px]"
@@ -82,11 +79,10 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentScreen, onNavigate,
         <button
           id="nav-tab-cart"
           onClick={() => onNavigate('cart')}
-          className={`flex flex-col items-center justify-center px-3 py-1 text-xs tracking-wider transition-all duration-200 relative ${
-            currentScreen === 'cart'
-              ? 'text-[#4f614e] font-bold bg-[#d4e8d0]/40 rounded-xl'
-              : 'text-[#434842] hover:text-[#4f614e] active:scale-95'
-          }`}
+          className={`flex flex-col items-center justify-center px-3 py-1 text-xs tracking-wider transition-all duration-200 relative ${currentScreen === 'cart'
+            ? 'text-[#bb0a4a] font-bold bg-[#d4e8d0]/40 rounded-xl'
+            : 'text-[#434842] hover:text-[#bb0a4a] active:scale-95'
+            }`}
         >
           <span
             className="material-symbols-outlined mb-1 text-[22px]"

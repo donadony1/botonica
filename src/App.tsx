@@ -1,11 +1,5 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState } from 'react';
 import { Product, CartItem, ScreenType } from './types';
-import { PRODUCTS, INITIAL_CART } from './data/products';
 import { Header } from './components/Header';
 import { BottomNav } from './components/BottomNav';
 import { Footer } from './components/Footer';
@@ -15,16 +9,32 @@ import { ProductDetailScreen } from './components/ProductDetailScreen';
 import { RitualsScreen } from './components/RitualsScreen';
 import { CartScreen } from './components/CartScreen';
 import { Toast } from './components/Toast';
+import AdminScreen from './components/admin/AdminScreen';
+import { AdminProvider, useAdmin } from './context/AdminContext';
 
 export default function App() {
+  return (
+    <AdminProvider>
+      <AppInner />
+    </AdminProvider>
+  );
+}
+
+function AppInner() {
+  const { products } = useAdmin();
+  const INITIAL_CART_IDS = [
+    { productId: 'eucalyptus-clay', quantity: 2 },
+    { productId: 'cedar-vetiver-oil', quantity: 1 },
+  ];
+
   const [currentScreen, setCurrentScreen] = useState<ScreenType>('home');
-  const [selectedProduct, setSelectedProduct] = useState<Product>(PRODUCTS[0]); // default to Lavande & Olive
+  const [selectedProduct, setSelectedProduct] = useState<Product>(products[0]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Initialize cart with sample items as shown in design mockups
+  // Initialize cart
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
-    return INITIAL_CART.map((init) => {
-      const p = PRODUCTS.find((prod) => prod.id === init.productId) || PRODUCTS[0];
+    return INITIAL_CART_IDS.map((init) => {
+      const p = products.find((prod) => prod.id === init.productId) || products[0];
       return { product: p, quantity: init.quantity };
     });
   });
@@ -83,7 +93,12 @@ export default function App() {
     setCartItems([]);
   };
 
-  const signatureProduct = PRODUCTS.find((p) => p.id === 'savon-signature') || PRODUCTS[0];
+  const signatureProduct = products.find((p) => p.id === 'savon-signature') || products[0];
+
+  // Admin screen gets its own full-page layout
+  if (currentScreen === 'admin') {
+    return <AdminScreen onNavigate={navigateTo} />;
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f9f9f9] text-[#1a1c1c] font-sans antialiased selection:bg-[#d4e8d0] selection:text-[#0f1f10]">
@@ -98,7 +113,7 @@ export default function App() {
       <main className="flex-grow pt-16">
         {currentScreen === 'home' && (
           <HomeScreen
-            products={PRODUCTS}
+            products={products}
             onSelectProduct={handleSelectProduct}
             onAddToCart={handleAddToCart}
             onNavigate={navigateTo}
@@ -107,7 +122,7 @@ export default function App() {
 
         {currentScreen === 'shop' && (
           <ShopScreen
-            products={PRODUCTS}
+            products={products}
             onSelectProduct={handleSelectProduct}
             onAddToCart={handleAddToCart}
           />
@@ -116,7 +131,7 @@ export default function App() {
         {currentScreen === 'product-detail' && (
           <ProductDetailScreen
             product={selectedProduct}
-            allProducts={PRODUCTS}
+            allProducts={products}
             onAddToCart={handleAddToCart}
             onSelectProduct={handleSelectProduct}
             onNavigate={navigateTo}

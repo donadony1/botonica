@@ -6,13 +6,13 @@
   --font-headline: "EB Garamond", Georgia, serif;
   --font-body: "Hanken Grotesk", sans-serif;
 
-  --color-primary: #4f614e;
+  --color-primary: #bb0a4a;
   --color-primary-container: #677965;
   --color-primary-fixed: #d4e8d0;
   --color-primary-fixed-dim: #b8ccb5;
   --color-on-primary: #ffffff;
   --color-on-primary-container: #f7fff2;
-  --color-on-primary-fixed-variant: #3a4b39;
+  --color-on-primary-fixed-variant: #b7003a;
   --color-on-primary-fixed: #0f1f10;
 
   --color-secondary: #5f5f58;
@@ -51,7 +51,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, .font-serif-luxury {
+h1,
+h2,
+h3,
+.font-serif-luxury {
   font-family: var(--font-serif);
 }
 
@@ -77,13 +80,16 @@ h1, h2, h3, .font-serif-luxury {
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: #f3f3f4;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #c4c8c0;
   border-radius: 9999px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #747871;
 }

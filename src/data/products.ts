@@ -24,7 +24,7 @@ export const PRODUCTS: Product[] = [
         description: 'Riche en antioxydants, elle nourrit en profondeur et protège le film hydrolipidique de la peau.',
         icon: 'spa',
         bgClass: 'bg-[#d4e8d0]',
-        iconClass: 'text-[#4f614e]'
+        iconClass: 'text-[#bb0a4a]'
       },
       {
         name: 'Lavande Fine de Provence',
@@ -70,7 +70,7 @@ export const PRODUCTS: Product[] = [
         description: 'Capte les impuretés et régule l\'excès de sébum grâce à ses minéraux précieux.',
         icon: 'terrain',
         bgClass: 'bg-[#d4e8d0]',
-        iconClass: 'text-[#4f614e]'
+        iconClass: 'text-[#bb0a4a]'
       },
       {
         name: 'Eucalyptus Sauvage',
@@ -130,7 +130,7 @@ export const PRODUCTS: Product[] = [
         description: 'Nettoie efficacement tout en favorisant une mousse abondante et crémeuse.',
         icon: 'spa',
         bgClass: 'bg-[#d4e8d0]',
-        iconClass: 'text-[#4f614e]'
+        iconClass: 'text-[#bb0a4a]'
       }
     ],
     usageTips: 'Idéal pour le matin. Inspirez profondément les effluves d\'agrumes et de bois précieux sous l\'eau tiède.',
@@ -175,7 +175,7 @@ export const PRODUCTS: Product[] = [
         description: 'Crée une barrière lipidique douce qui préserve la souplesse de la peau.',
         icon: 'spa',
         bgClass: 'bg-[#d4e8d0]',
-        iconClass: 'text-[#4f614e]'
+        iconClass: 'text-[#bb0a4a]'
       }
     ],
     usageTips: 'Parfait pour le visage et le corps de toute la famille, y compris les peaux à tendance atopique.',
@@ -188,14 +188,14 @@ export const PRODUCTS: Product[] = [
   {
     id: 'savon-signature',
     name: 'Le Savon Signature',
-    tagline: 'L\'icône Botanica au marbre végétal',
+    tagline: 'L\'icône Ndolo au marbre végétal',
     category: 'soaps',
     price: 24.00,
     rating: 5.0,
     reviewCount: 64,
     tags: ['Signature', 'Surgras 8%', '100% Naturel'],
     description: 'Transformez votre douche en rituel. Notre savon signature allie des ingrédients bruts d\'exception pour une expérience sensorielle inégalée.',
-    longDescription: 'Pièce maîtresse de la maison Botanica, ce savon marbré aux reflets sauge et écru associe les vertus de la lavande séchée, des huiles nobles et d\'un surgras protecteur de 8%. Chaque pièce est découpée et estampillée à la main dans notre atelier provençal.',
+    longDescription: 'Pièce maîtresse de la maison Ndolo, ce savon marbré aux reflets sauge et écru associe les vertus de la lavande séchée, des huiles nobles et d\'un surgras protecteur de 8%. Chaque pièce est découpée et estampillée à la main dans notre atelier provençal.',
     images: [
       'https://lh3.googleusercontent.com/aida-public/AB6AXuDlb95X_tVwmD75ICxZBkyfNbkuJQlEKNCEA9gfFxN3wjMJCtQW9bNfEYPyAL6OnHIFjvTgYsal78OwB5elaEfx0VhGwOJ0SEPT6MPvnfSOk3DMVtc5u5k7Bn4tPzwjdWgH0wR8CkQkl87OsJhk_exEX-VMQxPmab7RjsjVFD-EydgaCgpjEM4IF7Vu_ooaHuy1EpbhhSIjYtdTtboyqn6nOkRIp3pDWATbccTDBPMZwxi1e5c504Lc',
       'https://lh3.googleusercontent.com/aida-public/AB6AXuDQos6I8xLro9gluD79yAfRwVOtdnQLuvKxZL5il1VkG0acC4U57cCpU3a1slkDk0tqzO5GSLMwr6fQGMYm9GSp5-Dg3CLxnllku77mPwkcW_1cfyXh34SmWpHrNAk2V4YDQ4I0ko_DXazQmymITdRXLYcW0zQ6bpbguJtr-m4Pa4ZqXkfUFLRULqbtUjRtcPpadVGOpXUBCKt1_1t_rdHoPl6WB68PTLuv0SUN9JlEex_dtPr5zM1I'
@@ -207,7 +207,7 @@ export const PRODUCTS: Product[] = [
         description: 'Nourrit intensément et renforce le film hydrolipidique sans obstruer les pores.',
         icon: 'spa',
         bgClass: 'bg-[#d4e8d0]',
-        iconClass: 'text-[#4f614e]'
+        iconClass: 'text-[#bb0a4a]'
       },
       {
         name: 'Glycérine Naturelle Préservée',
@@ -240,7 +240,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviewCount: 22,
     tags: ['Cedar', 'Vetiver', 'Huile Précieuse'],
-    description: 'Deep hydration with grounding notes. A restorative golden elixir formulated with cold-pressed botanical seed oils and rare vetiver roots.',
+    description: 'Deep hydration with grounding notes. A restorative golden elixir formulated with cold-pressed Ndolol seed oils and rare vetiver roots.',
     longDescription: 'Véritable caresse satinée, cette huile corporelle sèche pénètre instantanément sans laisser de film gras. Les notes profondes de vétiver d\'Haïti et de cèdre rouge apportent calme mental et réconfort tout au long de la journée.',
     images: [
       'https://lh3.googleusercontent.com/aida-public/AB6AXuBY2PerSYkBVuKzI6YdvsNTjV0ig4MKJzGYnc3e_7MnRs8nVc1iRIyhtWjAU1TI4xEJm2gLwQYCk6IvxbXCpotFPDzD1vn_v9XicyP7oopyPoJ31CazaglM51g8HmXCSuonbrZ7gv0Eq3EVpz2nTtnpzljYxPYLQZ_rRqKIM9Az6OenXhToV27UPUgxAFfQTlv-2ZlxtBGRE9HqVIcQXqFs0YNsn_cE_AgXh9zIDtZjDe-lbs5Wewwd'
@@ -266,7 +266,7 @@ export const PRODUCTS: Product[] = [
         description: 'Reconnue pour ses propriétés relipidantes et apaisantes pour les peaux matures.',
         icon: 'spa',
         bgClass: 'bg-[#d4e8d0]',
-        iconClass: 'text-[#4f614e]'
+        iconClass: 'text-[#bb0a4a]'
       }
     ],
     usageTips: 'Appliquez quelques gouttes sur une peau encore légèrement humide après la douche ou le bain, massez en mouvements ascendants.',
