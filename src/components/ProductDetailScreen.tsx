@@ -36,7 +36,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
           <li>
             <button
               onClick={() => onNavigate('home')}
-              className="hover:text-[#bb0a4a] transition-colors cursor-pointer"
+              className="hover:text-[#1a191c] transition-colors cursor-pointer"
             >
               Accueil
             </button>
@@ -49,7 +49,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
           <li>
             <button
               onClick={() => onNavigate('shop')}
-              className="hover:text-[#bb0a4a] transition-colors cursor-pointer"
+              className="hover:text-[#1a191c] transition-colors cursor-pointer"
             >
               Boutique
             </button>
@@ -59,7 +59,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
               chevron_right
             </span>
           </li>
-          <li className="text-[#bb0a4a] font-semibold">{product.name}</li>
+          <li className="text-[#1a191c] font-semibold">{product.name}</li>
         </ol>
       </nav>
 
@@ -67,7 +67,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20">
         {/* Product Images Gallery */}
         <div className="space-y-4">
-          <div className="aspect-square w-full rounded-2xl overflow-hidden bg-white shadow-[0_20px_50px_rgba(81,99,80,0.08)] border border-[#bb0a4a]/10 relative group">
+          <div className="aspect-square w-full rounded-2xl overflow-hidden bg-white shadow-[0_20px_50px_rgba(81,99,80,0.08)] border border-[#1a191c]/10 relative group">
             <img
               key={selectedImageIndex}
               src={images[selectedImageIndex] || images[0]}
@@ -75,7 +75,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
             {product.surgrasPercentage && (
-              <span className="absolute top-4 right-4 bg-[#f9f9f9]/90 backdrop-blur-md text-[#bb0a4a] text-xs font-semibold px-3 py-1.5 rounded-full border border-[#bb0a4a]/20">
+              <span className="absolute top-4 right-4 bg-[#f9f9f9]/90 backdrop-blur-md text-[#1a191c] text-xs font-semibold px-3 py-1.5 rounded-full border border-[#1a191c]/20">
                 Surgras {product.surgrasPercentage}
               </span>
             )}
@@ -89,8 +89,8 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
                   key={idx}
                   onClick={() => setSelectedImageIndex(idx)}
                   className={`aspect-square rounded-xl overflow-hidden transition-all duration-200 cursor-pointer ${selectedImageIndex === idx
-                    ? 'border-2 border-[#bb0a4a] opacity-100 ring-2 ring-[#bb0a4a]/30 scale-102'
-                    : 'border border-[#bb0a4a]/10 opacity-60 hover:opacity-90'
+                    ? 'border-2 border-[#1a191c] opacity-100 ring-2 ring-[#1a191c]/30 scale-102'
+                    : 'border border-[#1a191c]/10 opacity-60 hover:opacity-90'
                     }`}
                 >
                   <img
@@ -129,7 +129,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
             {product.description}
           </p>
 
-          <div className="font-serif-luxury text-3xl text-[#bb0a4a] font-semibold mb-8">
+          <div className="font-serif-luxury text-3xl text-[#1a191c] font-semibold mb-8">
             {product.price.toFixed(2)} €
           </div>
 
@@ -140,7 +140,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
               <button
                 onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
                 aria-label="Diminuer quantité"
-                className="text-[#434842] hover:text-[#bb0a4a] transition-colors p-1"
+                className="text-[#434842] hover:text-[#1a191c] transition-colors p-1"
               >
                 <span className="material-symbols-outlined text-[18px]">remove</span>
               </button>
@@ -148,7 +148,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
               <button
                 onClick={() => setQuantity((prev) => prev + 1)}
                 aria-label="Augmenter quantité"
-                className="text-[#434842] hover:text-[#bb0a4a] transition-colors p-1"
+                className="text-[#434842] hover:text-[#1a191c] transition-colors p-1"
               >
                 <span className="material-symbols-outlined text-[18px]">add</span>
               </button>
@@ -158,7 +158,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
             <button
               id="product-add-to-cart-btn"
               onClick={() => onAddToCart(product, quantity)}
-              className="flex-1 bg-[#bb0a4a] text-white rounded-full h-14 text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#b7003a] transition-all shadow-lg shadow-[#bb0a4a]/20 flex items-center justify-center gap-2.5 active:scale-98 cursor-pointer"
+              className="flex-1 bg-[#1a191c] text-white rounded-full h-14 text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#b7003a] transition-all shadow-lg shadow-[#1a191c]/20 flex items-center justify-center gap-2.5 active:scale-98 cursor-pointer"
             >
               <span className="material-symbols-outlined text-[20px]">shopping_bag</span>
               Ajouter au Panier — {(product.price * quantity).toFixed(2)} €
@@ -200,11 +200,11 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
             <div className="py-4">
               <button
                 onClick={() => setUsageAccordionOpen(!usageAccordionOpen)}
-                className="w-full flex justify-between items-center text-xs uppercase tracking-[0.15em] font-semibold text-[#1a1c1c] text-left hover:text-[#bb0a4a] transition-colors py-2 cursor-pointer"
+                className="w-full flex justify-between items-center text-xs uppercase tracking-[0.15em] font-semibold text-[#1a1c1c] text-left hover:text-[#1a191c] transition-colors py-2 cursor-pointer"
               >
                 <span>Conseils d'utilisation</span>
                 <span
-                  className={`material-symbols-outlined text-[#bb0a4a] transition-transform duration-300 ${usageAccordionOpen ? 'rotate-180' : ''
+                  className={`material-symbols-outlined text-[#1a191c] transition-transform duration-300 ${usageAccordionOpen ? 'rotate-180' : ''
                     }`}
                 >
                   expand_more
@@ -222,11 +222,11 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
             <div className="py-4">
               <button
                 onClick={() => setShippingAccordionOpen(!shippingAccordionOpen)}
-                className="w-full flex justify-between items-center text-xs uppercase tracking-[0.15em] font-semibold text-[#1a1c1c] text-left hover:text-[#bb0a4a] transition-colors py-2 cursor-pointer"
+                className="w-full flex justify-between items-center text-xs uppercase tracking-[0.15em] font-semibold text-[#1a1c1c] text-left hover:text-[#1a191c] transition-colors py-2 cursor-pointer"
               >
                 <span>Livraison & Retours</span>
                 <span
-                  className={`material-symbols-outlined text-[#bb0a4a] transition-transform duration-300 ${shippingAccordionOpen ? 'rotate-180' : ''
+                  className={`material-symbols-outlined text-[#1a191c] transition-transform duration-300 ${shippingAccordionOpen ? 'rotate-180' : ''
                     }`}
                 >
                   expand_more
@@ -251,13 +251,13 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
               <span className="text-[#824f39] text-xs font-bold uppercase tracking-[0.2em] block mb-1">
                 Complétez Votre Rituel
               </span>
-              <h3 className="font-serif-luxury text-2xl sm:text-3xl text-[#bb0a4a]">
+              <h3 className="font-serif-luxury text-2xl sm:text-3xl text-[#1a191c]">
                 Découvrez Aussi
               </h3>
             </div>
             <button
               onClick={() => onNavigate('shop')}
-              className="text-xs uppercase tracking-widest text-[#bb0a4a] font-semibold hover:underline"
+              className="text-xs uppercase tracking-widest text-[#1a191c] font-semibold hover:underline"
             >
               Voir Tout
             </button>
@@ -280,7 +280,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
-                <h4 className="font-serif-luxury text-xl text-[#bb0a4a] group-hover:underline">
+                <h4 className="font-serif-luxury text-xl text-[#1a191c] group-hover:underline">
                   {p.name}
                 </h4>
                 <p className="text-xs text-[#434842] mt-1 mb-3">{p.tagline}</p>

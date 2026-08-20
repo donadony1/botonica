@@ -34,19 +34,19 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
 
           <ul className="space-y-3.5 mb-10">
             <li className="flex items-center text-sm md:text-base text-[#434842] font-normal">
-              <span className="material-symbols-outlined text-[#bb0a4a] mr-3 text-[22px]">
+              <span className="material-symbols-outlined text-[#1a191c] mr-3 text-[22px]">
                 eco
               </span>
               100% Naturel & Fait Main
             </li>
             <li className="flex items-center text-sm md:text-base text-[#434842] font-normal">
-              <span className="material-symbols-outlined text-[#bb0a4a] mr-3 text-[22px]">
+              <span className="material-symbols-outlined text-[#1a191c] mr-3 text-[22px]">
                 water_drop
               </span>
               Hydratation Intense (Surgras 8%)
             </li>
             <li className="flex items-center text-sm md:text-base text-[#434842] font-normal">
-              <span className="material-symbols-outlined text-[#bb0a4a] mr-3 text-[22px]">
+              <span className="material-symbols-outlined text-[#1a191c] mr-3 text-[22px]">
                 local_florist
               </span>
               Parfum Subtil Floral & Boisé
@@ -57,7 +57,7 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
             <button
               id="rituals-buy-signature-btn"
               onClick={() => onAddToCart(signatureProduct, 1)}
-              className="bg-[#bb0a4a] text-white text-xs font-semibold uppercase tracking-[0.2em] py-4 px-8 rounded-full hover:bg-[#b7003a] transition-all shadow-md active:scale-95 text-center cursor-pointer"
+              className="bg-[#1a191c] text-white text-xs font-semibold uppercase tracking-[0.2em] py-4 px-8 rounded-full hover:bg-[#b7003a] transition-all shadow-md active:scale-95 text-center cursor-pointer"
             >
               Acheter maintenant - {signatureProduct.price.toFixed(2)}€
             </button>
@@ -70,7 +70,7 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
           </div>
         </div>
 
-        <div className="order-1 md:order-2 w-full h-[380px] sm:h-[480px] md:h-[580px] rounded-3xl overflow-hidden ambient-shadow ring-1 ring-[#bb0a4a]/10 group">
+        <div className="order-1 md:order-2 w-full h-[380px] sm:h-[480px] md:h-[580px] rounded-3xl overflow-hidden ambient-shadow ring-1 ring-[#1a191c]/10 group">
           <img
             alt="Le Savon Signature Ndolo"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
@@ -94,7 +94,7 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
           {/* Benefit 1 */}
           <div className="bg-white p-8 rounded-3xl border border-[#e2e2e2] ambient-shadow flex flex-col justify-between">
             <div>
-              <div className="w-12 h-12 rounded-full bg-[#d4e8d0]/40 flex items-center justify-center mb-6 text-[#bb0a4a]">
+              <div className="w-12 h-12 rounded-full bg-[#d4e8d0]/40 flex items-center justify-center mb-6 text-[#1a191c]">
                 <span className="material-symbols-outlined text-[24px]">spa</span>
               </div>
               <h3 className="font-serif-luxury text-2xl text-[#1a1c1c] mb-4">Pureté Végétale</h3>
@@ -147,7 +147,7 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
       </section>
 
       {/* Testimonials: Ce qu'elles en disent */}
-      <section className="mb-28 md:mb-36 bg-[#d4e8d0]/25 -mx-5 md:-mx-12 px-6 md:px-12 py-20 md:py-24 rounded-3xl border border-[#bb0a4a]/10">
+      <section className="mb-28 md:mb-36 bg-[#d4e8d0]/25 -mx-5 md:-mx-12 px-6 md:px-12 py-20 md:py-24 rounded-3xl border border-[#1a191c]/10">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="text-xs font-bold text-[#824f39] uppercase tracking-[0.2em] block mb-2">
             Avis Vérifiés
@@ -184,7 +184,7 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
                   — {review.author}
                 </p>
                 {review.productName && (
-                  <span className="text-[11px] text-[#bb0a4a] font-serif">
+                  <span className="text-[11px] text-[#1a191c] font-serif">
                     {review.productName}
                   </span>
                 )}
@@ -209,12 +209,12 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
         <button
           id="rituals-cta-add-to-cart-btn"
           onClick={() => onAddToCart(signatureProduct, 1)}
-          className="bg-[#bb0a4a] text-white text-xs font-semibold uppercase tracking-[0.2em] py-4 px-12 rounded-full hover:bg-[#b7003a] transition-all shadow-md hover:-translate-y-0.5 active:scale-95 duration-300 cursor-pointer"
+          className="bg-[#1a191c] text-white text-xs font-semibold uppercase tracking-[0.2em] py-4 px-12 rounded-full hover:bg-[#b7003a] transition-all shadow-md hover:-translate-y-0.5 active:scale-95 duration-300 cursor-pointer"
         >
           Ajouter au Panier - {signatureProduct.price.toFixed(2)}€
         </button>
         <p className="text-xs text-[#434842] mt-6 opacity-80 flex items-center gap-1.5">
-          <span className="material-symbols-outlined text-[16px] text-[#bb0a4a]">
+          <span className="material-symbols-outlined text-[16px] text-[#1a191c]">
             local_shipping
           </span>
           Livraison offerte dès 50€ d'achat • Expédition sous 24h

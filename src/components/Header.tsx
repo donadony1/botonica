@@ -14,7 +14,7 @@ export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate, cartC
     <>
       <header
         id="Ndolo-header"
-        className="fixed top-0 w-full z-40 bg-[#f9f9f9]/85 backdrop-blur-md border-b border-[#bb0a4a]/10 transition-all duration-300"
+        className="fixed top-0 w-full z-40 bg-[#f9f9f9]/85 backdrop-blur-md border-b border-[#1a191c]/10 transition-all duration-300"
       >
         <div className="flex items-center justify-between px-5 md:px-12 h-16 w-full max-w-[1280px] mx-auto">
           {/* Menu button on mobile / Desktop nav */}
@@ -23,7 +23,7 @@ export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate, cartC
               id="header-menu-btn"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Ouvrir le menu"
-              className="text-[#434842] hover:text-[#bb0a4a] transition-colors p-1 rounded-full active:scale-95 duration-200"
+              className="text-[#434842] hover:text-[#1a191c] transition-colors p-1 rounded-full active:scale-95 duration-200"
             >
               <span className="material-symbols-outlined text-[24px]">
                 {mobileMenuOpen ? 'close' : 'menu'}
@@ -34,8 +34,8 @@ export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate, cartC
               <button
                 onClick={() => onNavigate('home')}
                 className={`text-sm uppercase tracking-widest transition-colors ${currentScreen === 'home'
-                  ? 'text-[#bb0a4a] font-semibold border-b-2 border-[#bb0a4a] pb-1'
-                  : 'text-[#434842] hover:text-[#bb0a4a]'
+                  ? 'text-[#1a191c] font-semibold border-b-2 border-[#1a191c] pb-1'
+                  : 'text-[#434842] hover:text-[#1a191c]'
                   }`}
               >
                 Accueil
@@ -43,8 +43,8 @@ export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate, cartC
               <button
                 onClick={() => onNavigate('shop')}
                 className={`text-sm uppercase tracking-widest transition-colors ${currentScreen === 'shop' || currentScreen === 'product-detail'
-                  ? 'text-[#bb0a4a] font-semibold border-b-2 border-[#bb0a4a] pb-1'
-                  : 'text-[#434842] hover:text-[#bb0a4a]'
+                  ? 'text-[#1a191c] font-semibold border-b-2 border-[#1a191c] pb-1'
+                  : 'text-[#434842] hover:text-[#1a191c]'
                   }`}
               >
                 Boutique
@@ -52,8 +52,8 @@ export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate, cartC
               <button
                 onClick={() => onNavigate('rituals')}
                 className={`text-sm uppercase tracking-widest transition-colors ${currentScreen === 'rituals'
-                  ? 'text-[#bb0a4a] font-semibold border-b-2 border-[#bb0a4a] pb-1'
-                  : 'text-[#434842] hover:text-[#bb0a4a]'
+                  ? 'text-[#1a191c] font-semibold border-b-2 border-[#1a191c] pb-1'
+                  : 'text-[#434842] hover:text-[#1a191c]'
                   }`}
               >
                 Le Rituel
@@ -61,8 +61,8 @@ export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate, cartC
               <button
                 onClick={() => onNavigate('admin')}
                 className={`text-sm uppercase tracking-widest transition-colors ${currentScreen === 'admin'
-                  ? 'text-[#bb0a4a] font-semibold border-b-2 border-[#bb0a4a] pb-1'
-                  : 'text-[#434842] hover:text-[#bb0a4a]'
+                  ? 'text-[#1a191c] font-semibold border-b-2 border-[#1a191c] pb-1'
+                  : 'text-[#434842] hover:text-[#1a191c]'
                   }`}
                 title="Tableau de bord Admin"
               >
@@ -75,9 +75,9 @@ export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate, cartC
           <button
             id="header-logo-btn"
             onClick={() => onNavigate('home')}
-            className="font-serif-luxury text-2xl md:text-3xl tracking-[0.25em] text-[#bb0a4a] font-semibold select-none hover:opacity-85 transition-opacity"
+            className="font-serif-luxury text-2xl md:text-3xl tracking-[0.25em] text-[#1a191c] font-semibold select-none hover:opacity-85 transition-opacity"
           >
-            NDOLO Black Soap
+            NDOLO
           </button>
 
           {/* Cart button with count badge */}
@@ -86,7 +86,7 @@ export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate, cartC
               id="header-cart-btn"
               onClick={() => onNavigate('cart')}
               aria-label="Panier d'achats"
-              className="relative p-2 text-[#434842] hover:text-[#bb0a4a] transition-colors rounded-full active:scale-95 duration-200"
+              className="relative p-2 text-[#434842] hover:text-[#1a191c] transition-colors rounded-full active:scale-95 duration-200"
             >
               <span className="material-symbols-outlined text-[24px]">shopping_bag</span>
               {cartCount > 0 && (
@@ -106,7 +106,7 @@ export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate, cartC
                 onNavigate('home');
                 setMobileMenuOpen(false);
               }}
-              className={`block w-full text-left py-2 font-serif text-xl ${currentScreen === 'home' ? 'text-[#bb0a4a] font-semibold' : 'text-[#1a1c1c]'
+              className={`block w-full text-left py-2 font-serif text-xl ${currentScreen === 'home' ? 'text-[#1a191c] font-semibold' : 'text-[#1a1c1c]'
                 }`}
             >
               Accueil
@@ -117,7 +117,7 @@ export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate, cartC
                 setMobileMenuOpen(false);
               }}
               className={`block w-full text-left py-2 font-serif text-xl ${currentScreen === 'shop' || currentScreen === 'product-detail'
-                ? 'text-[#bb0a4a] font-semibold'
+                ? 'text-[#1a191c] font-semibold'
                 : 'text-[#1a1c1c]'
                 }`}
             >
@@ -128,7 +128,7 @@ export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate, cartC
                 onNavigate('rituals');
                 setMobileMenuOpen(false);
               }}
-              className={`block w-full text-left py-2 font-serif text-xl ${currentScreen === 'rituals' ? 'text-[#bb0a4a] font-semibold' : 'text-[#1a1c1c]'
+              className={`block w-full text-left py-2 font-serif text-xl ${currentScreen === 'rituals' ? 'text-[#1a191c] font-semibold' : 'text-[#1a1c1c]'
                 }`}
             >
               Le Rituel Signature
@@ -138,7 +138,7 @@ export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate, cartC
                 onNavigate('admin');
                 setMobileMenuOpen(false);
               }}
-              className={`block w-full text-left py-2 font-serif text-xl ${currentScreen === 'admin' ? 'text-[#bb0a4a] font-semibold' : 'text-[#1a1c1c]'
+              className={`block w-full text-left py-2 font-serif text-xl ${currentScreen === 'admin' ? 'text-[#1a191c] font-semibold' : 'text-[#1a1c1c]'
                 }`}
             >
               ⚙ Admin
@@ -148,7 +148,7 @@ export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate, cartC
                 onNavigate('cart');
                 setMobileMenuOpen(false);
               }}
-              className={`block w-full text-left py-2 font-serif text-xl ${currentScreen === 'cart' ? 'text-[#bb0a4a] font-semibold' : 'text-[#1a1c1c]'
+              className={`block w-full text-left py-2 font-serif text-xl ${currentScreen === 'cart' ? 'text-[#1a191c] font-semibold' : 'text-[#1a1c1c]'
                 }`}
             >
               Mon Panier ({cartCount})

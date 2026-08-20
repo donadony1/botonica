@@ -49,7 +49,7 @@ export default function ProductsTab() {
         </div>
         <button
           onClick={handleAdd}
-          className="flex items-center gap-2 bg-[#bb0a4a] hover:bg-[#5e7461] text-white px-5 py-2.5 rounded-xl font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-[#bb0a4a]/30 active:scale-95"
+          className="flex items-center gap-2 bg-[#1a191c] hover:bg-[#5e7461] text-white px-5 py-2.5 rounded-xl font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-[#1a191c]/30 active:scale-95"
         >
           <span className="material-symbols-outlined text-[20px]">add</span>
           Ajouter un produit
@@ -65,13 +65,13 @@ export default function ProductsTab() {
             placeholder="Rechercher un produit..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full bg-[#2a3529] border border-[#3d4f3c] text-white placeholder-[#6a7d69] rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:border-[#bb0a4a] transition-colors"
+            className="w-full bg-[#2a3529] border border-[#3d4f3c] text-white placeholder-[#6a7d69] rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:border-[#1a191c] transition-colors"
           />
         </div>
         <select
           value={filterCat}
           onChange={e => setFilterCat(e.target.value)}
-          className="bg-[#2a3529] border border-[#3d4f3c] text-white rounded-xl px-4 py-2.5 focus:outline-none focus:border-[#bb0a4a] transition-colors"
+          className="bg-[#2a3529] border border-[#3d4f3c] text-white rounded-xl px-4 py-2.5 focus:outline-none focus:border-[#1a191c] transition-colors"
         >
           <option value="all">Toutes les catégories</option>
           <option value="soaps">🧼 Savons</option>
@@ -186,7 +186,7 @@ export default function ProductsTab() {
             <div className="flex gap-3">
               <button
                 onClick={() => setDeleteConfirm(null)}
-                className="flex-1 px-4 py-2.5 rounded-xl border border-[#3d4f3c] text-[#9aad98] hover:text-white hover:border-[#bb0a4a] transition-all"
+                className="flex-1 px-4 py-2.5 rounded-xl border border-[#3d4f3c] text-[#9aad98] hover:text-white hover:border-[#1a191c] transition-all"
               >
                 Annuler
               </button>

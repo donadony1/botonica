@@ -24,7 +24,7 @@ export const PRODUCTS: Product[] = [
         description: 'Riche en antioxydants, elle nourrit en profondeur et protège le film hydrolipidique de la peau.',
         icon: 'spa',
         bgClass: 'bg-[#d4e8d0]',
-        iconClass: 'text-[#bb0a4a]'
+        iconClass: 'text-[#1a191c]'
       },
       {
         name: 'Lavande Fine de Provence',
@@ -70,7 +70,7 @@ export const PRODUCTS: Product[] = [
         description: 'Capte les impuretés et régule l\'excès de sébum grâce à ses minéraux précieux.',
         icon: 'terrain',
         bgClass: 'bg-[#d4e8d0]',
-        iconClass: 'text-[#bb0a4a]'
+        iconClass: 'text-[#1a191c]'
       },
       {
         name: 'Eucalyptus Sauvage',
@@ -130,7 +130,7 @@ export const PRODUCTS: Product[] = [
         description: 'Nettoie efficacement tout en favorisant une mousse abondante et crémeuse.',
         icon: 'spa',
         bgClass: 'bg-[#d4e8d0]',
-        iconClass: 'text-[#bb0a4a]'
+        iconClass: 'text-[#1a191c]'
       }
     ],
     usageTips: 'Idéal pour le matin. Inspirez profondément les effluves d\'agrumes et de bois précieux sous l\'eau tiède.',
@@ -175,7 +175,7 @@ export const PRODUCTS: Product[] = [
         description: 'Crée une barrière lipidique douce qui préserve la souplesse de la peau.',
         icon: 'spa',
         bgClass: 'bg-[#d4e8d0]',
-        iconClass: 'text-[#bb0a4a]'
+        iconClass: 'text-[#1a191c]'
       }
     ],
     usageTips: 'Parfait pour le visage et le corps de toute la famille, y compris les peaux à tendance atopique.',
@@ -207,7 +207,7 @@ export const PRODUCTS: Product[] = [
         description: 'Nourrit intensément et renforce le film hydrolipidique sans obstruer les pores.',
         icon: 'spa',
         bgClass: 'bg-[#d4e8d0]',
-        iconClass: 'text-[#bb0a4a]'
+        iconClass: 'text-[#1a191c]'
       },
       {
         name: 'Glycérine Naturelle Préservée',
@@ -266,7 +266,7 @@ export const PRODUCTS: Product[] = [
         description: 'Reconnue pour ses propriétés relipidantes et apaisantes pour les peaux matures.',
         icon: 'spa',
         bgClass: 'bg-[#d4e8d0]',
-        iconClass: 'text-[#bb0a4a]'
+        iconClass: 'text-[#1a191c]'
       }
     ],
     usageTips: 'Appliquez quelques gouttes sur une peau encore légèrement humide après la douche ou le bain, massez en mouvements ascendants.',

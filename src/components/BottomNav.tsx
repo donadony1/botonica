@@ -19,8 +19,8 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentScreen, onNavigate,
           id="nav-tab-home"
           onClick={() => onNavigate('home')}
           className={`flex flex-col items-center justify-center px-3 py-1 text-xs tracking-wider transition-all duration-200 ${currentScreen === 'home'
-            ? 'text-[#bb0a4a] font-bold bg-[#d4e8d0]/40 rounded-xl'
-            : 'text-[#434842] hover:text-[#bb0a4a] active:scale-95'
+            ? 'text-[#1a191c] font-bold bg-[#d4e8d0]/40 rounded-xl'
+            : 'text-[#434842] hover:text-[#1a191c] active:scale-95'
             }`}
         >
           <span
@@ -37,8 +37,8 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentScreen, onNavigate,
           id="nav-tab-shop"
           onClick={() => onNavigate('shop')}
           className={`flex flex-col items-center justify-center px-3 py-1 text-xs tracking-wider transition-all duration-200 ${currentScreen === 'shop' || currentScreen === 'product-detail'
-            ? 'text-[#bb0a4a] font-bold bg-[#d4e8d0]/40 rounded-xl'
-            : 'text-[#434842] hover:text-[#bb0a4a] active:scale-95'
+            ? 'text-[#1a191c] font-bold bg-[#d4e8d0]/40 rounded-xl'
+            : 'text-[#434842] hover:text-[#1a191c] active:scale-95'
             }`}
         >
           <span
@@ -60,8 +60,8 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentScreen, onNavigate,
           id="nav-tab-rituals"
           onClick={() => onNavigate('rituals')}
           className={`flex flex-col items-center justify-center px-3 py-1 text-xs tracking-wider transition-all duration-200 ${currentScreen === 'rituals'
-            ? 'text-[#bb0a4a] font-bold bg-[#d4e8d0]/40 rounded-xl'
-            : 'text-[#434842] hover:text-[#bb0a4a] active:scale-95'
+            ? 'text-[#1a191c] font-bold bg-[#d4e8d0]/40 rounded-xl'
+            : 'text-[#434842] hover:text-[#1a191c] active:scale-95'
             }`}
         >
           <span
@@ -80,8 +80,8 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentScreen, onNavigate,
           id="nav-tab-cart"
           onClick={() => onNavigate('cart')}
           className={`flex flex-col items-center justify-center px-3 py-1 text-xs tracking-wider transition-all duration-200 relative ${currentScreen === 'cart'
-            ? 'text-[#bb0a4a] font-bold bg-[#d4e8d0]/40 rounded-xl'
-            : 'text-[#434842] hover:text-[#bb0a4a] active:scale-95'
+            ? 'text-[#1a191c] font-bold bg-[#d4e8d0]/40 rounded-xl'
+            : 'text-[#434842] hover:text-[#1a191c] active:scale-95'
             }`}
         >
           <span

@@ -6,7 +6,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   siteName: 'Ndolo Rituals',
   tagline: 'Rituels de beauté naturels & artisanaux',
   logoUrl: '',
-  primaryColor: '#bb0a4a',
+  primaryColor: '#1a191c',
   secondaryColor: '#824f39',
   accentColor: '#d4e8d0',
   freeShippingThreshold: 50,
