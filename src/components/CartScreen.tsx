@@ -66,7 +66,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
 
       {cartItems.length === 0 ? (
         <div className="bg-white rounded-3xl p-12 text-center border border-[#c4c8c0]/30 ambient-shadow max-w-xl mx-auto my-12">
-          <div className="w-16 h-16 rounded-full bg-[#d4e8d0]/40 flex items-center justify-center mx-auto mb-6 text-[#1a191c]">
+          <div className="w-16 h-16 rounded-full bg-[#d4e8d0]/40 flex items-center justify-center mx-auto mb-6 text-[#bb0a4a]">
             <span className="material-symbols-outlined text-3xl">shopping_basket</span>
           </div>
           <h2 className="font-serif-luxury text-2xl md:text-3xl text-[#1a1c1c] mb-3">
@@ -77,7 +77,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
           </p>
           <button
             onClick={() => onNavigate('shop')}
-            className="bg-[#1a191c] text-white px-8 py-3.5 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#b7003a] transition-all ambient-shadow active:scale-95"
+            className="bg-[#bb0a4a] text-white px-8 py-3.5 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#b7003a] transition-all ambient-shadow active:scale-95"
           >
             Explorer la boutique
           </button>
@@ -89,7 +89,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
             {cartItems.map(({ product, quantity }) => (
               <div
                 key={product.id}
-                className="bg-white rounded-2xl border border-[#c4c8c0]/30 ambient-shadow p-5 sm:p-6 flex flex-col sm:flex-row gap-5 relative group transition-all duration-300 hover:border-[#1a191c]/30"
+                className="bg-white rounded-2xl border border-[#c4c8c0]/30 ambient-shadow p-5 sm:p-6 flex flex-col sm:flex-row gap-5 relative group transition-all duration-300 hover:border-[#bb0a4a]/30"
               >
                 {/* Product Thumbnail */}
                 <div
@@ -109,7 +109,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                     <div>
                       <h3
                         onClick={() => onSelectProduct(product)}
-                        className="font-serif-luxury text-xl sm:text-2xl text-[#1a1c1c] mb-1 group-hover:text-[#1a191c] transition-colors cursor-pointer"
+                        className="font-serif-luxury text-xl sm:text-2xl text-[#1a1c1c] mb-1 group-hover:text-[#bb0a4a] transition-colors cursor-pointer"
                       >
                         {product.name}
                       </h3>
@@ -146,7 +146,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                       <button
                         onClick={() => onUpdateQuantity(product.id, -1)}
                         aria-label="Diminuer"
-                        className="w-7 h-7 flex items-center justify-center text-[#434842] hover:text-[#1a191c] transition-colors"
+                        className="w-7 h-7 flex items-center justify-center text-[#434842] hover:text-[#bb0a4a] transition-colors"
                       >
                         <span className="material-symbols-outlined text-[16px]">remove</span>
                       </button>
@@ -156,7 +156,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                       <button
                         onClick={() => onUpdateQuantity(product.id, 1)}
                         aria-label="Augmenter"
-                        className="w-7 h-7 flex items-center justify-center text-[#434842] hover:text-[#1a191c] transition-colors"
+                        className="w-7 h-7 flex items-center justify-center text-[#434842] hover:text-[#bb0a4a] transition-colors"
                       >
                         <span className="material-symbols-outlined text-[16px]">add</span>
                       </button>
@@ -200,13 +200,13 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                         name="shipping"
                         checked={shippingMethod === 'standard'}
                         onChange={() => setShippingMethod('standard')}
-                        className="mt-1 accent-[#1a191c]"
+                        className="mt-1 accent-[#bb0a4a]"
                       />
                       <div className="flex-grow flex justify-between">
                         <span className="text-[#434842] group-hover:text-[#1a1c1c] transition-colors">
                           Standard (3-5 days)
                         </span>
-                        <span className="text-[#1a191c] font-semibold">Free</span>
+                        <span className="text-[#bb0a4a] font-semibold">Free</span>
                       </div>
                     </label>
 
@@ -216,7 +216,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                         name="shipping"
                         checked={shippingMethod === 'express'}
                         onChange={() => setShippingMethod('express')}
-                        className="mt-1 accent-[#1a191c]"
+                        className="mt-1 accent-[#bb0a4a]"
                       />
                       <div className="flex-grow flex justify-between">
                         <span className="text-[#434842] group-hover:text-[#1a1c1c] transition-colors">
@@ -242,7 +242,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                         placeholder="Enter code (ex: Ndolo10)"
                         value={discountCode}
                         onChange={(e) => setDiscountCode(e.target.value)}
-                        className="w-full bg-[#f3f3f4] border border-transparent rounded-xl px-4 py-2.5 text-xs text-[#1a1c1c] focus:ring-1 focus:ring-[#1a191c] focus:bg-white transition-colors"
+                        className="w-full bg-[#f3f3f4] border border-transparent rounded-xl px-4 py-2.5 text-xs text-[#1a1c1c] focus:ring-1 focus:ring-[#bb0a4a] focus:bg-white transition-colors"
                       />
                       <button
                         type="submit"
@@ -253,7 +253,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                     </div>
                     {discountMessage && (
                       <p
-                        className={`text-xs mt-2 ${discountApplied > 0 ? 'text-[#1a191c]' : 'text-[#824f39]'
+                        className={`text-xs mt-2 ${discountApplied > 0 ? 'text-[#bb0a4a]' : 'text-[#824f39]'
                           }`}
                       >
                         {discountMessage}
@@ -262,7 +262,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                   </form>
 
                   {discountApplied > 0 && (
-                    <div className="flex justify-between text-xs text-[#1a191c] font-medium pt-1">
+                    <div className="flex justify-between text-xs text-[#bb0a4a] font-medium pt-1">
                       <span>Remise code promo</span>
                       <span>- {discountApplied.toFixed(2)} €</span>
                     </div>
@@ -282,14 +282,14 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                 <button
                   id="checkout-btn"
                   onClick={() => setIsCheckoutOpen(true)}
-                  className="w-full bg-[#1a191c] text-white py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] flex items-center justify-center gap-2.5 hover:bg-[#b7003a] transition-all shadow-md active:scale-98 cursor-pointer"
+                  className="w-full bg-[#bb0a4a] text-white py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] flex items-center justify-center gap-2.5 hover:bg-[#b7003a] transition-all shadow-md active:scale-98 cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-[18px]">lock</span>
                   Paiement Sécurisé
                 </button>
 
                 <p className="text-center text-xs text-[#434842] mt-4 flex items-center justify-center gap-1.5 opacity-80">
-                  <span className="material-symbols-outlined text-[16px] text-[#1a191c]">eco</span>
+                  <span className="material-symbols-outlined text-[16px] text-[#bb0a4a]">eco</span>
                   Climate neutral shipping
                 </p>
               </div>

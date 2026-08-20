@@ -55,7 +55,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 <span className="text-[11px] uppercase tracking-[0.2em] text-[#824f39] font-bold block">
                   Finaliser la commande
                 </span>
-                <h3 className="font-serif-luxury text-2xl sm:text-3xl text-[#1a191c]">
+                <h3 className="font-serif-luxury text-2xl sm:text-3xl text-[#bb0a4a]">
                   Paiement Sécurisé
                 </h3>
               </div>
@@ -88,7 +88,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   type="text"
                   value={formData.fullName}
                   onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                  className="w-full bg-white border border-[#c4c8c0] rounded-xl px-4 py-2.5 text-sm text-[#1a1c1c] focus:outline-none focus:border-[#1a191c]"
+                  className="w-full bg-white border border-[#c4c8c0] rounded-xl px-4 py-2.5 text-sm text-[#1a1c1c] focus:outline-none focus:border-[#bb0a4a]"
                 />
               </div>
 
@@ -101,7 +101,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full bg-white border border-[#c4c8c0] rounded-xl px-4 py-2.5 text-sm text-[#1a1c1c] focus:outline-none focus:border-[#1a191c]"
+                  className="w-full bg-white border border-[#c4c8c0] rounded-xl px-4 py-2.5 text-sm text-[#1a1c1c] focus:outline-none focus:border-[#bb0a4a]"
                 />
               </div>
 
@@ -115,7 +115,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     type="text"
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                    className="w-full bg-white border border-[#c4c8c0] rounded-xl px-4 py-2.5 text-sm text-[#1a1c1c] focus:outline-none focus:border-[#1a191c]"
+                    className="w-full bg-white border border-[#c4c8c0] rounded-xl px-4 py-2.5 text-sm text-[#1a1c1c] focus:outline-none focus:border-[#bb0a4a]"
                   />
                 </div>
                 <div>
@@ -127,7 +127,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     type="text"
                     value={`${formData.city} (${formData.postalCode})`}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    className="w-full bg-white border border-[#c4c8c0] rounded-xl px-4 py-2.5 text-sm text-[#1a1c1c] focus:outline-none focus:border-[#1a191c]"
+                    className="w-full bg-white border border-[#c4c8c0] rounded-xl px-4 py-2.5 text-sm text-[#1a1c1c] focus:outline-none focus:border-[#bb0a4a]"
                   />
                 </div>
               </div>
@@ -135,14 +135,14 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               <div>
                 <label className="block text-xs uppercase tracking-wider font-semibold text-[#434842] mb-1.5 flex justify-between items-center">
                   <span>Carte Bancaire (Simulé)</span>
-                  <span className="material-symbols-outlined text-[18px] text-[#1a191c]">lock</span>
+                  <span className="material-symbols-outlined text-[18px] text-[#bb0a4a]">lock</span>
                 </label>
                 <input
                   required
                   type="text"
                   value={formData.cardNumber}
                   onChange={(e) => setFormData({ ...formData, cardNumber: e.target.value })}
-                  className="w-full bg-white border border-[#c4c8c0] rounded-xl px-4 py-2.5 text-sm text-[#1a1c1c] focus:outline-none focus:border-[#1a191c]"
+                  className="w-full bg-white border border-[#c4c8c0] rounded-xl px-4 py-2.5 text-sm text-[#1a1c1c] focus:outline-none focus:border-[#bb0a4a]"
                 />
               </div>
 
@@ -150,7 +150,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-[#1a191c] text-white py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#b7003a] transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  className="w-full bg-[#bb0a4a] text-white py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#b7003a] transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <span>Traitement sécurisé en cours...</span>
@@ -173,13 +173,13 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           </div>
         ) : (
           <div className="text-center py-6">
-            <div className="w-16 h-16 bg-[#d4e8d0] rounded-full flex items-center justify-center mx-auto mb-6 text-[#1a191c]">
+            <div className="w-16 h-16 bg-[#d4e8d0] rounded-full flex items-center justify-center mx-auto mb-6 text-[#bb0a4a]">
               <span className="material-symbols-outlined text-3xl">check</span>
             </div>
             <span className="text-xs uppercase tracking-[0.2em] text-[#824f39] font-bold block mb-2">
               Commande Confirmée #BOT-2024
             </span>
-            <h3 className="font-serif-luxury text-3xl text-[#1a191c] mb-4">
+            <h3 className="font-serif-luxury text-3xl text-[#bb0a4a] mb-4">
               Merci pour votre commande
             </h3>
             <p className="text-[#434842] text-sm leading-relaxed mb-6 font-light">
@@ -195,7 +195,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 <span>Adresse :</span>
                 <span>{formData.address}, {formData.city}</span>
               </div>
-              <div className="flex justify-between font-serif text-sm pt-2 border-t border-[#f3f3f4] text-[#1a191c]">
+              <div className="flex justify-between font-serif text-sm pt-2 border-t border-[#f3f3f4] text-[#bb0a4a]">
                 <span>Total réglé :</span>
                 <strong>{total.toFixed(2)} €</strong>
               </div>
@@ -205,7 +205,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 setStep('form');
                 onClose();
               }}
-              className="w-full bg-[#1a191c] text-white py-3.5 rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#b7003a] transition-colors"
+              className="w-full bg-[#bb0a4a] text-white py-3.5 rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#b7003a] transition-colors"
             >
               Continuer les découvertes
             </button>

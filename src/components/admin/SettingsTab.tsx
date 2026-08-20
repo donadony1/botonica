@@ -17,10 +17,10 @@ export default function SettingsTab() {
     setTimeout(() => setSaved(false), 3000);
   };
 
-  const inputCls = 'w-full bg-[#2a3529] border border-[#3d4f3c] text-white placeholder-[#6a7d69] rounded-xl px-4 py-2.5 focus:outline-none focus:border-[#1a191c] transition-colors text-sm';
+  const inputCls = 'w-full bg-[#2a3529] border border-[#3d4f3c] text-white placeholder-[#6a7d69] rounded-xl px-4 py-2.5 focus:outline-none focus:border-[#bb0a4a] transition-colors text-sm';
   const labelCls = 'block text-[#9aad98] text-xs font-semibold uppercase tracking-wider mb-1.5';
   const sectionTitle = (icon: string, title: string) => (
-    <h3 className="text-[#1a191c] font-semibold text-sm uppercase tracking-widest mb-4 flex items-center gap-2 mt-2">
+    <h3 className="text-[#bb0a4a] font-semibold text-sm uppercase tracking-widest mb-4 flex items-center gap-2 mt-2">
       <span className="material-symbols-outlined text-[16px]">{icon}</span> {title}
     </h3>
   );
@@ -37,7 +37,7 @@ export default function SettingsTab() {
           type="submit"
           className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold transition-all duration-300 active:scale-95 ${saved
             ? 'bg-green-600 text-white shadow-lg shadow-green-600/30'
-            : 'bg-[#1a191c] hover:bg-[#5e7461] text-white hover:shadow-lg hover:shadow-[#1a191c]/30'
+            : 'bg-[#bb0a4a] hover:bg-[#5e7461] text-white hover:shadow-lg hover:shadow-[#bb0a4a]/30'
             }`}
         >
           <span className="material-symbols-outlined text-[20px]">{saved ? 'check_circle' : 'save'}</span>
@@ -90,7 +90,7 @@ export default function SettingsTab() {
                 <input
                   value={form[key]}
                   onChange={e => set(key, e.target.value)}
-                  placeholder="#1a191c"
+                  placeholder="#bb0a4a"
                   className={`${inputCls} flex-1`}
                 />
               </div>
@@ -187,7 +187,7 @@ export default function SettingsTab() {
           type="submit"
           className={`flex items-center gap-2 px-8 py-3 rounded-xl font-semibold transition-all duration-300 active:scale-95 ${saved
             ? 'bg-green-600 text-white shadow-lg shadow-green-600/30'
-            : 'bg-[#1a191c] hover:bg-[#5e7461] text-white hover:shadow-lg hover:shadow-[#1a191c]/30'
+            : 'bg-[#bb0a4a] hover:bg-[#5e7461] text-white hover:shadow-lg hover:shadow-[#bb0a4a]/30'
             }`}
         >
           <span className="material-symbols-outlined text-[20px]">{saved ? 'check_circle' : 'save'}</span>

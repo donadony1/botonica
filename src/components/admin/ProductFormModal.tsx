@@ -23,7 +23,7 @@ const EMPTY_INGREDIENT: IngredientForm = {
   description: '',
   icon: 'spa',
   bgClass: 'bg-[#d4e8d0]',
-  iconClass: 'text-[#1a191c]',
+  iconClass: 'text-[#bb0a4a]',
 };
 
 function generateId(name: string): string {
@@ -137,7 +137,7 @@ export default function ProductFormModal({ product, onClose }: Props) {
     setIngredients(prev => prev.map((ing, i) => i === idx ? { ...ing, [key]: val } : ing));
 
   const inputCls = (field?: string) =>
-    `w-full bg-[#2a3529] border ${field && errors[field] ? 'border-red-500' : 'border-[#3d4f3c]'} text-white placeholder-[#6a7d69] rounded-xl px-4 py-2.5 focus:outline-none focus:border-[#1a191c] transition-colors text-sm`;
+    `w-full bg-[#2a3529] border ${field && errors[field] ? 'border-red-500' : 'border-[#3d4f3c]'} text-white placeholder-[#6a7d69] rounded-xl px-4 py-2.5 focus:outline-none focus:border-[#bb0a4a] transition-colors text-sm`;
 
   const labelCls = 'block text-[#9aad98] text-xs font-semibold uppercase tracking-wider mb-1.5';
 
@@ -160,7 +160,7 @@ export default function ProductFormModal({ product, onClose }: Props) {
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Infos de base */}
           <section>
-            <h3 className="text-[#1a191c] font-semibold text-sm uppercase tracking-widest mb-4 flex items-center gap-2">
+            <h3 className="text-[#bb0a4a] font-semibold text-sm uppercase tracking-widest mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-[16px]">info</span> Informations de base
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -215,7 +215,7 @@ export default function ProductFormModal({ product, onClose }: Props) {
                 <button
                   type="button"
                   onClick={() => set('featured', !form.featured)}
-                  className={`w-12 h-6 rounded-full transition-all duration-200 relative ${form.featured ? 'bg-[#1a191c]' : 'bg-[#3d4f3c]'}`}
+                  className={`w-12 h-6 rounded-full transition-all duration-200 relative ${form.featured ? 'bg-[#bb0a4a]' : 'bg-[#3d4f3c]'}`}
                 >
                   <span className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-200 ${form.featured ? 'left-7' : 'left-1'}`} />
                 </button>
@@ -228,7 +228,7 @@ export default function ProductFormModal({ product, onClose }: Props) {
 
           {/* Descriptions */}
           <section>
-            <h3 className="text-[#1a191c] font-semibold text-sm uppercase tracking-widest mb-4 flex items-center gap-2">
+            <h3 className="text-[#bb0a4a] font-semibold text-sm uppercase tracking-widest mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-[16px]">article</span> Descriptions
             </h3>
             <div className="space-y-4">
@@ -246,7 +246,7 @@ export default function ProductFormModal({ product, onClose }: Props) {
 
           {/* Détails produit */}
           <section>
-            <h3 className="text-[#1a191c] font-semibold text-sm uppercase tracking-widest mb-4 flex items-center gap-2">
+            <h3 className="text-[#bb0a4a] font-semibold text-sm uppercase tracking-widest mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-[16px]">science</span> Détails produit
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -271,7 +271,7 @@ export default function ProductFormModal({ product, onClose }: Props) {
 
           {/* Images */}
           <section>
-            <h3 className="text-[#1a191c] font-semibold text-sm uppercase tracking-widest mb-4 flex items-center gap-2">
+            <h3 className="text-[#bb0a4a] font-semibold text-sm uppercase tracking-widest mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-[16px]">image</span> Images (URLs)
             </h3>
             <div className="space-y-2">
@@ -290,7 +290,7 @@ export default function ProductFormModal({ product, onClose }: Props) {
                   )}
                 </div>
               ))}
-              <button type="button" onClick={addImage} className="flex items-center gap-2 text-[#1a191c] hover:text-[#9aad98] text-sm transition-colors mt-1">
+              <button type="button" onClick={addImage} className="flex items-center gap-2 text-[#bb0a4a] hover:text-[#9aad98] text-sm transition-colors mt-1">
                 <span className="material-symbols-outlined text-[16px]">add_circle</span> Ajouter une image
               </button>
             </div>
@@ -298,7 +298,7 @@ export default function ProductFormModal({ product, onClose }: Props) {
 
           {/* Ingrédients */}
           <section>
-            <h3 className="text-[#1a191c] font-semibold text-sm uppercase tracking-widest mb-4 flex items-center gap-2">
+            <h3 className="text-[#bb0a4a] font-semibold text-sm uppercase tracking-widest mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-[16px]">eco</span> Ingrédients clés
             </h3>
             <div className="space-y-4">
@@ -327,11 +327,11 @@ export default function ProductFormModal({ product, onClose }: Props) {
                   <div className="grid grid-cols-3 gap-2">
                     <input value={ing.icon} onChange={e => setIngredient(idx, 'icon', e.target.value)} placeholder="Icône (ex: spa)" className={inputCls()} />
                     <input value={ing.bgClass} onChange={e => setIngredient(idx, 'bgClass', e.target.value)} placeholder="bg-[#d4e8d0]" className={inputCls()} />
-                    <input value={ing.iconClass} onChange={e => setIngredient(idx, 'iconClass', e.target.value)} placeholder="text-[#1a191c]" className={inputCls()} />
+                    <input value={ing.iconClass} onChange={e => setIngredient(idx, 'iconClass', e.target.value)} placeholder="text-[#bb0a4a]" className={inputCls()} />
                   </div>
                 </div>
               ))}
-              <button type="button" onClick={addIngredient} className="flex items-center gap-2 text-[#1a191c] hover:text-[#9aad98] text-sm transition-colors">
+              <button type="button" onClick={addIngredient} className="flex items-center gap-2 text-[#bb0a4a] hover:text-[#9aad98] text-sm transition-colors">
                 <span className="material-symbols-outlined text-[16px]">add_circle</span> Ajouter un ingrédient
               </button>
             </div>
@@ -342,13 +342,13 @@ export default function ProductFormModal({ product, onClose }: Props) {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-3 rounded-xl border border-[#3d4f3c] text-[#9aad98] hover:text-white hover:border-[#1a191c] transition-all font-medium"
+              className="flex-1 px-4 py-3 rounded-xl border border-[#3d4f3c] text-[#9aad98] hover:text-white hover:border-[#bb0a4a] transition-all font-medium"
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="flex-1 px-4 py-3 rounded-xl bg-[#1a191c] hover:bg-[#5e7461] text-white font-semibold transition-all hover:shadow-lg hover:shadow-[#1a191c]/30 active:scale-[0.98]"
+              className="flex-1 px-4 py-3 rounded-xl bg-[#bb0a4a] hover:bg-[#5e7461] text-white font-semibold transition-all hover:shadow-lg hover:shadow-[#bb0a4a]/30 active:scale-[0.98]"
             >
               {isEdit ? '✓ Enregistrer les modifications' : '+ Ajouter le produit'}
             </button>

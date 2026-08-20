@@ -24,7 +24,7 @@ export default function AdminScreen({ onNavigate }: AdminScreenProps) {
       {/* Admin Top Bar */}
       <header className="bg-[#151e15] border-b border-[#2d3d2c] px-6 py-4 flex items-center justify-between sticky top-0 z-30">
         <div className="flex items-center gap-4">
-          <div className="w-8 h-8 rounded-lg bg-[#1a191c] flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-[#bb0a4a] flex items-center justify-center">
             <span className="material-symbols-outlined text-white text-[18px]">admin_panel_settings</span>
           </div>
           <div>
@@ -40,7 +40,7 @@ export default function AdminScreen({ onNavigate }: AdminScreenProps) {
           </span>
           <button
             onClick={() => onNavigate('home')}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#3d4f3c] text-[#9aad98] hover:text-white hover:border-[#1a191c] transition-all text-sm font-medium"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#3d4f3c] text-[#9aad98] hover:text-white hover:border-[#bb0a4a] transition-all text-sm font-medium"
           >
             <span className="material-symbols-outlined text-[16px]">open_in_new</span>
             <span className="hidden sm:inline">Voir le site</span>
@@ -57,7 +57,7 @@ export default function AdminScreen({ onNavigate }: AdminScreenProps) {
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
                 className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 text-left group ${activeTab === item.id
-                  ? 'bg-[#1a191c] text-white shadow-lg shadow-[#1a191c]/20'
+                  ? 'bg-[#bb0a4a] text-white shadow-lg shadow-[#bb0a4a]/20'
                   : 'text-[#6a7d69] hover:bg-[#1e2a1e] hover:text-[#9aad98]'
                   }`}
               >

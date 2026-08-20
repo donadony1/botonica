@@ -32,10 +32,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         </div>
 
         <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-3xl mx-auto mt-16 md:mt-20">
-          <span className="text-xs uppercase tracking-[0.25em] text-[#1a191c] font-semibold bg-[#f9f9f9]/80 backdrop-blur-sm px-4 py-1.5 rounded-full mb-6 ambient-shadow-sm">
+          <span className="text-xs uppercase tracking-[0.25em] text-[#bb0a4a] font-semibold bg-[#f9f9f9]/80 backdrop-blur-sm px-4 py-1.5 rounded-full mb-6 ambient-shadow-sm">
             Maison de Savonnerie Botanique
           </span>
-          <h1 className="font-serif-luxury text-4xl sm:text-5xl md:text-6xl text-[#1a191c] mb-6 drop-shadow-sm leading-[1.15] tracking-tight">
+          <h1 className="font-serif-luxury text-4xl sm:text-5xl md:text-6xl text-[#bb0a4a] mb-6 drop-shadow-sm leading-[1.15] tracking-tight">
             L'art du Bain Naturel
           </h1>
           <p className="text-base sm:text-lg text-[#434842] mb-10 max-w-xl leading-relaxed font-light">
@@ -53,13 +53,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   onNavigate('shop');
                 }
               }}
-              className="bg-[#1a191c] text-white px-9 py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#b7003a] transition-all duration-300 ambient-shadow hover:scale-105 active:scale-95 cursor-pointer"
+              className="bg-[#bb0a4a] text-white px-9 py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#b7003a] transition-all duration-300 ambient-shadow hover:scale-105 active:scale-95 cursor-pointer"
             >
               Découvrir
             </button>
             <button
               onClick={() => onNavigate('rituals')}
-              className="bg-[#f9f9f9]/90 text-[#1a191c] border border-[#1a191c]/30 px-8 py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#e2e0d7] transition-all duration-300 ambient-shadow-sm"
+              className="bg-[#f9f9f9]/90 text-[#bb0a4a] border border-[#bb0a4a]/30 px-8 py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#e2e0d7] transition-all duration-300 ambient-shadow-sm"
             >
               Le Savon Signature
             </button>
@@ -77,7 +77,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
             <div className="absolute bottom-4 left-4 right-4 bg-[#f9f9f9]/90 backdrop-blur-md rounded-2xl p-4 border border-[#c4c8c0]/30 flex justify-between items-center text-xs text-[#434842]">
-              <span className="font-serif italic text-sm text-[#1a191c]">
+              <span className="font-serif italic text-sm text-[#bb0a4a]">
                 Saponifié à froid — Cure de 6 semaines
               </span>
               <span className="font-semibold text-[#824f39]">100% Végétal</span>
@@ -88,7 +88,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             <span className="text-[#824f39] text-xs font-bold uppercase tracking-[0.2em] mb-4">
               Notre Vision
             </span>
-            <h2 className="font-serif-luxury text-3xl md:text-5xl text-[#1a191c] mb-6 leading-tight">
+            <h2 className="font-serif-luxury text-3xl md:text-5xl text-[#bb0a4a] mb-6 leading-tight">
               Pureté à chaque service
             </h2>
             <p className="text-[#434842] text-base md:text-lg mb-8 text-left leading-relaxed font-light">
@@ -99,19 +99,19 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </p>
             <ul className="space-y-4 text-base text-[#1a1c1c] w-full">
               <li className="flex items-center gap-3.5 bg-white/70 p-3 rounded-2xl border border-[#e2e2e2]">
-                <span className="material-symbols-outlined text-[#1a191c] bg-[#d4e8d0]/50 p-2 rounded-xl text-[20px]">
+                <span className="material-symbols-outlined text-[#bb0a4a] bg-[#d4e8d0]/50 p-2 rounded-xl text-[20px]">
                   eco
                 </span>
                 <span className="font-medium text-sm md:text-base">Ingrédients 100% naturels</span>
               </li>
               <li className="flex items-center gap-3.5 bg-white/70 p-3 rounded-2xl border border-[#e2e2e2]">
-                <span className="material-symbols-outlined text-[#1a191c] bg-[#d4e8d0]/50 p-2 rounded-xl text-[20px]">
+                <span className="material-symbols-outlined text-[#bb0a4a] bg-[#d4e8d0]/50 p-2 rounded-xl text-[20px]">
                   water_drop
                 </span>
                 <span className="font-medium text-sm md:text-base">Saponifié à froid pour préserver la puissance</span>
               </li>
               <li className="flex items-center gap-3.5 bg-white/70 p-3 rounded-2xl border border-[#e2e2e2]">
-                <span className="material-symbols-outlined text-[#1a191c] bg-[#d4e8d0]/50 p-2 rounded-xl text-[20px]">
+                <span className="material-symbols-outlined text-[#bb0a4a] bg-[#d4e8d0]/50 p-2 rounded-xl text-[20px]">
                   recycling
                 </span>
                 <span className="font-medium text-sm md:text-base">Emballage sans plastique</span>
@@ -128,7 +128,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             <span className="text-[#824f39] text-xs font-bold uppercase tracking-[0.2em] block mb-2">
               Collection Botanique
             </span>
-            <h2 className="font-serif-luxury text-3xl md:text-5xl text-[#1a191c] mb-4">
+            <h2 className="font-serif-luxury text-3xl md:text-5xl text-[#bb0a4a] mb-4">
               La Collection Signature
             </h2>
             <p className="text-sm md:text-base text-[#434842] font-light">
@@ -156,7 +156,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 </div>
                 <h3
                   onClick={() => onSelectProduct(eucalyptus)}
-                  className="font-serif-luxury text-2xl text-[#1a191c] mb-2 cursor-pointer hover:underline"
+                  className="font-serif-luxury text-2xl text-[#bb0a4a] mb-2 cursor-pointer hover:underline"
                 >
                   {eucalyptus.name}
                 </h3>
@@ -169,13 +169,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 <div className="mt-auto w-full flex flex-col gap-2.5">
                   <button
                     onClick={() => onSelectProduct(eucalyptus)}
-                    className="w-full py-2.5 border border-[#1a191c] text-[#1a191c] rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#e2e0d7] transition-colors"
+                    className="w-full py-2.5 border border-[#bb0a4a] text-[#bb0a4a] rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#e2e0d7] transition-colors"
                   >
                     View Details
                   </button>
                   <button
                     onClick={() => onAddToCart(eucalyptus, 1)}
-                    className="w-full py-2.5 bg-[#1a191c] text-white rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#b7003a] transition-colors flex items-center justify-center gap-1.5"
+                    className="w-full py-2.5 bg-[#bb0a4a] text-white rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#b7003a] transition-colors flex items-center justify-center gap-1.5"
                   >
                     <span className="material-symbols-outlined text-[16px]">shopping_bag</span>
                     Ajouter au Panier
@@ -205,7 +205,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 </div>
                 <h3
                   onClick={() => onSelectProduct(wildOrange)}
-                  className="font-serif-luxury text-2xl text-[#1a191c] mb-2 cursor-pointer hover:underline"
+                  className="font-serif-luxury text-2xl text-[#bb0a4a] mb-2 cursor-pointer hover:underline"
                 >
                   {wildOrange.name}
                 </h3>
@@ -218,13 +218,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 <div className="mt-auto w-full flex flex-col gap-2.5">
                   <button
                     onClick={() => onSelectProduct(wildOrange)}
-                    className="w-full py-2.5 border border-[#1a191c] text-[#1a191c] rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#e2e0d7] transition-colors"
+                    className="w-full py-2.5 border border-[#bb0a4a] text-[#bb0a4a] rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#e2e0d7] transition-colors"
                   >
                     View Details
                   </button>
                   <button
                     onClick={() => onAddToCart(wildOrange, 1)}
-                    className="w-full py-2.5 bg-[#1a191c] text-white rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#b7003a] transition-colors flex items-center justify-center gap-1.5"
+                    className="w-full py-2.5 bg-[#bb0a4a] text-white rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#b7003a] transition-colors flex items-center justify-center gap-1.5"
                   >
                     <span className="material-symbols-outlined text-[16px]">shopping_bag</span>
                     Ajouter au Panier
@@ -251,7 +251,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 </div>
                 <h3
                   onClick={() => onSelectProduct(oatMilk)}
-                  className="font-serif-luxury text-2xl text-[#1a191c] mb-2 cursor-pointer hover:underline"
+                  className="font-serif-luxury text-2xl text-[#bb0a4a] mb-2 cursor-pointer hover:underline"
                 >
                   {oatMilk.name}
                 </h3>
@@ -264,13 +264,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 <div className="mt-auto w-full flex flex-col gap-2.5">
                   <button
                     onClick={() => onSelectProduct(oatMilk)}
-                    className="w-full py-2.5 border border-[#1a191c] text-[#1a191c] rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#e2e0d7] transition-colors"
+                    className="w-full py-2.5 border border-[#bb0a4a] text-[#bb0a4a] rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#e2e0d7] transition-colors"
                   >
                     View Details
                   </button>
                   <button
                     onClick={() => onAddToCart(oatMilk, 1)}
-                    className="w-full py-2.5 bg-[#1a191c] text-white rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#b7003a] transition-colors flex items-center justify-center gap-1.5"
+                    className="w-full py-2.5 bg-[#bb0a4a] text-white rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#b7003a] transition-colors flex items-center justify-center gap-1.5"
                   >
                     <span className="material-symbols-outlined text-[16px]">shopping_bag</span>
                     Ajouter au Panier
@@ -284,7 +284,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           <div className="mt-16">
             <button
               onClick={() => onNavigate('shop')}
-              className="inline-flex items-center gap-2 text-sm uppercase tracking-widest text-[#1a191c] font-semibold hover:gap-3 transition-all border-b-2 border-[#1a191c]/40 pb-1"
+              className="inline-flex items-center gap-2 text-sm uppercase tracking-widest text-[#bb0a4a] font-semibold hover:gap-3 transition-all border-b-2 border-[#bb0a4a]/40 pb-1"
             >
               Explorer Tous Les Soins Botaniques
               <span className="material-symbols-outlined text-sm">arrow_forward</span>
@@ -295,12 +295,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
       {/* Scent & Atmosphere Banner */}
       <section className="py-20 px-6 md:px-16 max-w-[1280px] mx-auto w-full">
-        <div className="bg-[#d4e8d0]/30 rounded-3xl p-8 md:p-14 border border-[#1a191c]/15 flex flex-col md:flex-row items-center justify-between gap-8 ambient-shadow-sm">
+        <div className="bg-[#d4e8d0]/30 rounded-3xl p-8 md:p-14 border border-[#bb0a4a]/15 flex flex-col md:flex-row items-center justify-between gap-8 ambient-shadow-sm">
           <div className="max-w-xl">
             <span className="text-[#824f39] text-xs font-bold uppercase tracking-[0.2em] block mb-2">
               L'Expérience Sensorielle
             </span>
-            <h3 className="font-serif-luxury text-3xl md:text-4xl text-[#1a191c] mb-4">
+            <h3 className="font-serif-luxury text-3xl md:text-4xl text-[#bb0a4a] mb-4">
               L'équilibre d'une formule surgrasse
             </h3>
             <p className="text-[#434842] text-sm md:text-base leading-relaxed font-light">
@@ -311,7 +311,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </div>
           <button
             onClick={() => onNavigate('rituals')}
-            className="whitespace-nowrap bg-[#1a191c] text-white px-8 py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#b7003a] transition-colors ambient-shadow shrink-0"
+            className="whitespace-nowrap bg-[#bb0a4a] text-white px-8 py-4 rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#b7003a] transition-colors ambient-shadow shrink-0"
           >
             Découvrir le Rituel
           </button>
