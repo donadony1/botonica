@@ -17,7 +17,7 @@ cache/
 #frond-end/
 
 #pour le backend
-black-end/
+#black-end/
 
 #pour les tests
 test_http_checkout.php 
