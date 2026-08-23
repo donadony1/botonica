@@ -14,7 +14,7 @@ tmp/
 cache/
 
 #pour le frontend
-frond-end/
+#frond-end/
 
 #pour le backend
 black-end/
