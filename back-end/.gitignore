@@ -12,14 +12,3 @@ vendor/
 # Dossiers temporaires
 tmp/
 cache/
-
-#pour le frontend
-frond-end/
-
-#pour le backend
-black-end/
-
-#pour les tests
-test_http_checkout.php 
-test_checkout_flow.php
-test.php
