@@ -58,13 +58,13 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
           <div className="flex flex-col sm:flex-row gap-4">
             <button
               id="rituals-buy-signature-btn"
-              onClick={() => onAddToCart(signatureProduct, 1)}
+              onClick={() => signatureProduct ? onAddToCart(signatureProduct, 1) : onNavigate('shop')}
               className="bg-[#bb0a4a] text-white text-xs font-semibold uppercase tracking-[0.2em] py-4 px-8 rounded-full hover:bg-[#b7003a] transition-all shadow-md active:scale-95 text-center cursor-pointer"
             >
-              Acheter maintenant - {signatureProduct.price.toFixed(2)}€
+              {signatureProduct ? `Acheter maintenant - ${(signatureProduct.price || 0).toFixed(2)}€` : 'Découvrir la boutique'}
             </button>
             <button
-              onClick={() => onSelectProduct(signatureProduct)}
+              onClick={() => signatureProduct ? onSelectProduct(signatureProduct) : onNavigate('shop')}
               className="border border-[#c4c8c0] text-[#1a1c1c] text-xs font-semibold uppercase tracking-[0.2em] py-4 px-8 rounded-full hover:bg-[#e2e0d7] transition-all text-center cursor-pointer"
             >
               En savoir plus
@@ -213,10 +213,10 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
         </p>
         <button
           id="rituals-cta-add-to-cart-btn"
-          onClick={() => onAddToCart(signatureProduct, 1)}
+          onClick={() => signatureProduct ? onAddToCart(signatureProduct, 1) : onNavigate('shop')}
           className="bg-[#bb0a4a] text-white text-xs font-semibold uppercase tracking-[0.2em] py-4 px-12 rounded-full hover:bg-[#b7003a] transition-all shadow-md hover:-translate-y-0.5 active:scale-95 duration-300 cursor-pointer"
         >
-          Ajouter au Panier - {signatureProduct.price.toFixed(2)}€
+          {signatureProduct ? `Ajouter au Panier - ${(signatureProduct.price || 0).toFixed(2)}€` : 'Découvrir nos savons'}
         </button>
         <p className="text-xs text-[#434842] mt-6 opacity-80 flex items-center gap-1.5">
           <span className="material-symbols-outlined text-[16px] text-[#bb0a4a]">

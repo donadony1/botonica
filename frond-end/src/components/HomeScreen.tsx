@@ -111,7 +111,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               </div>
             </div>
             <button
-              onClick={() => onSelectProduct(signatureProduct)}
+              onClick={() => signatureProduct ? onSelectProduct(signatureProduct) : onNavigate('shop')}
               className="bg-[#3D2B1F] hover:bg-[#bb0a4a] text-white text-[11px] font-bold uppercase tracking-wider px-3.5 py-2 rounded-xl transition-colors cursor-pointer"
             >
               Découvrir
@@ -346,276 +346,282 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       </section>
 
       {/* ─── 6. SIGNATURE PRODUCT SHOWCASE ──────────────────────────── */}
-      <section className="py-16 md:py-24 px-5 sm:px-8 md:px-12 max-w-5xl mx-auto w-full">
-        <div className="bg-white rounded-3xl p-6 sm:p-10 md:p-12 border border-[#E6D5C3]/70 shadow-xl flex flex-col md:flex-row items-center gap-8 md:gap-12">
-          {/* Image */}
-          <div
-            onClick={() => onSelectProduct(signatureProduct)}
-            className="w-full md:w-1/2 flex justify-center cursor-pointer group"
-          >
-            <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-2xl overflow-hidden shadow-md bg-[#fdf9f5]">
-              <img
-                src={signatureProduct.images[0]}
-                alt={signatureProduct.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-              <span className="absolute top-3 left-3 bg-[#3D2B1F] text-white text-[10px] uppercase font-bold px-3 py-1 rounded-full">
-                {language === 'fr' ? 'Best-seller' : 'Best Seller'}
-              </span>
-            </div>
-          </div>
-
-          {/* Details & CTA */}
-          <div className="w-full md:w-1/2 flex flex-col gap-4 text-center md:text-left">
-            <span className="text-[11px] uppercase tracking-[0.2em] text-[#824f39] font-bold">
-              {signatureProduct.tagline}
-            </span>
-
-            <h2
+      {signatureProduct && (
+        <section className="py-16 md:py-24 px-5 sm:px-8 md:px-12 max-w-5xl mx-auto w-full">
+          <div className="bg-white rounded-3xl p-6 sm:p-10 md:p-12 border border-[#E6D5C3]/70 shadow-xl flex flex-col md:flex-row items-center gap-8 md:gap-12">
+            {/* Image */}
+            <div
               onClick={() => onSelectProduct(signatureProduct)}
-              className="font-serif text-3xl sm:text-4xl text-[#26170c] font-normal hover:text-[#bb0a4a] transition-colors cursor-pointer"
+              className="w-full md:w-1/2 flex justify-center cursor-pointer group"
             >
-              {language === 'en' && signatureProduct.nameEn ? signatureProduct.nameEn : signatureProduct.name}
-            </h2>
-
-            {/* Stars */}
-            <div className="flex items-center justify-center md:justify-start gap-1.5 text-amber-500">
-              <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                    star
-                  </span>
-                ))}
+              <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-2xl overflow-hidden shadow-md bg-[#fdf9f5]">
+                <img
+                  src={signatureProduct.images?.[0] || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAwCbWmWoXE74klOtwIQUnPMNLkGYreJ-ztS8FJiNnCCUsxn0agfBVH4MH1Rfx8oBpvjLOHrl5kMK0I7tm4fD_b6YvmWPsXSHWdIKppxjgVjAJR7J8vGKKpybh5I1XvQfX4hRW84SlX8EFMJIabfTsa3I3FbZTuojSDSJrCi0z39yNoRZ4OtPm0WZqUIudhfNXU5NBBFxOqOQTUWPu9FXMztN7ph1aT1d2Vrdsyrl3szRbrKhRORn3-'}
+                  alt={signatureProduct.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <span className="absolute top-3 left-3 bg-[#3D2B1F] text-white text-[10px] uppercase font-bold px-3 py-1 rounded-full">
+                  {language === 'fr' ? 'Best-seller' : 'Best Seller'}
+                </span>
               </div>
-              <span className="text-xs text-[#4f453f] ml-2 font-medium">
-                ({signatureProduct.reviewCount || 124} {language === 'fr' ? 'avis vérifiés' : 'verified reviews'})
+            </div>
+
+            {/* Details & CTA */}
+            <div className="w-full md:w-1/2 flex flex-col gap-4 text-center md:text-left">
+              <span className="text-[11px] uppercase tracking-[0.2em] text-[#824f39] font-bold">
+                {signatureProduct.tagline}
               </span>
-            </div>
 
-            <p className="text-xs sm:text-sm text-[#4f453f] leading-relaxed font-light">
-              {language === 'en' && signatureProduct.descriptionEn
-                ? signatureProduct.descriptionEn
-                : signatureProduct.description}
-            </p>
-
-            {/* Stock status indicator */}
-            <div className="flex items-center justify-center md:justify-start gap-2 pt-1">
-              {signatureProduct.stock > 5 ? (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#d4e8d0] text-[#2b4c2b]">
-                  <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
-                  {t('stock_in_stock')}
-                </span>
-              ) : signatureProduct.stock > 0 ? (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-900">
-                  <span className="w-2 h-2 rounded-full bg-amber-600"></span>
-                  {t('stock_low', { count: signatureProduct.stock })}
-                </span>
-              ) : (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-red-100 text-red-900">
-                  <span className="w-2 h-2 rounded-full bg-red-600"></span>
-                  {t('stock_out')}
-                </span>
-              )}
-              <span className="text-xs text-[#747871]">· {signatureProduct.weight || '150g'}</span>
-            </div>
-
-            <div className="font-serif text-3xl text-[#3D2B1F] font-bold mt-1">
-              {signatureProduct.price.toFixed(2)} €
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <button
-                onClick={() => onAddToCart(signatureProduct, 1)}
-                disabled={signatureProduct.stock <= 0}
-                className="bg-[#3D2B1F] hover:bg-[#26170c] disabled:opacity-40 text-white px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-[0.15em] transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-[18px]">shopping_cart</span>
-                <span>{t('add_to_cart')}</span>
-              </button>
-
-              <button
+              <h2
                 onClick={() => onSelectProduct(signatureProduct)}
-                className="bg-[#fdf9f5] hover:bg-[#E6D5C3]/40 text-[#3D2B1F] border border-[#D7B49E] px-6 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                className="font-serif text-3xl sm:text-4xl text-[#26170c] font-normal hover:text-[#bb0a4a] transition-colors cursor-pointer"
               >
-                {t('view_product')}
-              </button>
+                {language === 'en' && signatureProduct.nameEn ? signatureProduct.nameEn : signatureProduct.name}
+              </h2>
+
+              {/* Stars */}
+              <div className="flex items-center justify-center md:justify-start gap-1.5 text-amber-500">
+                <div className="flex">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                      star
+                    </span>
+                  ))}
+                </div>
+                <span className="text-xs text-[#4f453f] ml-2 font-medium">
+                  ({signatureProduct.reviewCount || 124} {language === 'fr' ? 'avis vérifiés' : 'verified reviews'})
+                </span>
+              </div>
+
+              <p className="text-xs sm:text-sm text-[#4f453f] leading-relaxed font-light">
+                {language === 'en' && signatureProduct.descriptionEn
+                  ? signatureProduct.descriptionEn
+                  : signatureProduct.description}
+              </p>
+
+              {/* Stock status indicator */}
+              <div className="flex items-center justify-center md:justify-start gap-2 pt-1">
+                {signatureProduct.stock > 5 ? (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#d4e8d0] text-[#2b4c2b]">
+                    <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
+                    {t('stock_in_stock')}
+                  </span>
+                ) : signatureProduct.stock > 0 ? (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-900">
+                    <span className="w-2 h-2 rounded-full bg-amber-600"></span>
+                    {t('stock_low', { count: signatureProduct.stock })}
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-red-100 text-red-900">
+                    <span className="w-2 h-2 rounded-full bg-red-600"></span>
+                    {t('stock_out')}
+                  </span>
+                )}
+                <span className="text-xs text-[#747871]">· {signatureProduct.weight || '150g'}</span>
+              </div>
+
+              <div className="font-serif text-3xl text-[#3D2B1F] font-bold mt-1">
+                {(signatureProduct.price || 0).toFixed(2)} €
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <button
+                  onClick={() => onAddToCart(signatureProduct, 1)}
+                  disabled={signatureProduct.stock <= 0}
+                  className="bg-[#3D2B1F] hover:bg-[#26170c] disabled:opacity-40 text-white px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-[0.15em] transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-[18px]">shopping_cart</span>
+                  <span>{t('add_to_cart')}</span>
+                </button>
+
+                <button
+                  onClick={() => onSelectProduct(signatureProduct)}
+                  className="bg-[#fdf9f5] hover:bg-[#E6D5C3]/40 text-[#3D2B1F] border border-[#D7B49E] px-6 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                >
+                  {t('view_product')}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ─── 7. FEATURED COLLECTION SECTION ─────────────────────────── */}
-      <section className="py-16 md:py-24 px-5 sm:px-8 md:px-12 max-w-7xl mx-auto w-full border-t border-[#E6D5C3]/40">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
-          <div>
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#824f39] block mb-2">
-              {language === 'fr' ? 'Collection Botanique' : 'Botanical Collection'}
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl text-[#26170c] font-normal">
-              {language === 'fr' ? 'Nos Rituels & Savons Précieux' : 'Our Precious Soaps & Rituals'}
-            </h2>
+      {featuredProducts.length > 0 && (
+        <section className="py-16 md:py-24 px-5 sm:px-8 md:px-12 max-w-7xl mx-auto w-full border-t border-[#E6D5C3]/40">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#824f39] block mb-2">
+                {language === 'fr' ? 'Collection Botanique' : 'Botanical Collection'}
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl text-[#26170c] font-normal">
+                {language === 'fr' ? 'Nos Rituels & Savons Précieux' : 'Our Precious Soaps & Rituals'}
+              </h2>
+            </div>
+
+            <button
+              onClick={() => onNavigate('shop')}
+              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#3D2B1F] hover:text-[#bb0a4a] transition-colors cursor-pointer self-start sm:self-auto"
+            >
+              <span>{language === 'fr' ? 'Voir toute la collection' : 'View full catalog'}</span>
+              <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+            </button>
           </div>
 
-          <button
-            onClick={() => onNavigate('shop')}
-            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#3D2B1F] hover:text-[#bb0a4a] transition-colors cursor-pointer self-start sm:self-auto"
-          >
-            <span>{language === 'fr' ? 'Voir toute la collection' : 'View full catalog'}</span>
-            <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
-          </button>
-        </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {featuredProducts.map((prod) => {
+              const displayName = language === 'en' && prod.nameEn ? prod.nameEn : prod.name;
+              const displayTagline = language === 'en' && prod.taglineEn ? prod.taglineEn : prod.tagline;
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {featuredProducts.map((prod) => {
-            const displayName = language === 'en' && prod.nameEn ? prod.nameEn : prod.name;
-            const displayTagline = language === 'en' && prod.taglineEn ? prod.taglineEn : prod.tagline;
-
-            return (
-              <div
-                key={prod.id}
-                className="bg-white rounded-3xl border border-[#E6D5C3]/60 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 group flex flex-col justify-between"
-              >
-                {/* Image & Badges */}
+              return (
                 <div
-                  onClick={() => onSelectProduct(prod)}
-                  className="relative aspect-square bg-[#fdf9f5] overflow-hidden cursor-pointer"
+                  key={prod.id}
+                  className="bg-white rounded-3xl border border-[#E6D5C3]/60 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 group flex flex-col justify-between"
                 >
-                  <img
-                    src={prod.images[0]}
-                    alt={displayName}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  {prod.surgrasPercentage && (
-                    <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-xs text-[#3D2B1F] text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
-                      Surgras {prod.surgrasPercentage}
-                    </span>
-                  )}
-                </div>
-
-                {/* Info & Add to Cart */}
-                <div className="p-6 flex flex-col flex-1 justify-between gap-4">
-                  <div>
-                    <span className="text-[11px] text-[#824f39] uppercase tracking-wider font-semibold block mb-1">
-                      {displayTagline}
-                    </span>
-                    <h3
-                      onClick={() => onSelectProduct(prod)}
-                      className="font-serif text-xl sm:text-2xl text-[#26170c] font-normal group-hover:text-[#bb0a4a] transition-colors cursor-pointer mb-2"
-                    >
-                      {displayName}
-                    </h3>
-                    <p className="text-xs text-[#4f453f] line-clamp-2 font-light">
-                      {prod.description}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-4 border-t border-[#f1ede9]">
-                    <span className="font-serif text-2xl font-bold text-[#3D2B1F]">
-                      {prod.price.toFixed(2)} €
-                    </span>
-
-                    <button
-                      onClick={() => onAddToCart(prod, 1)}
-                      disabled={prod.stock <= 0}
-                      className="bg-[#3D2B1F] hover:bg-[#bb0a4a] disabled:opacity-30 text-white p-3 rounded-full transition-colors shadow-xs active:scale-95 cursor-pointer"
-                      title={t('add_to_cart')}
-                    >
-                      <span className="material-symbols-outlined text-[18px]">shopping_bag</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ─── 8. LATEST 3 ARTICLES (LE JOURNAL BOTANIQUE) ────────────── */}
-      <section className="py-16 md:py-24 px-5 sm:px-8 md:px-12 max-w-7xl mx-auto w-full border-t border-[#E6D5C3]/40">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
-          <div>
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#824f39] block mb-2">
-              {language === 'fr' ? 'Le Journal & Conseils d’Experts' : 'The Journal & Expert Guides'}
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl text-[#26170c] font-normal">
-              {language === 'fr' ? 'Rituels de Soin & Secrets Botaniques' : 'Care Rituals & Botanical Secrets'}
-            </h2>
-          </div>
-
-          <button
-            onClick={() => onNavigate('articles')}
-            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#3D2B1F] hover:text-[#bb0a4a] transition-colors cursor-pointer self-start sm:self-auto"
-          >
-            <span>{language === 'fr' ? 'Découvrir tous les articles' : 'Discover all articles'}</span>
-            <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-          {latestArticles.map((article) => {
-            const articleTitle = language === 'en' && article.titleEn ? article.titleEn : article.title;
-            const articleExcerpt = language === 'en' && article.excerptEn ? article.excerptEn : article.excerpt;
-            const articleCat = language === 'en' && article.categoryLabelEn ? article.categoryLabelEn : article.categoryLabel;
-            const articleRead = language === 'en' && article.readTimeEn ? article.readTimeEn : article.readTime;
-
-            return (
-              <article
-                key={article.id}
-                onClick={() => onSelectArticle ? onSelectArticle(article) : onNavigate('articles')}
-                className="bg-white rounded-3xl border border-[#E6D5C3]/60 overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer group"
-              >
-                <div>
-                  {/* Image */}
-                  <div className="relative aspect-[16/10] overflow-hidden bg-[#26170c]">
+                  {/* Image & Badges */}
+                  <div
+                    onClick={() => onSelectProduct(prod)}
+                    className="relative aspect-square bg-[#fdf9f5] overflow-hidden cursor-pointer"
+                  >
                     <img
-                      src={article.image}
-                      alt={articleTitle}
+                      src={prod.images?.[0] || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAwCbWmWoXE74klOtwIQUnPMNLkGYreJ-ztS8FJiNnCCUsxn0agfBVH4MH1Rfx8oBpvjLOHrl5kMK0I7tm4fD_b6YvmWPsXSHWdIKppxjgVjAJR7J8vGKKpybh5I1XvQfX4hRW84SlX8EFMJIabfTsa3I3FbZTuojSDSJrCi0z39yNoRZ4OtPm0WZqUIudhfNXU5NBBFxOqOQTUWPu9FXMztN7ph1aT1d2Vrdsyrl3szRbrKhRORn3-'}
+                      alt={displayName}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <span className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-xs text-[#3D2B1F] text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
-                      {articleCat}
-                    </span>
+                    {prod.surgrasPercentage && (
+                      <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-xs text-[#3D2B1F] text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
+                        Surgras {prod.surgrasPercentage}
+                      </span>
+                    )}
                   </div>
 
-                  {/* Content */}
-                  <div className="p-6 space-y-3">
-                    <div className="flex items-center gap-2 text-[11px] text-[#824f39] font-medium">
-                      <span>{article.publishedAt}</span>
-                      <span>·</span>
-                      <span>{articleRead}</span>
+                  {/* Info & Add to Cart */}
+                  <div className="p-6 flex flex-col flex-1 justify-between gap-4">
+                    <div>
+                      <span className="text-[11px] text-[#824f39] uppercase tracking-wider font-semibold block mb-1">
+                        {displayTagline}
+                      </span>
+                      <h3
+                        onClick={() => onSelectProduct(prod)}
+                        className="font-serif text-xl sm:text-2xl text-[#26170c] font-normal group-hover:text-[#bb0a4a] transition-colors cursor-pointer mb-2"
+                      >
+                        {displayName}
+                      </h3>
+                      <p className="text-xs text-[#4f453f] line-clamp-2 font-light">
+                        {prod.description}
+                      </p>
                     </div>
 
-                    <h3 className="font-serif text-xl text-[#26170c] font-normal leading-snug group-hover:text-[#bb0a4a] transition-colors line-clamp-2">
-                      {articleTitle}
-                    </h3>
+                    <div className="flex items-center justify-between pt-4 border-t border-[#f1ede9]">
+                      <span className="font-serif text-2xl font-bold text-[#3D2B1F]">
+                        {(prod.price || 0).toFixed(2)} €
+                      </span>
 
-                    <p className="text-xs text-[#4f453f] line-clamp-3 font-light leading-relaxed">
-                      {articleExcerpt}
-                    </p>
+                      <button
+                        onClick={() => onAddToCart(prod, 1)}
+                        disabled={prod.stock <= 0}
+                        className="bg-[#3D2B1F] hover:bg-[#bb0a4a] disabled:opacity-30 text-white p-3 rounded-full transition-colors shadow-xs active:scale-95 cursor-pointer"
+                        title={t('add_to_cart')}
+                      >
+                        <span className="material-symbols-outlined text-[18px]">shopping_bag</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
-                {/* Footer Author & Read Link */}
-                <div className="px-6 pb-6 pt-3 border-t border-[#f1ede9] flex items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    <img
-                      src={article.authorAvatar}
-                      alt={article.author}
-                      className="w-7 h-7 rounded-full object-cover border border-[#E6D5C3]"
-                    />
-                    <span className="text-xs font-semibold text-[#26170c]">{article.author}</span>
+      {/* ─── 8. LATEST 3 ARTICLES (LE JOURNAL BOTANIQUE) ────────────── */}
+      {latestArticles.length > 0 && (
+        <section className="py-16 md:py-24 px-5 sm:px-8 md:px-12 max-w-7xl mx-auto w-full border-t border-[#E6D5C3]/40">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#824f39] block mb-2">
+                {language === 'fr' ? 'Le Journal & Conseils d’Experts' : 'The Journal & Expert Guides'}
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl text-[#26170c] font-normal">
+                {language === 'fr' ? 'Rituels de Soin & Secrets Botaniques' : 'Care Rituals & Botanical Secrets'}
+              </h2>
+            </div>
+
+            <button
+              onClick={() => onNavigate('articles')}
+              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#3D2B1F] hover:text-[#bb0a4a] transition-colors cursor-pointer self-start sm:self-auto"
+            >
+              <span>{language === 'fr' ? 'Découvrir tous les articles' : 'Discover all articles'}</span>
+              <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            {latestArticles.map((article) => {
+              const articleTitle = language === 'en' && article.titleEn ? article.titleEn : article.title;
+              const articleExcerpt = language === 'en' && article.excerptEn ? article.excerptEn : article.excerpt;
+              const articleCat = language === 'en' && article.categoryLabelEn ? article.categoryLabelEn : article.categoryLabel;
+              const articleRead = language === 'en' && article.readTimeEn ? article.readTimeEn : article.readTime;
+
+              return (
+                <article
+                  key={article.id}
+                  onClick={() => onSelectArticle ? onSelectArticle(article) : onNavigate('articles')}
+                  className="bg-white rounded-3xl border border-[#E6D5C3]/60 overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer group"
+                >
+                  <div>
+                    {/* Image */}
+                    <div className="relative aspect-[16/10] overflow-hidden bg-[#26170c]">
+                      <img
+                        src={article.image || 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&auto=format&fit=crop&q=80'}
+                        alt={articleTitle}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <span className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-xs text-[#3D2B1F] text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
+                        {articleCat}
+                      </span>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6 space-y-3">
+                      <div className="flex items-center gap-2 text-[11px] text-[#824f39] font-medium">
+                        <span>{article.publishedAt}</span>
+                        <span>·</span>
+                        <span>{articleRead}</span>
+                      </div>
+
+                      <h3 className="font-serif text-xl text-[#26170c] font-normal leading-snug group-hover:text-[#bb0a4a] transition-colors line-clamp-2">
+                        {articleTitle}
+                      </h3>
+
+                      <p className="text-xs text-[#4f453f] line-clamp-3 font-light leading-relaxed">
+                        {articleExcerpt}
+                      </p>
+                    </div>
                   </div>
 
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#3D2B1F] group-hover:text-[#bb0a4a] flex items-center gap-1">
-                    <span>{language === 'fr' ? 'Lire' : 'Read'}</span>
-                    <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
-                  </span>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-      </section>
+                  {/* Footer Author & Read Link */}
+                  <div className="px-6 pb-6 pt-3 border-t border-[#f1ede9] flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <img
+                        src={article.authorAvatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'}
+                        alt={article.author}
+                        className="w-7 h-7 rounded-full object-cover border border-[#E6D5C3]"
+                      />
+                      <span className="text-xs font-semibold text-[#26170c]">{article.author}</span>
+                    </div>
+
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#3D2B1F] group-hover:text-[#bb0a4a] flex items-center gap-1">
+                      <span>{language === 'fr' ? 'Lire' : 'Read'}</span>
+                      <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+                    </span>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      )}
     </div>
   );
 };

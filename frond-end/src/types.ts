@@ -21,7 +21,7 @@ export interface Product {
   tags: string[];
   description: string;
   descriptionEn?: string;
-  longDescription: string;
+  longDescription?: string;
   longDescriptionEn?: string;
   images: string[];
   aspectRatio?: 'square' | 'portrait' | 'tall';
@@ -41,11 +41,14 @@ export interface Product {
   lowStockThreshold?: number;
 
   // Mentions Légales & Conformité GPSR / Cosmétique UE (Phase 2 / Phase 5)
-  inci: string;
-  originCountry: string;
-  responsiblePerson: string;
+  inci?: string;
+  originCountry?: string;
+  responsiblePerson?: string;
   batchNumber?: string;
   pao?: string;
+  gpsrManufacturer?: string;
+  gpsrBatchCode?: string;
+  gpsrSafetyWarning?: string;
 }
 
 export interface CartItem {

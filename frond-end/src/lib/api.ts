@@ -1,9 +1,9 @@
 import { CartItem, Product, Article } from '../types';
 
-/**
- * URLs potentielles du backend pour maximiser la compatibilité avec XAMPP
- */
+const ENV_API_URL = (import.meta as any).env?.VITE_API_URL;
+
 const API_CANDIDATE_URLS = [
+  ...(ENV_API_URL ? [String(ENV_API_URL).replace(/\/$/, '')] : []),
   '/api', // Proxy Vite local
   'http://localhost/project2026/ndolo-black-soap/back-end/public', // Direct XAMPP Apache
   'http://localhost/project2026/ndolo-black-soap/back-end/public/index.php', // Fallback direct index.php
