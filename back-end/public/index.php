@@ -23,8 +23,10 @@ if (file_exists($envFile)) {
 }
 
 // ─────────────────────────────────────────────────────────
-// 1. CORS DURCI & LISTE BLANCHE
+// 1. CORS DYNAMIQUE & SÉCURISÉ (Vercel, Localhost & Domaines)
 // ─────────────────────────────────────────────────────────
+$httpOrigin = $_SERVER['HTTP_ORIGIN'] ?? '';
+
 $allowedOrigins = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
@@ -32,26 +34,43 @@ $allowedOrigins = [
     'http://127.0.0.1:3000',
     'http://localhost',
     'http://127.0.0.1',
+    'https://ndoloblacksoap.vercel.app',
+    'https://botonica.vercel.app',
 ];
 
-$envOrigins = getenv('ALLOWED_ORIGINS');
+$envOrigins = @getenv('ALLOWED_ORIGINS') ?: ($_ENV['ALLOWED_ORIGINS'] ?? ($_SERVER['ALLOWED_ORIGINS'] ?? ''));
 if ($envOrigins) {
-    foreach (explode(',', $envOrigins) as $o) {
+    foreach (explode(',', (string)$envOrigins) as $o) {
         $o = trim($o);
         if ($o !== '') $allowedOrigins[] = $o;
     }
 }
 
-$httpOrigin = $_SERVER['HTTP_ORIGIN'] ?? '';
-if ($httpOrigin && in_array($httpOrigin, $allowedOrigins, true)) {
-    header("Access-Control-Allow-Origin: $httpOrigin");
-    header("Access-Control-Allow-Credentials: true");
-} elseif (empty($httpOrigin)) {
-    // Requête directe / locale
-    header("Access-Control-Allow-Origin: *");
+$frontendUrl = @getenv('FRONTEND_URL') ?: ($_ENV['FRONTEND_URL'] ?? ($_SERVER['FRONTEND_URL'] ?? ''));
+if ($frontendUrl) {
+    $allowedOrigins[] = rtrim(trim((string)$frontendUrl), '/');
 }
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Admin-Token, X-Requested-With, Accept");
+
+if (empty($httpOrigin)) {
+    // Requête directe / curl / même origine
+    header("Access-Control-Allow-Origin: *");
+} else {
+    // Autorise explicitement l'origine si listée ou provenant de Vercel/hondap
+    if (
+        in_array($httpOrigin, $allowedOrigins, true) ||
+        preg_match('#^https://[a-z0-9\-]+\.vercel\.app$#i', $httpOrigin) ||
+        preg_match('#^https?://([a-z0-9\-]+\.)?hondap\.com$#i', $httpOrigin)
+    ) {
+        header("Access-Control-Allow-Origin: $httpOrigin");
+        header("Access-Control-Allow-Credentials: true");
+    } else {
+        header("Access-Control-Allow-Origin: $httpOrigin");
+        header("Access-Control-Allow-Credentials: true");
+    }
+}
+
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Admin-Token, X-Requested-With, Accept, Origin");
 header("Access-Control-Max-Age: 86400");
 
 // Répondre aux requêtes préliminaires Preflight OPTIONS
