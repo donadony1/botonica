@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScreenType } from '../../types';
 import DashboardTab from './DashboardTab';
 import ProductsTab from './ProductsTab';
 import ArticlesTab from './ArticlesTab';
 import OrdersTab from './OrdersTab';
 import SettingsTab from './SettingsTab';
+import AdminLoginModal from './AdminLoginModal';
 import { useAdmin } from '../../context/AdminContext';
+import { getAdminSession, clearAdminSession } from '../../lib/security';
 
 type AdminTab = 'dashboard' | 'products' | 'articles' | 'orders' | 'settings';
 
@@ -24,7 +26,38 @@ const NAV_ITEMS: { id: AdminTab; label: string; icon: string }[] = [
 export default function AdminScreen({ onNavigate }: AdminScreenProps) {
   const [activeTab, setActiveTab] = useState<AdminTab>('dashboard');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => !!getAdminSession());
   const { products, articles, dataSource, isLoadingProducts, refreshProducts } = useAdmin();
+
+  useEffect(() => {
+    // Vérification périodique de l'expiration de session
+    const checkInterval = setInterval(() => {
+      const session = getAdminSession();
+      if (!session && isAuthenticated) {
+        setIsAuthenticated(false);
+      }
+    }, 15000);
+    return () => clearInterval(checkInterval);
+  }, [isAuthenticated]);
+
+  const handleLogout = () => {
+    clearAdminSession();
+    setIsAuthenticated(false);
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-[#111a11]">
+        <AdminLoginModal
+          onSuccess={() => {
+            setIsAuthenticated(true);
+            refreshProducts();
+          }}
+          onCancel={() => onNavigate('home')}
+        />
+      </div>
+    );
+  }
 
   const handleSelectTab = (tab: AdminTab) => {
     setActiveTab(tab);
@@ -86,6 +119,16 @@ export default function AdminScreen({ onNavigate }: AdminScreenProps) {
           >
             <span className="material-symbols-outlined text-[16px]">open_in_new</span>
             <span className="hidden xs:inline">Voir le site</span>
+          </button>
+
+          {/* Bouton de Déconnexion Sécurisée */}
+          <button
+            onClick={handleLogout}
+            title="Fermer la session d'administration"
+            className="flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-xl bg-red-950/40 border border-red-800/60 text-red-300 hover:bg-red-900/60 hover:text-white transition-all text-xs sm:text-sm font-medium cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-[16px]">logout</span>
+            <span className="hidden sm:inline">Déconnexion</span>
           </button>
         </div>
       </header>

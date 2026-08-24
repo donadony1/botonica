@@ -1,13 +1,18 @@
 import { CartItem, Product, Article } from '../types';
+import { getAdminSession, DEFAULT_ADMIN_TOKEN } from './security';
 
-const ENV_API_URL = (import.meta as any).env?.VITE_API_URL;
+const ENV_API_URL =
+  (import.meta as any).env?.VITE_API_BASE_URL ||
+  (import.meta as any).env?.VITE_API_URL;
 
 const API_CANDIDATE_URLS = [
-  ...(ENV_API_URL ? [String(ENV_API_URL).replace(/\/$/, '')] : []),
   '/api', // Proxy Vite local
-  'http://localhost/project2026/ndolo-black-soap/back-end/public', // Direct XAMPP Apache
-  'http://localhost/project2026/ndolo-black-soap/back-end/public/index.php', // Fallback direct index.php
-  'http://127.0.0.1/project2026/ndolo-black-soap/back-end/public',
+  ...(ENV_API_URL
+    ? [
+        String(ENV_API_URL).replace(/\/$/, ''),
+        `${String(ENV_API_URL).replace(/\/$/, '')}/index.php`,
+      ]
+    : []),
 ];
 
 /**
@@ -15,6 +20,8 @@ const API_CANDIDATE_URLS = [
  */
 async function callBackend(path: string, options: RequestInit = {}): Promise<Response | null> {
   const cleanPath = '/' + ltrim(path, '/');
+  const session = getAdminSession();
+  const adminToken = session?.token || (import.meta as any).env?.VITE_ADMIN_API_TOKEN || DEFAULT_ADMIN_TOKEN;
 
   for (const baseUrl of API_CANDIDATE_URLS) {
     try {
@@ -23,6 +30,7 @@ async function callBackend(path: string, options: RequestInit = {}): Promise<Res
         ...options,
         headers: {
           'Accept': 'application/json',
+          ...(adminToken ? { 'X-Admin-Token': adminToken } : {}),
           ...(options.headers || {}),
         },
         signal: AbortSignal.timeout(3000), // 3s timeout
@@ -665,5 +673,22 @@ export async function recordSiteVisit(pageUrl: string = window.location.pathname
     // Ignorer en mode offline
   }
 }
+
+/**
+ * Récupère la liste complète des commandes pour l'administration (sécurisé via token)
+ */
+export async function fetchAdminOrders(): Promise<any[] | null> {
+  try {
+    const res = await callBackend('/orders', { method: 'GET' });
+    if (res) {
+      const json = await res.json();
+      return json.success && Array.isArray(json.data) ? json.data : null;
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
+
 
 

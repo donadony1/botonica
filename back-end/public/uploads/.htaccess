@@ -1,8 +1,24 @@
-# Sécurité : Empêcher l'exécution de tout script PHP dans le dossier uploads
-<FilesMatch "\.(php|phtml|php3|php4|php5|php7|php8|phps|cgi|pl|exe)$">
-    Order Deny,Allow
-    Deny from all
+# Blocage de l'exécution de tout script (anti-RCE) dans le dossier des uploads
+<FilesMatch "\.(php|phtml|phar|pl|py|jsp|asp|htm|html|sh|cgi)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
 </FilesMatch>
 
-Options -ExecCGI
-Options -Indexes
+# Désactive l'interpréteur PHP si mod_php est actif
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php8.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+
+# Forcer le type MIME pour éviter le reniflage de script
+Options -ExecCGI -Indexes

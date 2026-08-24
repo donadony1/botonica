@@ -103,6 +103,13 @@ function AppInner() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [products, articles]);
 
+  // Enregistrement des visites du site en temps réel dans MySQL (RGPD anonymisé)
+  React.useEffect(() => {
+    if (currentScreen !== 'admin') {
+      recordSiteVisit(window.location.pathname || `/${currentScreen}`);
+    }
+  }, [currentScreen]);
+
   // Gestion dynamique du Référencement (SEO & Meta Tags)
   React.useEffect(() => {
     const origin = typeof window !== 'undefined' ? window.location.origin : 'https://ndolo-rituals.com';

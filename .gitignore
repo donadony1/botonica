@@ -1,6 +1,6 @@
 # Environnement & Secrets (JAMAIS dans Git)
-.env
-*.env.local
+.env*
+!.env.example
 
 # Logs applicatifs
 logs/

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { fetchAdminOrders } from '../../lib/api';
 
 interface OrderRecord {
   id: string;
@@ -23,12 +24,9 @@ export default function OrdersTab() {
   const fetchOrders = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('/api/orders');
-      if (res.ok) {
-        const data = await res.json();
-        if (data.success && Array.isArray(data.data)) {
-          setOrders(data.data);
-        }
+      const data = await fetchAdminOrders();
+      if (data && Array.isArray(data)) {
+        setOrders(data);
       }
     } catch {
       // ignore

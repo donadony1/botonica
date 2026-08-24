@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAdmin } from '../../context/AdminContext';
 import { ScreenType } from '../../types';
+import { fetchDashboardStats } from '../../lib/api';
 
 interface DashboardTabProps {
   onSelectTab: (tab: 'products' | 'articles' | 'orders' | 'settings') => void;
@@ -41,12 +42,9 @@ export default function DashboardTab({ onSelectTab, onNavigate }: DashboardTabPr
   const fetchStats = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('/api/dashboard/stats');
-      if (res.ok) {
-        const json = await res.json();
-        if (json.success && json.data) {
-          setStats(json.data);
-        }
+      const data = await fetchDashboardStats();
+      if (data) {
+        setStats(data);
       }
     } catch {
       // Fallback
