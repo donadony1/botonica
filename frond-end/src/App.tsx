@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Product, Article, CartItem, ScreenType } from './types';
-import { ARTICLES } from './data/articles';
 import { Header } from './components/Header';
 import { BottomNav } from './components/BottomNav';
 import { Footer } from './components/Footer';
@@ -37,52 +36,52 @@ function AppInner() {
   // Initialisation de la route depuis l'URL courante du navigateur
   const initialRoute = parseCurrentUrl();
   const [currentScreen, setCurrentScreen] = useState<ScreenType>(initialRoute.screen);
-  const [selectedProduct, setSelectedProduct] = useState<Product>(() => {
-    if (initialRoute.productId) {
-      const match = products.find((p) => p.id === initialRoute.productId);
-      if (match) return match;
+  const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(() => {
+    if (initialRoute.productId && products.length > 0) {
+      return products.find((p) => p.id === initialRoute.productId) || products[0];
     }
     return products[0];
   });
-  const [selectedArticle, setSelectedArticle] = useState<Article>(() => {
-    if (initialRoute.articleSlug) {
-      const match = (articles.length > 0 ? articles : ARTICLES).find(
-        (a) => a.slug === initialRoute.articleSlug || a.id === initialRoute.articleSlug
-      );
-      if (match) return match;
+  const [selectedArticle, setSelectedArticle] = useState<Article | undefined>(() => {
+    if (initialRoute.articleSlug && articles.length > 0) {
+      return articles.find((a) => a.slug === initialRoute.articleSlug || a.id === initialRoute.articleSlug) || articles[0];
     }
-    return articles[0] || ARTICLES[0];
+    return articles[0];
   });
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Synchronise le produit ou l'article si l'URL contenait un ID/slug et que les listes chargent
+  // Synchronise le produit ou l'article si l'URL contenait un ID/slug et que les listes chargent depuis l'API
   React.useEffect(() => {
-    const route = parseCurrentUrl();
-    if (route.screen === 'product-detail' && route.productId && products.length > 0) {
-      const matched = products.find((p) => p.id === route.productId);
-      if (matched && matched.id !== selectedProduct?.id) {
-        setSelectedProduct(matched);
+    if (products.length > 0) {
+      const route = parseCurrentUrl();
+      if (route.screen === 'product-detail' && route.productId) {
+        const matched = products.find((p) => p.id === route.productId);
+        if (matched) {
+          setSelectedProduct(matched);
+          return;
+        }
+      }
+      if (!selectedProduct || !products.some((p) => p.id === selectedProduct.id)) {
+        setSelectedProduct(products[0]);
       }
     }
   }, [products]);
 
   React.useEffect(() => {
-    const route = parseCurrentUrl();
-    if (route.screen === 'article-detail' && route.articleSlug) {
-      const activeArticles = articles.length > 0 ? articles : ARTICLES;
-      const matched = activeArticles.find(
-        (a) => a.slug === route.articleSlug || a.id === route.articleSlug
-      );
-      if (matched && matched.id !== selectedArticle?.id) {
-        setSelectedArticle(matched);
+    if (articles.length > 0) {
+      const route = parseCurrentUrl();
+      if (route.screen === 'article-detail' && route.articleSlug) {
+        const matched = articles.find(
+          (a) => a.slug === route.articleSlug || a.id === route.articleSlug
+        );
+        if (matched) {
+          setSelectedArticle(matched);
+          return;
+        }
       }
-    }
-  }, [articles]);
-
-  // Synchronise selectedArticle si les articles de la base de données changent
-  React.useEffect(() => {
-    if (articles.length > 0 && (!selectedArticle || !articles.some(a => a.id === selectedArticle.id))) {
-      setSelectedArticle(articles[0]);
+      if (!selectedArticle || !articles.some((a) => a.id === selectedArticle.id)) {
+        setSelectedArticle(articles[0]);
+      }
     }
   }, [articles]);
 
@@ -91,12 +90,11 @@ function AppInner() {
     const handlePopState = () => {
       const route = parseCurrentUrl();
       setCurrentScreen(route.screen);
-      if (route.screen === 'product-detail' && route.productId) {
+      if (route.screen === 'product-detail' && route.productId && products.length > 0) {
         const found = products.find((p) => p.id === route.productId);
         if (found) setSelectedProduct(found);
-      } else if (route.screen === 'article-detail' && route.articleSlug) {
-        const activeArticles = articles.length > 0 ? articles : ARTICLES;
-        const found = activeArticles.find((a) => a.slug === route.articleSlug || a.id === route.articleSlug);
+      } else if (route.screen === 'article-detail' && route.articleSlug && articles.length > 0) {
+        const found = articles.find((a) => a.slug === route.articleSlug || a.id === route.articleSlug);
         if (found) setSelectedArticle(found);
       }
     };
@@ -308,7 +306,7 @@ function AppInner() {
     updateCartState([]);
   };
 
-  const signatureProduct = products.find((p) => p.id === 'savon-signature') || products[0];
+  const signatureProduct = products.find((p) => p.featured) || products[0];
 
   // Admin screen gets its own full-page layout
   if (currentScreen === 'admin') {
@@ -346,13 +344,24 @@ function AppInner() {
         )}
 
         {currentScreen === 'product-detail' && (
-          <ProductDetailScreen
-            product={selectedProduct}
-            allProducts={products}
-            onAddToCart={handleAddToCart}
-            onSelectProduct={handleSelectProduct}
-            onNavigate={navigateTo}
-          />
+          selectedProduct ? (
+            <ProductDetailScreen
+              product={selectedProduct}
+              allProducts={products}
+              onAddToCart={handleAddToCart}
+              onSelectProduct={handleSelectProduct}
+              onNavigate={navigateTo}
+            />
+          ) : (
+            <div className="w-full flex-grow py-24 text-center">
+              <span className="material-symbols-outlined text-4xl text-[#bb0a4a] animate-spin mb-3">
+                progress_activity
+              </span>
+              <p className="text-sm text-[#824f39]">
+                {language === 'fr' ? 'Chargement du produit...' : 'Loading product...'}
+              </p>
+            </div>
+          )
         )}
 
         {currentScreen === 'rituals' && (
@@ -373,15 +382,26 @@ function AppInner() {
         )}
 
         {currentScreen === 'article-detail' && (
-          <ArticleDetailScreen
-            article={selectedArticle}
-            allProducts={products}
-            allArticles={articles}
-            onSelectProduct={handleSelectProduct}
-            onAddToCart={handleAddToCart}
-            onSelectArticle={handleSelectArticle}
-            onNavigate={navigateTo}
-          />
+          selectedArticle ? (
+            <ArticleDetailScreen
+              article={selectedArticle}
+              allProducts={products}
+              allArticles={articles}
+              onSelectProduct={handleSelectProduct}
+              onAddToCart={handleAddToCart}
+              onSelectArticle={handleSelectArticle}
+              onNavigate={navigateTo}
+            />
+          ) : (
+            <div className="w-full flex-grow py-24 text-center">
+              <span className="material-symbols-outlined text-4xl text-[#bb0a4a] animate-spin mb-3">
+                progress_activity
+              </span>
+              <p className="text-sm text-[#824f39]">
+                {language === 'fr' ? "Chargement de l'article..." : 'Loading article...'}
+              </p>
+            </div>
+          )
         )}
 
         {currentScreen === 'privacy-terms' && (

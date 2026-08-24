@@ -51,7 +51,7 @@ export async function fetchProducts(): Promise<Product[] | null> {
     if (!res) return null;
 
     const json = await res.json();
-    if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+    if (json.success && Array.isArray(json.data)) {
       return json.data as Product[];
     }
     return null;
@@ -202,7 +202,7 @@ export async function fetchArticles(): Promise<Article[] | null> {
     if (!res) return null;
 
     const json = await res.json();
-    if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+    if (json.success && Array.isArray(json.data)) {
       return json.data as Article[];
     }
     return null;

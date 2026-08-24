@@ -1,6 +1,5 @@
 import React from 'react';
 import { Product, Article, ScreenType } from '../types';
-import { ARTICLES } from '../data/articles';
 import { useLanguage } from '../context/LanguageContext';
 
 interface HomeScreenProps {
@@ -24,13 +23,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
   // Find signature product and featured products
   const signatureProduct =
-    products.find((p) => p.id === 'savon-signature') ||
     products.find((p) => p.featured) ||
     products[0];
 
   const featuredProducts = products.filter((p) => p.id !== signatureProduct?.id).slice(0, 3);
-  const activeArticleList = articles.length > 0 ? articles : ARTICLES;
-  const latestArticles = activeArticleList.slice(0, 3);
+  const latestArticles = articles.slice(0, 3);
 
   return (
     <div className="w-full flex flex-col bg-[#fdf9f5] text-[#1c1c19] overflow-hidden">

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Article, ScreenType } from '../types';
-import { ARTICLES } from '../data/articles';
 import { useLanguage } from '../context/LanguageContext';
 
 interface ArticlesScreenProps {
@@ -26,9 +25,7 @@ export const ArticlesScreen: React.FC<ArticlesScreenProps> = ({
     { id: 'rituals', label: language === 'fr' ? 'Rituels de Bain' : 'Bath Rituals' },
   ];
 
-  const activeArticleList = articles.length > 0 ? articles : ARTICLES;
-
-  const filteredArticles = activeArticleList.filter((art) => {
+  const filteredArticles = articles.filter((art) => {
     const matchCat = selectedCategory === 'all' || art.category === selectedCategory;
     const title = language === 'en' && art.titleEn ? art.titleEn : art.title;
     const excerpt = language === 'en' && art.excerptEn ? art.excerptEn : art.excerpt;
@@ -39,7 +36,7 @@ export const ArticlesScreen: React.FC<ArticlesScreenProps> = ({
     return matchCat && matchSearch;
   });
 
-  const featuredArticle = activeArticleList.find((a) => a.featured) || activeArticleList[0];
+  const featuredArticle = articles.find((a) => a.featured) || articles[0];
 
   return (
     <div className="w-full flex flex-col bg-[#fdf9f5] text-[#1c1c19] min-h-screen pb-20">

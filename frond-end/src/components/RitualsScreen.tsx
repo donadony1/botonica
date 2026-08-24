@@ -1,6 +1,6 @@
 import React from 'react';
 import { Product, ScreenType } from '../types';
-import { REVIEWS } from '../data/products';
+import { useAdmin } from '../context/AdminContext';
 
 interface RitualsScreenProps {
   signatureProduct: Product;
@@ -15,6 +15,8 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
   onSelectProduct,
   onNavigate,
 }) => {
+  const { reviews } = useAdmin();
+  const approvedReviews = reviews.filter((r) => r.status === 'approved');
   return (
     <div className="w-full flex-grow pt-8 pb-20 px-5 md:px-12 max-w-[1280px] mx-auto">
       {/* Hero Section: Transformez votre douche en rituel */}
@@ -147,52 +149,55 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
       </section>
 
       {/* Testimonials: Ce qu'elles en disent */}
-      <section className="mb-28 md:mb-36 bg-[#d4e8d0]/25 -mx-5 md:-mx-12 px-6 md:px-12 py-20 md:py-24 rounded-3xl border border-[#bb0a4a]/10">
-        <div className="text-center max-w-2xl mx-auto mb-14">
-          <span className="text-xs font-bold text-[#824f39] uppercase tracking-[0.2em] block mb-2">
-            Avis Vérifiés
-          </span>
-          <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl text-[#1a1c1c]">
-            Ce qu'elles en disent
-          </h2>
-        </div>
+      {/* Reviews Section (Only if approved reviews exist) */}
+      {approvedReviews.length > 0 && (
+        <section className="mb-28 md:mb-36 bg-[#d4e8d0]/25 -mx-5 md:-mx-12 px-6 md:px-12 py-20 md:py-24 rounded-3xl border border-[#bb0a4a]/10">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <span className="text-xs font-bold text-[#824f39] uppercase tracking-[0.2em] block mb-2">
+              Avis Vérifiés
+            </span>
+            <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl text-[#1a1c1c]">
+              Ce qu'elles en disent
+            </h2>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-[1280px] mx-auto">
-          {REVIEWS.map((review) => (
-            <div
-              key={review.id}
-              className="bg-white p-8 rounded-2xl border border-[#e2e2e2] ambient-shadow flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex text-[#824f39] mb-4 gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <span
-                      key={i}
-                      className="material-symbols-outlined text-[18px]"
-                      style={{ fontVariationSettings: "'FILL' 1" }}
-                    >
-                      {i < Math.floor(review.rating) ? 'star' : 'star_half'}
-                    </span>
-                  ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-[1280px] mx-auto">
+            {approvedReviews.map((review) => (
+              <div
+                key={review.id}
+                className="bg-white p-8 rounded-2xl border border-[#e2e2e2] ambient-shadow flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex text-[#824f39] mb-4 gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <span
+                        key={i}
+                        className="material-symbols-outlined text-[18px]"
+                        style={{ fontVariationSettings: "'FILL' 1" }}
+                      >
+                        {i < Math.floor(review.rating) ? 'star' : 'star_half'}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="text-sm md:text-base text-[#434842] italic mb-6 leading-relaxed font-light">
+                    "{review.comment}"
+                  </p>
                 </div>
-                <p className="text-sm md:text-base text-[#434842] italic mb-6 leading-relaxed font-light">
-                  "{review.comment}"
-                </p>
+                <div className="flex justify-between items-center border-t border-[#f3f3f4] pt-4">
+                  <p className="text-xs uppercase tracking-widest text-[#1a1c1c] font-semibold">
+                    — {review.author}
+                  </p>
+                  {review.productName && (
+                    <span className="text-[11px] text-[#bb0a4a] font-serif">
+                      {review.productName}
+                    </span>
+                  )}
+                </div>
               </div>
-              <div className="flex justify-between items-center border-t border-[#f3f3f4] pt-4">
-                <p className="text-xs uppercase tracking-widest text-[#1a1c1c] font-semibold">
-                  — {review.author}
-                </p>
-                {review.productName && (
-                  <span className="text-[11px] text-[#bb0a4a] font-serif">
-                    {review.productName}
-                  </span>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Final CTA: Prête à changer votre routine ? */}
       <section className="flex flex-col items-center justify-center text-center py-12 md:py-20 max-w-2xl mx-auto">

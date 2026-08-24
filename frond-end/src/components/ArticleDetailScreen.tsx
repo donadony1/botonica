@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Article, Product, ScreenType } from '../types';
-import { ARTICLES } from '../data/articles';
 import { useLanguage } from '../context/LanguageContext';
 import { getArticleUrl } from '../lib/router';
 
@@ -37,8 +36,7 @@ export const ArticleDetailScreen: React.FC<ArticleDetailScreenProps> = ({
   );
 
   // Other suggested articles (excluding current) from dynamic database list
-  const activeArticleList = allArticles.length > 0 ? allArticles : ARTICLES;
-  const suggestedArticles = activeArticleList.filter((a) => a.id !== article.id).slice(0, 3);
+  const suggestedArticles = allArticles.filter((a) => a.id !== article.id).slice(0, 3);
 
   const handleShare = () => {
     const url = getArticleUrl(article);

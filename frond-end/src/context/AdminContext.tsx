@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
 import { Product, Article, SiteSettings, Review } from '../types';
-import { PRODUCTS, INITIAL_REVIEWS } from '../data/products';
-import { ARTICLES } from '../data/articles';
 import {
   fetchProducts,
   createProduct,
@@ -35,34 +33,36 @@ const STORAGE_KEY_ARTICLES = 'ndolo_admin_articles';
 const STORAGE_KEY_SETTINGS = 'ndolo_admin_settings';
 const STORAGE_KEY_REVIEWS  = 'ndolo_admin_reviews';
 
+const KNOWN_MOCK_PRODUCT_IDS = new Set([
+  'savon-signature', 'huile-precieuse', 'baume-botanique', 'coffret-rituel',
+  'savon-karite-miel', 'savon-charbon-arbre-the', 'huile-precieuse-baobab', 'coffret-rituel-complet'
+]);
+
+const KNOWN_MOCK_ARTICLE_IDS = new Set([
+  'art-saponification-froid', 'secret-beurre-karite-grand-cru',
+  'rituel-bain-ancestral-apaisant', 'vaincre-acne-hyper-pigmentation'
+]);
+
 function loadProductsLocal(): Product[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_PRODUCTS);
     if (raw) {
       const parsed = JSON.parse(raw) as Product[];
-      return parsed.map((p) => {
-        const defaultProd = PRODUCTS.find((dp) => dp.id === p.id);
-        return {
-          stock: defaultProd?.stock ?? 20,
-          lowStockThreshold: defaultProd?.lowStockThreshold ?? 5,
-          inci: defaultProd?.inci ?? '',
-          originCountry: defaultProd?.originCountry ?? 'France / Provence',
-          responsiblePerson: defaultProd?.responsiblePerson ?? 'Ndolo Rituals SARL',
-          pao: defaultProd?.pao ?? '18M',
-          ...p,
-        };
-      });
+      return parsed.filter((p) => p && p.id && !KNOWN_MOCK_PRODUCT_IDS.has(p.id));
     }
   } catch { /* ignore */ }
-  return PRODUCTS;
+  return [];
 }
 
 function loadArticlesLocal(): Article[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_ARTICLES);
-    if (raw) return JSON.parse(raw) as Article[];
+    if (raw) {
+      const parsed = JSON.parse(raw) as Article[];
+      return parsed.filter((a) => a && (a.id || a.slug) && !KNOWN_MOCK_ARTICLE_IDS.has(a.id) && !KNOWN_MOCK_ARTICLE_IDS.has(a.slug));
+    }
   } catch { /* ignore */ }
-  return ARTICLES;
+  return [];
 }
 
 function loadSettings(): SiteSettings {
@@ -78,7 +78,7 @@ function loadReviews(): Review[] {
     const raw = localStorage.getItem(STORAGE_KEY_REVIEWS);
     if (raw) return JSON.parse(raw) as Review[];
   } catch { /* ignore */ }
-  return INITIAL_REVIEWS;
+  return [];
 }
 
 interface AdminContextValue {
@@ -119,15 +119,15 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     try {
       const apiProducts = await fetchProducts();
-      if (apiProducts && apiProducts.length > 0) {
-        setProducts(apiProducts);
+      if (apiProducts !== null) {
+        // Ne garder que les produits provenant de la base de données (sans les mock data)
+        const realProducts = apiProducts.filter((p) => !KNOWN_MOCK_PRODUCT_IDS.has(p.id));
+        setProducts(realProducts);
         setDataSource('api');
-        localStorage.setItem(STORAGE_KEY_PRODUCTS, JSON.stringify(apiProducts));
-      } else {
-        setDataSource('local');
+        localStorage.setItem(STORAGE_KEY_PRODUCTS, JSON.stringify(realProducts));
       }
     } catch {
-      setDataSource('local');
+      // ignore
     } finally {
       setLoading(false);
     }
@@ -137,12 +137,14 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     setLoadingArt(true);
     try {
       const apiArticles = await fetchArticles();
-      if (apiArticles && apiArticles.length > 0) {
-        setArticles(apiArticles);
-        localStorage.setItem(STORAGE_KEY_ARTICLES, JSON.stringify(apiArticles));
+      if (apiArticles !== null) {
+        // Ne garder que les articles provenant de la base de données
+        const realArticles = apiArticles.filter((a) => !KNOWN_MOCK_ARTICLE_IDS.has(a.id) && !KNOWN_MOCK_ARTICLE_IDS.has(a.slug));
+        setArticles(realArticles);
+        localStorage.setItem(STORAGE_KEY_ARTICLES, JSON.stringify(realArticles));
       }
     } catch {
-      // Fallback local
+      // ignore
     } finally {
       setLoadingArt(false);
     }
