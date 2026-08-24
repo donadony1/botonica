@@ -1,9 +1,11 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 
-export default defineConfig(() => {
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
+
   return {
     plugins: [react(), tailwindcss()],
     resolve: {
@@ -15,7 +17,7 @@ export default defineConfig(() => {
       proxy: {
         // Redirection transparente de /api vers le backend PHP XAMPP
         '/api': {
-          target: 'http://localhost/project2026/ndolo-black-soap/back-end/public',
+          target: env.VITE_API_BASE_URL || 'http://localhost/project2026/ndolo-black-soap/back-end/public',
           changeOrigin: true,
           secure: false,
         },
