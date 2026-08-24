@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Article, Product, ScreenType } from '../types';
 import { ARTICLES } from '../data/articles';
 import { useLanguage } from '../context/LanguageContext';
+import { getArticleUrl } from '../lib/router';
 
 interface ArticleDetailScreenProps {
   article: Article;
@@ -40,8 +41,15 @@ export const ArticleDetailScreen: React.FC<ArticleDetailScreenProps> = ({
   const suggestedArticles = activeArticleList.filter((a) => a.id !== article.id).slice(0, 3);
 
   const handleShare = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
+    const url = getArticleUrl(article);
+    if (navigator.share) {
+      navigator.share({
+        title: `${title} — Ndolo Rituals`,
+        text: article.excerpt,
+        url: url,
+      }).catch(() => {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(url);
       setCopied(true);
       setTimeout(() => setCopied(false), 3000);
     }

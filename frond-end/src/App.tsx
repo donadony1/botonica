@@ -17,6 +17,8 @@ import AdminScreen from './components/admin/AdminScreen';
 import { AdminProvider, useAdmin } from './context/AdminContext';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { recordSiteVisit } from './lib/api';
+import { parseCurrentUrl, pushRoute } from './lib/router';
+import { updateSEO, buildProductSEO, buildArticleSEO } from './lib/seo';
 
 export default function App() {
   return (
@@ -29,13 +31,53 @@ export default function App() {
 }
 
 function AppInner() {
-  const { products, articles } = useAdmin();
+  const { products, articles, siteSettings } = useAdmin();
   const { language } = useLanguage();
 
-  const [currentScreen, setCurrentScreen] = useState<ScreenType>('home');
-  const [selectedProduct, setSelectedProduct] = useState<Product>(products[0]);
-  const [selectedArticle, setSelectedArticle] = useState<Article>(() => articles[0] || ARTICLES[0]);
+  // Initialisation de la route depuis l'URL courante du navigateur
+  const initialRoute = parseCurrentUrl();
+  const [currentScreen, setCurrentScreen] = useState<ScreenType>(initialRoute.screen);
+  const [selectedProduct, setSelectedProduct] = useState<Product>(() => {
+    if (initialRoute.productId) {
+      const match = products.find((p) => p.id === initialRoute.productId);
+      if (match) return match;
+    }
+    return products[0];
+  });
+  const [selectedArticle, setSelectedArticle] = useState<Article>(() => {
+    if (initialRoute.articleSlug) {
+      const match = (articles.length > 0 ? articles : ARTICLES).find(
+        (a) => a.slug === initialRoute.articleSlug || a.id === initialRoute.articleSlug
+      );
+      if (match) return match;
+    }
+    return articles[0] || ARTICLES[0];
+  });
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Synchronise le produit ou l'article si l'URL contenait un ID/slug et que les listes chargent
+  React.useEffect(() => {
+    const route = parseCurrentUrl();
+    if (route.screen === 'product-detail' && route.productId && products.length > 0) {
+      const matched = products.find((p) => p.id === route.productId);
+      if (matched && matched.id !== selectedProduct?.id) {
+        setSelectedProduct(matched);
+      }
+    }
+  }, [products]);
+
+  React.useEffect(() => {
+    const route = parseCurrentUrl();
+    if (route.screen === 'article-detail' && route.articleSlug) {
+      const activeArticles = articles.length > 0 ? articles : ARTICLES;
+      const matched = activeArticles.find(
+        (a) => a.slug === route.articleSlug || a.id === route.articleSlug
+      );
+      if (matched && matched.id !== selectedArticle?.id) {
+        setSelectedArticle(matched);
+      }
+    }
+  }, [articles]);
 
   // Synchronise selectedArticle si les articles de la base de données changent
   React.useEffect(() => {
@@ -43,6 +85,113 @@ function AppInner() {
       setSelectedArticle(articles[0]);
     }
   }, [articles]);
+
+  // Écouteur de navigation historique (Boutons Précédent / Suivant du navigateur)
+  React.useEffect(() => {
+    const handlePopState = () => {
+      const route = parseCurrentUrl();
+      setCurrentScreen(route.screen);
+      if (route.screen === 'product-detail' && route.productId) {
+        const found = products.find((p) => p.id === route.productId);
+        if (found) setSelectedProduct(found);
+      } else if (route.screen === 'article-detail' && route.articleSlug) {
+        const activeArticles = articles.length > 0 ? articles : ARTICLES;
+        const found = activeArticles.find((a) => a.slug === route.articleSlug || a.id === route.articleSlug);
+        if (found) setSelectedArticle(found);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [products, articles]);
+
+  // Gestion dynamique du Référencement (SEO & Meta Tags)
+  React.useEffect(() => {
+    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://ndolo-rituals.com';
+
+    switch (currentScreen) {
+      case 'home':
+        updateSEO({
+          title: language === 'fr'
+            ? 'Ndolo Rituals — Savons Artisanaux Saponifiés à Froid & Soins Botaniques'
+            : 'Ndolo Rituals — Artisanal Cold Process Soaps & Botanical Skincare',
+          description: language === 'fr'
+            ? 'Découvrez nos savons artisanaux 100% naturels saponifiés à froid, huiles végétales pures et rituels de beauté ancestraux faits à la main.'
+            : 'Discover our 100% natural handmade cold-process soaps, pure botanical oils, and ancestral beauty rituals.',
+          keywords: 'savon saponifie a froid, savon artisanal, cosmetique naturelle, savon noir, soin bio, provence, karite',
+          url: `${origin}/`,
+          type: 'website'
+        });
+        break;
+      case 'shop':
+        updateSEO({
+          title: language === 'fr' ? 'Boutique & Savons Naturels | Ndolo Rituals' : 'Shop & Natural Soaps | Ndolo Rituals',
+          description: language === 'fr'
+            ? 'Explorez notre gamme complète de savons saponifiés à froid, huiles précieuses et coffrets cadeaux bien-être.'
+            : 'Explore our complete collection of handmade cold process soaps, precious oils and wellness gift sets.',
+          keywords: 'acheter savon naturel, savonnerie artisanale, huile vegetale, coffret cadeau bain',
+          url: `${origin}/shop`,
+          type: 'website'
+        });
+        break;
+      case 'rituals':
+        updateSEO({
+          title: language === 'fr' ? 'Nos Rituels de Soin & Bien-être | Ndolo Rituals' : 'Our Wellness & Bath Rituals | Ndolo Rituals',
+          description: language === 'fr'
+            ? 'Initiez-vous à nos rituels de bain et de relaxation holistiques pour une peau douce, nourrie et apaisée.'
+            : 'Experience our holistic bath and relaxation rituals for deeply nourished and radiant skin.',
+          keywords: 'rituel bain, soin visage corps, relaxation, bien-etre naturel',
+          url: `${origin}/rituals`,
+          type: 'website'
+        });
+        break;
+      case 'articles':
+        updateSEO({
+          title: language === 'fr' ? 'Le Journal & Conseils Beauté Naturelle | Ndolo Rituals' : 'The Journal & Natural Skincare | Ndolo Rituals',
+          description: language === 'fr'
+            ? 'Découvrez nos guides d’experts sur la saponification à froid, les bienfaits du beurre de karité et la cosmétique saine.'
+            : 'Discover expert guides on cold saponification, shea butter benefits, and clean natural cosmetics.',
+          keywords: 'blog beaute naturelle, conseils peau, saponification a froid guide, huile vegetale bienfaits',
+          url: `${origin}/articles`,
+          type: 'website'
+        });
+        break;
+      case 'product-detail':
+        if (selectedProduct) {
+          updateSEO(buildProductSEO(selectedProduct, siteSettings, language));
+        }
+        break;
+      case 'article-detail':
+        if (selectedArticle) {
+          updateSEO(buildArticleSEO(selectedArticle, siteSettings, language));
+        }
+        break;
+      case 'cart':
+        updateSEO({
+          title: language === 'fr' ? 'Votre Panier | Ndolo Rituals' : 'Your Shopping Cart | Ndolo Rituals',
+          description: 'Consultez et finalisez vos commandes de savons et soins naturels Ndolo Rituals.',
+          url: `${origin}/cart`,
+          type: 'website'
+        });
+        break;
+      case 'privacy-terms':
+        updateSEO({
+          title: language === 'fr' ? 'Mentions Légales & CGV | Ndolo Rituals' : 'Legal Terms & Privacy | Ndolo Rituals',
+          description: 'Consultez nos mentions légales, politique de confidentialité et conditions générales de vente.',
+          url: `${origin}/privacy-terms`,
+          type: 'website'
+        });
+        break;
+      case 'admin':
+        updateSEO({
+          title: 'Administration | Ndolo Rituals',
+          description: 'Panneau de gestion du catalogue, commandes et stocks.',
+          url: `${origin}/admin`,
+          type: 'website'
+        });
+        break;
+    }
+  }, [currentScreen, selectedProduct, selectedArticle, language, siteSettings]);
 
   // Initialisation du panier : vide par défaut (ou restauré depuis la session client)
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
@@ -79,6 +228,7 @@ function AppInner() {
 
   const navigateTo = (screen: ScreenType) => {
     setCurrentScreen(screen);
+    pushRoute({ screen });
     window.scrollTo({ top: 0, behavior: 'smooth' });
     recordSiteVisit('/' + screen);
   };
@@ -86,12 +236,14 @@ function AppInner() {
   const handleSelectProduct = (product: Product) => {
     setSelectedProduct(product);
     setCurrentScreen('product-detail');
+    pushRoute({ screen: 'product-detail', productId: product.id });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSelectArticle = (article: Article) => {
     setSelectedArticle(article);
     setCurrentScreen('article-detail');
+    pushRoute({ screen: 'article-detail', articleSlug: article.slug || article.id });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 

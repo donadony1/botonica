@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Product, ScreenType } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 import { useAdmin } from '../context/AdminContext';
+import { getProductUrl } from '../lib/router';
 
 interface ProductDetailScreenProps {
   product: Product;
@@ -23,6 +24,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [shareCopied, setShareCopied] = useState(false);
   const [longDescAccordionOpen, setLongDescAccordionOpen] = useState(true);
   const [usageAccordionOpen, setUsageAccordionOpen] = useState(false);
   const [shippingAccordionOpen, setShippingAccordionOpen] = useState(false);
@@ -285,6 +287,45 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
               {isOutOfStock
                 ? t('stock_out')
                 : `${t('add_to_cart')} — ${(product.price * quantity).toFixed(2)} €`}
+            </button>
+          </div>
+
+          {/* Share & Direct Link Action */}
+          <div className="flex items-center justify-between bg-[#f4ebe1]/60 border border-[#e6d5c3] rounded-2xl px-5 py-3.5 mb-8">
+            <div className="flex items-center gap-2 text-xs text-[#5c4d44]">
+              <span className="material-symbols-outlined text-[18px] text-[#bb0a4a]">link</span>
+              <span className="font-medium">
+                {language === 'fr' ? 'Lien direct du produit :' : 'Direct product link:'}
+              </span>
+              <code className="hidden sm:inline-block bg-white/80 px-2 py-0.5 rounded text-[11px] text-[#824f39] border border-[#e6d5c3]/80 truncate max-w-[200px]">
+                /product/{product.id}
+              </code>
+            </div>
+            <button
+              onClick={() => {
+                const url = getProductUrl(product);
+                if (navigator.share) {
+                  navigator.share({
+                    title: `${displayName} — Ndolo Rituals`,
+                    text: displayTagline,
+                    url: url,
+                  }).catch(() => {});
+                } else if (navigator.clipboard) {
+                  navigator.clipboard.writeText(url);
+                  setShareCopied(true);
+                  setTimeout(() => setShareCopied(false), 3000);
+                }
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white hover:bg-[#bb0a4a] text-[#3D2B1F] hover:text-white text-xs font-semibold uppercase tracking-wider transition-all shadow-xs border border-[#e6d5c3] cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-[16px]">
+                {shareCopied ? 'check' : 'share'}
+              </span>
+              <span>
+                {shareCopied
+                  ? (language === 'fr' ? 'Lien copié !' : 'Link copied!')
+                  : (language === 'fr' ? 'Partager' : 'Share')}
+              </span>
             </button>
           </div>
 

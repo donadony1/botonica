@@ -12,3 +12,9 @@ vendor/
 # Dossiers temporaires
 tmp/
 cache/
+
+# Factures et emails générés localement
+storage/emails/*
+!storage/emails/.gitkeep
+public/invoices/*
+!public/invoices/.gitkeep
