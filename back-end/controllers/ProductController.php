@@ -248,11 +248,29 @@ class ProductController
 
     private function hydrate(array $row): array
     {
+        $appUrl = @getenv('APP_URL') ?: ($_ENV['APP_URL'] ?? ($_SERVER['APP_URL'] ?? ''));
+        $appUrl = rtrim((string)$appUrl, '/');
+
         foreach (['tags', 'images', 'ingredients'] as $col) {
             if (isset($row[$col]) && is_string($row[$col])) {
                 $row[$col] = json_decode($row[$col], true) ?? [];
             }
         }
+
+        // Nettoyage et normalisation des URLs d'images (correction mixed content localhost)
+        if (!empty($appUrl) && isset($row['images']) && is_array($row['images'])) {
+            $row['images'] = array_map(function ($img) use ($appUrl) {
+                if (is_string($img) && preg_match('#/uploads/products/([^/?#]+)#', $img, $m)) {
+                    return $appUrl . '/uploads/products/' . $m[1];
+                }
+                return $img;
+            }, $row['images']);
+        }
+
+        if (!empty($appUrl) && isset($row['image']) && is_string($row['image']) && preg_match('#/uploads/products/([^/?#]+)#', $row['image'], $m)) {
+            $row['image'] = $appUrl . '/uploads/products/' . $m[1];
+        }
+
         $row['price']             = (float)($row['price'] ?? 0);
         $row['rating']            = (float)($row['rating'] ?? 5.0);
         $row['reviewCount']       = (int)($row['reviewCount'] ?? 0);

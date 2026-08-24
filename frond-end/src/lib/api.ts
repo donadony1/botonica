@@ -66,6 +66,64 @@ function ltrim(str: string, char: string): string {
 }
 
 /**
+ * Normalise les URLs d'images pour éviter les erreurs Mixed Content (HTTP sur HTTPS)
+ * et corriger automatiquement les chemins localhost stockés en base de données.
+ */
+export function normalizeImageUrl(imgUrl: string | undefined | null): string {
+  if (!imgUrl) return '';
+  let url = String(imgUrl).trim();
+
+  // Si l'URL contient un chemin d'upload du backend
+  const uploadMatch = url.match(/\/uploads\/products\/([^?#]+)/);
+  if (uploadMatch) {
+    const filename = uploadMatch[1];
+    if (isLocalhost) {
+      return `/api/uploads/products/${filename}`;
+    } else {
+      return `${PROD_DEFAULT_BACKEND}/uploads/products/${filename}`;
+    }
+  }
+
+  // Si la page actuelle est en HTTPS, forcer HTTPS pour éviter Mixed Content
+  if (
+    typeof window !== 'undefined' &&
+    window.location.protocol === 'https:' &&
+    url.startsWith('http://') &&
+    !url.includes('localhost') &&
+    !url.includes('127.0.0.1')
+  ) {
+    url = url.replace('http://', 'https://');
+  }
+
+  return url;
+}
+
+function normalizeProduct(p: any): Product {
+  if (!p || typeof p !== 'object') return p;
+  const rawImages: any[] = Array.isArray(p.images)
+    ? p.images
+    : typeof p.images === 'string'
+    ? [p.images]
+    : [];
+  const normalizedImages = rawImages.map(normalizeImageUrl).filter(Boolean);
+  const primaryImage = normalizeImageUrl(p.image || normalizedImages[0]);
+
+  return {
+    ...p,
+    image: primaryImage,
+    images: normalizedImages.length > 0 ? normalizedImages : [primaryImage],
+  };
+}
+
+function normalizeArticle(a: any): Article {
+  if (!a || typeof a !== 'object') return a;
+  return {
+    ...a,
+    image: normalizeImageUrl(a.image),
+  };
+}
+
+/**
  * Charge le catalogue complet depuis l'API PHP backend
  */
 export async function fetchProducts(): Promise<Product[] | null> {
@@ -75,7 +133,7 @@ export async function fetchProducts(): Promise<Product[] | null> {
 
     const json = await res.json();
     if (json.success && Array.isArray(json.data)) {
-      return json.data as Product[];
+      return json.data.map(normalizeProduct) as Product[];
     }
     return null;
   } catch {
@@ -92,7 +150,7 @@ export async function fetchProduct(productId: string): Promise<(Product & { revi
     if (!res) return null;
 
     const json = await res.json();
-    return json.success ? json.data : null;
+    return json.success && json.data ? normalizeProduct(json.data) : null;
   } catch {
     return null;
   }
@@ -226,7 +284,7 @@ export async function fetchArticles(): Promise<Article[] | null> {
 
     const json = await res.json();
     if (json.success && Array.isArray(json.data)) {
-      return json.data as Article[];
+      return json.data.map(normalizeArticle) as Article[];
     }
     return null;
   } catch {
@@ -243,7 +301,7 @@ export async function fetchArticle(idOrSlug: string): Promise<Article | null> {
     if (!res) return null;
 
     const json = await res.json();
-    return json.success ? json.data : null;
+    return json.success && json.data ? normalizeArticle(json.data) : null;
   } catch {
     return null;
   }
