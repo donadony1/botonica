@@ -5,15 +5,30 @@ const ENV_API_URL =
   (import.meta as any).env?.VITE_API_BASE_URL ||
   (import.meta as any).env?.VITE_API_URL;
 
-const API_CANDIDATE_URLS = [
-  '/api', // Proxy Vite local
-  ...(ENV_API_URL
-    ? [
-        String(ENV_API_URL).replace(/\/$/, ''),
-        `${String(ENV_API_URL).replace(/\/$/, '')}/index.php`,
-      ]
-    : []),
-];
+const PROD_DEFAULT_BACKEND = 'https://ndoloblacksoapcm.hondap.com/back-end/public';
+
+const isLocalhost =
+  typeof window !== 'undefined' &&
+  (window.location.hostname === 'localhost' ||
+   window.location.hostname === '127.0.0.1');
+
+const API_CANDIDATE_URLS: string[] = [];
+
+if (ENV_API_URL) {
+  const cleanEnv = String(ENV_API_URL).replace(/\/$/, '');
+  API_CANDIDATE_URLS.push(cleanEnv);
+  API_CANDIDATE_URLS.push(`${cleanEnv}/index.php`);
+}
+
+if (isLocalhost) {
+  API_CANDIDATE_URLS.push('/api');
+  API_CANDIDATE_URLS.push('http://localhost/project2026/ndolo-black-soap/back-end/public');
+} else {
+  // En production sur Vercel ou domaine externe
+  API_CANDIDATE_URLS.push(PROD_DEFAULT_BACKEND);
+  API_CANDIDATE_URLS.push(`${PROD_DEFAULT_BACKEND}/index.php`);
+  API_CANDIDATE_URLS.push('/api');
+}
 
 /**
  * Exécute une requête fetch vers le backend en testant les URLs candidates
@@ -33,7 +48,7 @@ async function callBackend(path: string, options: RequestInit = {}): Promise<Res
           ...(adminToken ? { 'X-Admin-Token': adminToken } : {}),
           ...(options.headers || {}),
         },
-        signal: AbortSignal.timeout(3000), // 3s timeout
+        signal: AbortSignal.timeout(4000), // 4s timeout
       });
 
       if (res.ok) {

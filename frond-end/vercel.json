@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/api/:match*",
+      "destination": "https://ndoloblacksoapcm.hondap.com/back-end/public/:match*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
