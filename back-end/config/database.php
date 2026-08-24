@@ -225,7 +225,10 @@ class Database
 
     private static function env(string $key, string $default = ''): string
     {
-        $val = getenv($key);
+        $val = @getenv($key);
+        if ($val === false || $val === '') {
+            $val = $_ENV[$key] ?? $_SERVER[$key] ?? false;
+        }
         return ($val !== false && $val !== '') ? (string)$val : $default;
     }
 }

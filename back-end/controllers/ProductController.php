@@ -238,7 +238,7 @@ class ProductController
         $stmt->bindValue(':batch_number',      $this->str($b, 'batchNumber'),               \PDO::PARAM_STR);
     }
 
-    private function validateProductBody(array $b): true|string
+    private function validateProductBody(array $b): bool|string
     {
         if (empty(trim((string)($b['name'] ?? '')))) return 'Le champ "name" est obligatoire.';
         if (!is_numeric($b['price'] ?? null) || (float)$b['price'] <= 0) return 'Prix invalide.';
