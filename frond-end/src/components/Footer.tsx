@@ -13,9 +13,10 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const { siteSettings } = useAdmin();
 
   const currentYear = new Date().getFullYear();
-  const cleanInsta = (siteSettings.instagram || '').replace('@', '').trim();
+  const cleanInsta = String(siteSettings?.instagram || '').replace('@', '').trim();
   const instaUrl = cleanInsta ? `https://instagram.com/${cleanInsta}` : 'https://instagram.com';
-  const fbUrl = siteSettings.facebook ? `https://facebook.com/${siteSettings.facebook.trim()}` : null;
+  const cleanFb = String(siteSettings?.facebook || '').trim();
+  const fbUrl = cleanFb ? `https://facebook.com/${cleanFb}` : null;
 
   return (
     <footer

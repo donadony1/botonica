@@ -33,7 +33,7 @@ export const ShopScreen: React.FC<ShopScreenProps> = ({
     const prodCat = product.category || 'soaps';
     const matchesCat = selectedCategory === 'all' ? true : prodCat === selectedCategory;
 
-    const q = searchQuery.trim().toLowerCase();
+    const q = String(searchQuery || '').trim().toLowerCase();
     if (!q) return matchesCat;
 
     const nameMatches = (product.name || '').toLowerCase().includes(q);

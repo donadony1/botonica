@@ -21,3 +21,7 @@ php -S localhost:8080 -t public
 Endpoint de verification : `GET http://localhost:8080/health`
 
 Les secrets et identifiants ne doivent jamais etre commits. Les routes metier seront ajoutees apres validation du schema et des regles d'authentification.
+
+Email : admin@ndolo-rituals.fr
+Mot de passe : AdminNdolo2026!
+Rôle : admin

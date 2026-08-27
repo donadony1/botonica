@@ -69,7 +69,7 @@ function loadSettings(): SiteSettings {
       return {
         ...DEFAULT_SETTINGS,
         ...parsed,
-        currency: (parsed.currency || 'EUR').trim().toUpperCase() || 'EUR',
+        currency: String(parsed.currency || 'EUR').trim().toUpperCase() || 'EUR',
       } as SiteSettings;
     }
   } catch { /* ignore */ }
@@ -125,7 +125,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
         const merged: SiteSettings = {
           ...DEFAULT_SETTINGS,
           ...apiSettings,
-          currency: (apiSettings.currency || 'EUR').trim().toUpperCase() || 'EUR',
+          currency: String(apiSettings.currency || 'EUR').trim().toUpperCase() || 'EUR',
         };
         setSiteSettings(merged);
         localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(merged));
@@ -240,7 +240,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const updateSettings = useCallback(async (settings: SiteSettings) => {
     const cleanSettings: SiteSettings = {
       ...settings,
-      currency: (settings.currency || 'EUR').trim().toUpperCase() || 'EUR',
+      currency: String(settings?.currency || 'EUR').trim().toUpperCase() || 'EUR',
     };
     localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(cleanSettings));
     setSiteSettings(cleanSettings);

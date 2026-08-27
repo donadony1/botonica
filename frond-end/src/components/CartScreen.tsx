@@ -41,7 +41,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
 
   const handleApplyDiscount = (e: React.FormEvent) => {
     e.preventDefault();
-    const cleanCode = discountCode.trim().toUpperCase();
+    const cleanCode = String(discountCode || '').trim().toUpperCase();
     if (cleanCode === 'NDOLO10' || cleanCode === 'BIENVENUE10' || cleanCode === 'RITUEL10') {
       const discount = subtotal * 0.1;
       setDiscountApplied(discount);

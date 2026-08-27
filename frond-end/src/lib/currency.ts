@@ -25,7 +25,7 @@ export const SUPPORTED_CURRENCIES: Record<string, CurrencyConfig> = {
  * Récupère le symbole de la devise courante (ou '€' par défaut)
  */
 export function getCurrencySymbol(currencyCode?: string | null): string {
-  const code = (currencyCode || 'EUR').trim().toUpperCase();
+  const code = String(currencyCode || 'EUR').trim().toUpperCase();
   return SUPPORTED_CURRENCIES[code]?.symbol || (code === '' ? '€' : code);
 }
 
@@ -34,7 +34,7 @@ export function getCurrencySymbol(currencyCode?: string | null): string {
  */
 export function formatPrice(amount: number | string | null | undefined, currencyCode?: string | null): string {
   const val = typeof amount === 'number' ? amount : parseFloat(String(amount || 0)) || 0;
-  const code = (currencyCode || 'EUR').trim().toUpperCase() || 'EUR';
+  const code = String(currencyCode || 'EUR').trim().toUpperCase() || 'EUR';
   const config = SUPPORTED_CURRENCIES[code] || {
     code,
     symbol: code === 'EUR' ? '€' : code,

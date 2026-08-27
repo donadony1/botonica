@@ -63,15 +63,18 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
 
   const handleReviewSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!reviewAuthor.trim() || !reviewComment.trim()) return;
+    const authorClean = String(reviewAuthor || '').trim();
+    const emailClean = String(reviewEmail || '').trim();
+    const commentClean = String(reviewComment || '').trim();
+    if (!authorClean || !commentClean) return;
 
     addReview({
       productId: product.id,
       productName: product.name,
-      author: reviewAuthor.trim(),
-      authorEmail: reviewEmail.trim(),
+      author: authorClean,
+      authorEmail: emailClean,
       rating: reviewRating,
-      comment: reviewComment.trim(),
+      comment: commentClean,
       verifiedPurchase: false,
     });
 
