@@ -18,6 +18,14 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
 }) => {
   const { reviews, siteSettings } = useAdmin();
   const approvedReviews = reviews.filter((r) => r.status === 'approved');
+
+  const fallbackProductImage =
+    'https://images.unsplash.com/photo-1607006314644-884d59f77f52?w=1000&auto=format&fit=crop&q=80';
+  const heroImage =
+    signatureProduct?.image ||
+    (signatureProduct?.images && signatureProduct.images.length > 0 ? signatureProduct.images[0] : null) ||
+    fallbackProductImage;
+
   return (
     <div className="w-full flex-grow pt-8 pb-20 px-5 md:px-12 max-w-[1280px] mx-auto">
       {/* Hero Section: Transformez votre douche en rituel */}
@@ -73,11 +81,15 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
           </div>
         </div>
 
-        <div className="order-1 md:order-2 w-full h-[380px] sm:h-[480px] md:h-[580px] rounded-3xl overflow-hidden ambient-shadow ring-1 ring-[#bb0a4a]/10 group">
+        <div className="order-1 md:order-2 w-full h-[380px] sm:h-[480px] md:h-[580px] rounded-3xl overflow-hidden ambient-shadow ring-1 ring-[#bb0a4a]/10 group relative">
           <img
-            alt="Le Savon Signature Ndolo"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-            src="https://scontent.fkbi1-1.fna.fbcdn.net/v/t39.30808-6/706020754_122172378194893728_3880789243033241386_n.jpg?stp=dst-jpg_tt6&cstp=mx896x1190&ctp=s896x1190&_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEPm3h6-YoYGgzjukGx-q79pkJYkDFg0XGmQliQMWDRcTbEabnzs7vPBo7vU-CO2dWdS8ElVoy8ktzu7rGlk1S_&_nc_ohc=6Zrk21YuNPEQ7kNvwGuBlvJ&_nc_oc=AdoTPLQ1Ki-RmZp2VTsmRsjyrUBR_PM_1vgQe_b5eDghDY-3F1vMkXT5cDsk0WRGPoI&_nc_zt=23&_nc_ht=scontent.fkbi1-1.fna&_nc_gid=BRWWCIOp7ZgEjOXddLWk9w&_nc_ss=7b2a8&oh=00_AQGaNVC75WolKyZydaAi9i_CHdznJO0J2P4Dalf1CDkvtw&oe=6A8CC997"
+            alt={signatureProduct?.name || "Le Savon Signature Ndolo"}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 cursor-pointer"
+            src={heroImage}
+            onClick={() => signatureProduct && onSelectProduct(signatureProduct)}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = fallbackProductImage;
+            }}
           />
         </div>
       </section>
@@ -143,6 +155,9 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEWX-NPbhrLD42jhYEUi_9it2sEvI8zPCa_PwAgrMYjkjp3wOq9b9C0QdYQR2sEfQeigfbL6ySk46prAPMHNGe7X9CC7RLVYz5ctxe52ln5eXPjVy8i-QaQgb7zG_Xe38zQ7DVhh12aXOTkdiwRQDxviGqiF23jNFHBCXjTrFIVDXLUANccf5hKlyT6Cdbz-60IAdphBHELNxX75Fq8s1gvFEeC35GiiYBhfQB6tfpu1ElD2Hwd9Qt"
                 alt="Ingrédients bruts naturels"
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&auto=format&fit=crop&q=80';
+                }}
               />
             </div>
           </div>
