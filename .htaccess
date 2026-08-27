@@ -7,12 +7,5 @@
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    
-    # Répondre immédiatement aux requêtes OPTIONS (Preflight CORS)
-    RewriteCond %{REQUEST_METHOD} OPTIONS
-    RewriteRule ^(.*)$ index.php [QSA,L]
-
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php [QSA,L]
+    RewriteRule ^api/(.*)$ back-end/public/$1 [QSA,L]
 </IfModule>
