@@ -226,16 +226,10 @@ function AppInner() {
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
-  // Enregistrement de la visite initiale
-  React.useEffect(() => {
-    recordSiteVisit(window.location.pathname || '/');
-  }, []);
-
   const navigateTo = (screen: ScreenType) => {
     setCurrentScreen(screen);
     pushRoute({ screen });
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    recordSiteVisit('/' + screen);
   };
 
   const handleSelectProduct = (product: Product) => {

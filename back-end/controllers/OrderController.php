@@ -270,18 +270,29 @@ class OrderController
             $recentOrders = $recentOrdersStmt ? $recentOrdersStmt->fetchAll(\PDO::FETCH_ASSOC) : [];
 
             // 6. Statistiques réelles des Visites depuis MySQL (table site_visits)
-            $visitsCountStmt = $this->db->query("SELECT COUNT(*) as total_v, COUNT(DISTINCT ip_hash) as unique_v FROM site_visits");
-            $visitsData = $visitsCountStmt ? $visitsCountStmt->fetch(\PDO::FETCH_ASSOC) : ['total_v' => 0, 'unique_v' => 0];
-            $totalVisits = (int)($visitsData['total_v'] ?? 0);
-            $uniqueVisitors = (int)($visitsData['unique_v'] ?? 0);
+            $visitsCountStmt = $this->db->query("
+                SELECT 
+                    COUNT(*) as total_pageviews,
+                    COUNT(DISTINCT CONCAT(ip_hash, '_', DATE(visited_at))) as total_visits,
+                    COUNT(DISTINCT ip_hash) as unique_visitors
+                FROM site_visits
+            ");
+            $visitsData = $visitsCountStmt ? $visitsCountStmt->fetch(\PDO::FETCH_ASSOC) : [];
+            $totalVisits = (int)($visitsData['total_visits'] ?? $visitsData['unique_visitors'] ?? 0);
+            $uniqueVisitors = (int)($visitsData['unique_visitors'] ?? 0);
+            $totalPageviews = (int)($visitsData['total_pageviews'] ?? 0);
 
-            // Visites du jour
-            $todayVisitsStmt = $this->db->query("SELECT COUNT(*) as today_v FROM site_visits WHERE visited_at >= CURDATE()");
+            // Visites uniques du jour
+            $todayVisitsStmt = $this->db->query("
+                SELECT COUNT(DISTINCT ip_hash) as today_v 
+                FROM site_visits 
+                WHERE visited_at >= CURDATE()
+            ");
             $todayVisits = (int)($todayVisitsStmt ? $todayVisitsStmt->fetchColumn() : 0);
 
-            // Tendance des 7 derniers jours (Visites journalières depuis MySQL)
+            // Tendance des 7 derniers jours (Visiteurs uniques par jour depuis MySQL)
             $weeklyStmt = $this->db->query("
-                SELECT DATE(visited_at) as visit_date, COUNT(*) as count 
+                SELECT DATE(visited_at) as visit_date, COUNT(DISTINCT ip_hash) as count 
                 FROM site_visits 
                 WHERE visited_at >= DATE_SUB(CURDATE(), INTERVAL 6 DAY)
                 GROUP BY DATE(visited_at) 
@@ -298,7 +309,8 @@ class OrderController
                     'total_revenue'       => (float)$orderStats['total_revenue'],
                     'average_order_value' => (float)$orderStats['average_order_value'],
                     'total_units_sold'    => $totalUnitsSold,
-                    'total_visits'        => $totalVisits,
+                    'total_visits'        => $totalVisits > 0 ? $totalVisits : $uniqueVisitors,
+                    'total_pageviews'     => $totalPageviews,
                     'unique_visitors'     => $uniqueVisitors,
                     'today_visits'        => $todayVisits,
                     'weekly_visits'       => $weeklyVisits,
@@ -315,7 +327,7 @@ class OrderController
     }
 
     /**
-     * POST /api/visits (Enregistrement d'une visite en temps réel dans MySQL)
+     * POST /api/visits (Enregistrement d'une visite en temps réel dans MySQL avec dédoublonnage RGPD)
      */
     public function recordVisit(): void
     {
@@ -327,7 +339,30 @@ class OrderController
             $referrer  = trim($body['referrer'] ?? $_SERVER['HTTP_REFERER'] ?? '');
             $userAgent = trim($_SERVER['HTTP_USER_AGENT'] ?? '');
             $ip        = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
-            $ipHash    = hash('sha256', $ip . date('Y-m-d')); // Hash anonymisé RGPD conforme
+
+            // Ne pas enregistrer les visites administratives
+            if (str_contains(strtolower($pageUrl), 'admin') || str_contains(strtolower($pageUrl), 'dashboard')) {
+                echo json_encode(['success' => true, 'ignored' => true]);
+                return;
+            }
+
+            $ipHash = hash('sha256', $ip . date('Y-m-d')); // Hash anonymisé RGPD conforme
+
+            // Dédoublonnage : vérifier si cette IP a déjà visité cette même page dans les 15 dernières minutes
+            $recentCheck = $this->db->prepare("
+                SELECT id FROM site_visits 
+                WHERE ip_hash = :ip_hash AND page_url = :page_url AND visited_at >= DATE_SUB(NOW(), INTERVAL 15 MINUTE)
+                LIMIT 1
+            ");
+            $recentCheck->execute([
+                ':ip_hash'  => $ipHash,
+                ':page_url' => substr($pageUrl, 0, 255),
+            ]);
+
+            if ($recentCheck->fetch()) {
+                echo json_encode(['success' => true, 'deduplicated' => true]);
+                return;
+            }
 
             $stmt = $this->db->prepare("
                 INSERT INTO site_visits (ip_hash, page_url, user_agent, referrer, visited_at)
@@ -340,7 +375,7 @@ class OrderController
                 ':referrer'  => substr($referrer, 0, 255),
             ]);
 
-            $totalVisits = (int)$this->db->query("SELECT COUNT(*) FROM site_visits")->fetchColumn();
+            $totalVisits = (int)$this->db->query("SELECT COUNT(DISTINCT CONCAT(ip_hash, '_', DATE(visited_at))) FROM site_visits")->fetchColumn();
 
             echo json_encode([
                 'success'      => true,

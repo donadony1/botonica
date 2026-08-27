@@ -17,6 +17,7 @@ interface DashboardStats {
   average_order_value: number;
   total_units_sold: number;
   total_visits: number;
+  total_pageviews?: number;
   unique_visitors: number;
   today_visits: number;
   weekly_visits: Array<{ visit_date: string; count: number | string }>;
@@ -33,6 +34,7 @@ export default function DashboardTab({ onSelectTab, onNavigate }: DashboardTabPr
     average_order_value: 0,
     total_units_sold: 0,
     total_visits: 0,
+    total_pageviews: 0,
     unique_visitors: 0,
     today_visits: 0,
     weekly_visits: [],
@@ -223,11 +225,13 @@ export default function DashboardTab({ onSelectTab, onNavigate }: DashboardTabPr
           </div>
           <div>
             <div className="text-2xl sm:text-3xl font-bold text-white font-serif tracking-tight">
-              {totalVisits.toLocaleString('fr-FR')}
+              {stats.unique_visitors.toLocaleString('fr-FR')}{' '}
+              <span className="text-xs font-sans font-normal text-[#9aad98]">visiteurs</span>
             </div>
             <div className="text-[10px] text-[#9aad98] flex items-center justify-between pt-1">
-              <span>Aujourd'hui : <strong className="text-purple-400">{stats.today_visits || 1}</strong></span>
-              <span>Uniques : <strong className="text-white">{stats.unique_visitors || 1}</strong></span>
+              <span>Aujourd'hui : <strong className="text-purple-400">{stats.today_visits}</strong></span>
+              <span>•</span>
+              <span>Pages vues : <strong className="text-white">{stats.total_pageviews || stats.total_visits}</strong></span>
             </div>
           </div>
         </div>
@@ -244,7 +248,7 @@ export default function DashboardTab({ onSelectTab, onNavigate }: DashboardTabPr
               </h2>
             </div>
             <span className="text-xs text-[#9aad98]">
-              Total : <strong className="text-white">{totalVisits}</strong> visites enregistrées
+              Total : <strong className="text-white">{stats.unique_visitors}</strong> visiteurs réels ({stats.total_pageviews || totalVisits} pages vues)
             </span>
           </div>
 

@@ -770,17 +770,36 @@ export async function fetchDashboardStats(): Promise<any | null> {
   return null;
 }
 
+let lastTrackedUrl = '';
+let lastTrackedTime = 0;
+
 /**
  * Enregistre une visite de page dans MySQL (anonymisée RGPD)
  */
 export async function recordSiteVisit(pageUrl: string = window.location.pathname): Promise<void> {
   try {
+    if (typeof window === 'undefined') return;
+
+    // Ne pas tracer les pages administratives
+    if (pageUrl.includes('/admin') || pageUrl.includes('admin') || getAdminSession()) {
+      return;
+    }
+
+    const now = Date.now();
+    // Éviter les doubles appels rapprochés (< 5s pour la même page)
+    if (pageUrl === lastTrackedUrl && now - lastTrackedTime < 5000) {
+      return;
+    }
+
+    lastTrackedUrl = pageUrl;
+    lastTrackedTime = now;
+
     await callBackend('/visits', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         page_url: pageUrl,
-        referrer: document.referrer || '',
+        referrer: typeof document !== 'undefined' ? (document.referrer || '') : '',
       }),
     });
   } catch {
