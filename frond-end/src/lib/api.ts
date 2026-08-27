@@ -22,12 +22,13 @@ if (ENV_API_URL) {
 
 if (isLocalhost) {
   API_CANDIDATE_URLS.push('/api');
+  API_CANDIDATE_URLS.push('http://localhost/project2026/ndolo-black-soap/back-end/public/index.php');
   API_CANDIDATE_URLS.push('http://localhost/project2026/ndolo-black-soap/back-end/public');
 } else {
-  // En production sur Vercel ou domaine externe
-  API_CANDIDATE_URLS.push(PROD_DEFAULT_BACKEND);
-  API_CANDIDATE_URLS.push(`${PROD_DEFAULT_BACKEND}/index.php`);
+  // En production sur Vercel : passer en priorité par le proxy inverse /api
   API_CANDIDATE_URLS.push('/api');
+  API_CANDIDATE_URLS.push(`${PROD_DEFAULT_BACKEND}/index.php`);
+  API_CANDIDATE_URLS.push(PROD_DEFAULT_BACKEND);
 }
 
 /**

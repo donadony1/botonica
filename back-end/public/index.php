@@ -6,6 +6,25 @@ declare(strict_types=1);
  * Compatible Apache XAMPP, Nginx et PHP Built-in Server
  */
 
+// ─────────────────────────────────────────────────────────
+// 1. CORS IMMÉDIAT & TOTAL (Garantit les en-têtes en toute circonstance)
+// ─────────────────────────────────────────────────────────
+$httpOrigin = $_SERVER['HTTP_ORIGIN'] ?? '*';
+
+header("Access-Control-Allow-Origin: $httpOrigin");
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Admin-Token, X-Auth-Token, X-Requested-With, Accept, Origin");
+header("Access-Control-Max-Age: 86400");
+header('Content-Type: application/json; charset=utf-8');
+
+// Répondre immédiatement aux requêtes préliminaires Preflight OPTIONS
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
+    http_response_code(200);
+    echo json_encode(['success' => true, 'preflight' => 'OK']);
+    exit;
+}
+
 // Chargement robuste du .env (compatible mutualisé cPanel / FastCGI / PHP-FPM)
 $envFile = __DIR__ . '/../.env';
 if (file_exists($envFile)) {
@@ -21,68 +40,6 @@ if (file_exists($envFile)) {
         $_SERVER[$key] = $val;
     }
 }
-
-// ─────────────────────────────────────────────────────────
-// 1. CORS DYNAMIQUE & SÉCURISÉ (Vercel, Localhost & Domaines)
-// ─────────────────────────────────────────────────────────
-$httpOrigin = $_SERVER['HTTP_ORIGIN'] ?? '';
-
-$allowedOrigins = [
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'http://localhost',
-    'http://127.0.0.1',
-    'https://ndoloblacksoap.vercel.app',
-    'https://botonica.vercel.app',
-];
-
-$envOrigins = @getenv('ALLOWED_ORIGINS') ?: ($_ENV['ALLOWED_ORIGINS'] ?? ($_SERVER['ALLOWED_ORIGINS'] ?? ''));
-if ($envOrigins) {
-    foreach (explode(',', (string)$envOrigins) as $o) {
-        $o = trim($o);
-        if ($o !== '') $allowedOrigins[] = $o;
-    }
-}
-
-$frontendUrl = @getenv('FRONTEND_URL') ?: ($_ENV['FRONTEND_URL'] ?? ($_SERVER['FRONTEND_URL'] ?? ''));
-if ($frontendUrl) {
-    $allowedOrigins[] = rtrim(trim((string)$frontendUrl), '/');
-}
-
-if (empty($httpOrigin)) {
-    // Requête directe / curl / même origine
-    header("Access-Control-Allow-Origin: *");
-} else {
-    // Autorise explicitement l'origine si listée ou provenant de Vercel/hondap
-    if (
-        in_array($httpOrigin, $allowedOrigins, true) ||
-        preg_match('#^https://[a-z0-9\-]+\.vercel\.app$#i', $httpOrigin) ||
-        preg_match('#^https?://([a-z0-9\-]+\.)?hondap\.com$#i', $httpOrigin)
-    ) {
-        header("Access-Control-Allow-Origin: $httpOrigin");
-        header("Access-Control-Allow-Credentials: true");
-    } else {
-        header("Access-Control-Allow-Origin: $httpOrigin");
-        header("Access-Control-Allow-Credentials: true");
-    }
-}
-
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Admin-Token, X-Requested-With, Accept, Origin");
-header("Access-Control-Max-Age: 86400");
-
-// Répondre aux requêtes préliminaires Preflight OPTIONS
-if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
-    http_response_code(204);
-    exit;
-}
-
-// ─────────────────────────────────────────────────────────
-// 2. EN-TÊTES DE SÉCURITÉ HTTP STRICTS
-// ─────────────────────────────────────────────────────────
-header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: DENY');
 header('X-XSS-Protection: 1; mode=block');
