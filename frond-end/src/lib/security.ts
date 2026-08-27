@@ -1,3 +1,5 @@
+import { AuthSessionUser, UserRole } from '../types';
+
 /**
  * Utilitaires de Sécurité — Ndolo Rituals
  * - Désinfection et validation d'URLs (anti-XSS / anti-tabnabbing)
@@ -55,6 +57,7 @@ export interface AdminSession {
   token: string;
   authenticatedAt: number;
   expiresAt: number;
+  user?: AuthSessionUser;
 }
 
 interface FailedAttempts {
@@ -78,11 +81,37 @@ export function getAdminSession(): AdminSession | null {
   }
 }
 
-export function setAdminSession(token: string): void {
+export function getAuthUser(): AuthSessionUser | null {
+  const session = getAdminSession();
+  return session?.user || (session ? {
+    id: 'usr_superadmin',
+    name: 'Administrateur',
+    email: 'admin@ndolo-rituals.fr',
+    role: 'admin',
+  } : null);
+}
+
+export function isUserAdmin(): boolean {
+  const user = getAuthUser();
+  return user?.role === 'admin';
+}
+
+export function isUserGerant(): boolean {
+  const user = getAuthUser();
+  return user?.role === 'gerant';
+}
+
+export function setAdminSession(token: string, user?: AuthSessionUser): void {
   const session: AdminSession = {
     token,
     authenticatedAt: Date.now(),
     expiresAt: Date.now() + SESSION_DURATION_MS,
+    user: user || {
+      id: 'usr_superadmin',
+      name: 'Administrateur',
+      email: 'admin@ndolo-rituals.fr',
+      role: 'admin',
+    },
   };
   try {
     sessionStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(session));

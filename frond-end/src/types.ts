@@ -111,3 +111,27 @@ export interface Review {
   status: 'pending' | 'approved' | 'rejected';
   verifiedPurchase?: boolean;
 }
+
+export type UserRole = 'admin' | 'gerant';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  isActive: boolean;
+  createdAt: string;
+  lastLoginAt?: string | null;
+  createdBy?: string | null;
+  createdByName?: string | null;
+}
+
+export interface AuthSessionUser {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  createdAt?: string;
+  lastLoginAt?: string;
+}
+

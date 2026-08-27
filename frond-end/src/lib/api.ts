@@ -1,4 +1,4 @@
-import { CartItem, Product, Article } from '../types';
+import { CartItem, Product, Article, User, AuthSessionUser, UserRole } from '../types';
 import { getAdminSession, DEFAULT_ADMIN_TOKEN } from './security';
 
 const ENV_API_URL =
@@ -45,13 +45,14 @@ async function callBackend(path: string, options: RequestInit = {}): Promise<Res
         ...options,
         headers: {
           'Accept': 'application/json',
-          ...(adminToken ? { 'X-Admin-Token': adminToken } : {}),
+          ...(adminToken ? { 'X-Admin-Token': adminToken, 'Authorization': `Bearer ${adminToken}` } : {}),
           ...(options.headers || {}),
         },
-        signal: AbortSignal.timeout(4000), // 4s timeout
+        signal: AbortSignal.timeout(5000), // 5s timeout
       });
 
-      if (res.ok) {
+      // Si le serveur a répondu (succès ou erreur applicative 4xx/2xx)
+      if (res.status < 500) {
         return res;
       }
     } catch {
@@ -753,7 +754,7 @@ export async function recordSiteVisit(pageUrl: string = window.location.pathname
 export async function fetchAdminOrders(): Promise<any[] | null> {
   try {
     const res = await callBackend('/orders', { method: 'GET' });
-    if (res) {
+    if (res && res.ok) {
       const json = await res.json();
       return json.success && Array.isArray(json.data) ? json.data : null;
     }
@@ -762,6 +763,145 @@ export async function fetchAdminOrders(): Promise<any[] | null> {
   }
   return null;
 }
+
+// ─────────────────────────────────────────────────────────
+// AUTHENTIFICATION & GESTION DES UTILISATEURS / GÉRANTS
+// ─────────────────────────────────────────────────────────
+
+export interface LoginResult {
+  success: boolean;
+  token?: string;
+  user?: AuthSessionUser;
+  error?: string;
+}
+
+/**
+ * Authentification utilisateur (Email + Mot de passe ou Clé Admin)
+ */
+export async function loginUserAPI(email: string, password?: string, token?: string): Promise<LoginResult> {
+  try {
+    const res = await callBackend('/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, token }),
+    });
+
+    if (!res) {
+      // Si offline ou backend non joignable, fallback sur la clé maître
+      const configuredToken = (import.meta as any).env?.VITE_ADMIN_API_TOKEN || DEFAULT_ADMIN_TOKEN;
+      if (password === configuredToken || token === configuredToken) {
+        return {
+          success: true,
+          token: configuredToken,
+          user: {
+            id: 'usr_superadmin',
+            name: 'Administrateur',
+            email: 'admin@ndolo-rituals.fr',
+            role: 'admin',
+          },
+        };
+      }
+      return { success: false, error: 'Impossible de joindre le serveur d\'authentification.' };
+    }
+
+    const json = await res.json();
+    return json;
+  } catch (err: any) {
+    return { success: false, error: err?.message || 'Erreur réseau lors de la connexion.' };
+  }
+}
+
+/**
+ * Récupère la liste des utilisateurs / gérants (Admin et Gérants)
+ */
+export async function fetchStaffUsers(): Promise<User[] | null> {
+  try {
+    const res = await callBackend('/users', { method: 'GET' });
+    if (!res) return null;
+
+    const json = await res.json();
+    if (json.success && Array.isArray(json.data)) {
+      return json.data as User[];
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Crée un nouveau gérant ou administrateur dans la base de données
+ * RÈGLE : Seul un administrateur peut ajouter un gérant.
+ */
+export async function createStaffUser(data: {
+  name: string;
+  email: string;
+  password: string;
+  role: UserRole;
+}): Promise<{ success: boolean; data?: User; message?: string; error?: string }> {
+  try {
+    const res = await callBackend('/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+
+    if (!res) {
+      return { success: false, error: 'Impossible de joindre le serveur PHP.' };
+    }
+
+    const json = await res.json();
+    return json;
+  } catch (err: any) {
+    return { success: false, error: err?.message || 'Erreur lors de la création du compte.' };
+  }
+}
+
+/**
+ * Met à jour un utilisateur ou gérant (Rôle, statut actif/inactif, mot de passe)
+ */
+export async function updateStaffUser(
+  id: string,
+  data: Partial<{ name: string; role: UserRole; isActive: boolean; password: string }>
+): Promise<{ success: boolean; message?: string; error?: string }> {
+  try {
+    const res = await callBackend(`/users/${encodeURIComponent(id)}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+
+    if (!res) {
+      return { success: false, error: 'Impossible de joindre le serveur.' };
+    }
+
+    const json = await res.json();
+    return json;
+  } catch (err: any) {
+    return { success: false, error: err?.message || 'Erreur lors de la mise à jour.' };
+  }
+}
+
+/**
+ * Supprime un utilisateur / gérant
+ */
+export async function deleteStaffUser(id: string): Promise<{ success: boolean; message?: string; error?: string }> {
+  try {
+    const res = await callBackend(`/users/${encodeURIComponent(id)}`, {
+      method: 'DELETE',
+    });
+
+    if (!res) {
+      return { success: false, error: 'Impossible de joindre le serveur.' };
+    }
+
+    const json = await res.json();
+    return json;
+  } catch (err: any) {
+    return { success: false, error: err?.message || 'Erreur lors de la suppression.' };
+  }
+}
+
 
 
 

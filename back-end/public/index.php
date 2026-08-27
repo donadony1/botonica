@@ -98,13 +98,13 @@ if ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || (isset($_SERVER[
 // ─────────────────────────────────────────────────────────
 
 /**
- * Vérifie si la requête possède un jeton d'administration valide
+ * Vérifie si la requête possède un jeton d'administration ou un token utilisateur valide
  */
-function checkAdminAuth(): bool {
+function checkAdminAuth(bool $adminOnly = false): bool {
     $expectedToken = getenv('ADMIN_API_TOKEN') ?: 'NdoloSecureAdmin2026!';
     
     // 1. Header direct $_SERVER
-    $headerToken = $_SERVER['HTTP_X_ADMIN_TOKEN'] ?? null;
+    $headerToken = $_SERVER['HTTP_X_ADMIN_TOKEN'] ?? $_SERVER['HTTP_X_AUTH_TOKEN'] ?? null;
     
     // 2. Header Authorization: Bearer <token>
     if (!$headerToken && isset($_SERVER['HTTP_AUTHORIZATION'])) {
@@ -116,7 +116,7 @@ function checkAdminAuth(): bool {
     // 3. Fallback apache_request_headers
     if (!$headerToken && function_exists('apache_request_headers')) {
         $headers = apache_request_headers();
-        $headerToken = $headers['X-Admin-Token'] ?? $headers['x-admin-token'] ?? null;
+        $headerToken = $headers['X-Admin-Token'] ?? $headers['x-admin-token'] ?? $headers['X-Auth-Token'] ?? null;
         if (!$headerToken && isset($headers['Authorization'])) {
             if (preg_match('/Bearer\s+(.*)$/i', $headers['Authorization'], $matches)) {
                 $headerToken = trim($matches[1]);
@@ -124,15 +124,42 @@ function checkAdminAuth(): bool {
         }
     }
 
-    // Vérification en temps constant (anti timing-attack)
-    if (!$headerToken || !hash_equals($expectedToken, (string)$headerToken)) {
+    if (!$headerToken) {
         http_response_code(401);
         echo json_encode([
             'success' => false,
-            'error'   => 'Accès non autorisé : Jeton d\'administration manquant ou invalide.',
+            'error'   => 'Accès non autorisé : Jeton d\'authentification manquant.',
         ], JSON_UNESCAPED_UNICODE);
         exit;
     }
+
+    // A. Clé maîtresse globale (toujours admin)
+    if (hash_equals($expectedToken, (string)$headerToken)) {
+        return true;
+    }
+
+    // B. Token utilisateur signé
+    $userCtrl = new \Ndolo\Controllers\UserController();
+    $authUser = $userCtrl->verifyToken((string)$headerToken);
+
+    if (!$authUser) {
+        http_response_code(401);
+        echo json_encode([
+            'success' => false,
+            'error'   => 'Session expirée ou jeton d\'authentification invalide.',
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    if ($adminOnly && ($authUser['role'] ?? '') !== 'admin') {
+        http_response_code(403);
+        echo json_encode([
+            'success' => false,
+            'error'   => 'Action restreinte : Privilèges administrateur requis.',
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
     return true;
 }
 
@@ -206,16 +233,50 @@ require_once __DIR__ . '/../controllers/CartController.php';
 require_once __DIR__ . '/../controllers/UploadController.php';
 require_once __DIR__ . '/../controllers/ArticleController.php';
 require_once __DIR__ . '/../controllers/OrderController.php';
+require_once __DIR__ . '/../controllers/UserController.php';
 
 use Ndolo\Controllers\ProductController;
 use Ndolo\Controllers\CartController;
 use Ndolo\Controllers\UploadController;
 use Ndolo\Controllers\ArticleController;
 use Ndolo\Controllers\OrderController;
+use Ndolo\Controllers\UserController;
 
 try {
+    // ── ROUTE AUTHENTIFICATION (LOGIN & PROFIL) ───────────
+    if ($uri === '/auth/login' && $requestMethod === 'POST') {
+        checkRateLimit('login', 15, 60);
+        (new UserController())->login();
+
+    } elseif ($uri === '/auth/me' && $requestMethod === 'GET') {
+        (new UserController())->me();
+
+    // ── ROUTE GESTION UTILISATEURS / GÉRANTS (ADMIN ONLY) ─
+    } elseif ($uri === '/users') {
+        $userCtrl = new UserController();
+        if ($requestMethod === 'GET') {
+            $userCtrl->index();
+        } elseif ($requestMethod === 'POST') {
+            checkRateLimit('user_create', 10, 60);
+            $userCtrl->create();
+        } else {
+            http_response_code(405);
+            echo json_encode(['success' => false, 'error' => 'Méthode non autorisée.']);
+        }
+
+    } elseif (preg_match('#^/users/([a-z0-9\_\-]+)$#i', $uri, $m)) {
+        $userCtrl = new UserController();
+        if ($requestMethod === 'PUT') {
+            $userCtrl->update($m[1]);
+        } elseif ($requestMethod === 'DELETE') {
+            $userCtrl->delete($m[1]);
+        } else {
+            http_response_code(405);
+            echo json_encode(['success' => false, 'error' => 'Méthode non autorisée.']);
+        }
+
     // ── ROUTE UPLOAD D'IMAGES (POST — Admin Protégé) ───────
-    if ($uri === '/upload' && $requestMethod === 'POST') {
+    } elseif ($uri === '/upload' && $requestMethod === 'POST') {
         checkAdminAuth();
         (new UploadController())->upload();
 

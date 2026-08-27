@@ -205,6 +205,46 @@ class Database
                     ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
                 ");
             }
+
+            // Vérification de la table users (Authentification & Rôles Admin / Gérant)
+            $checkUsers = $pdo->query("SHOW TABLES LIKE 'users'")->fetchAll();
+            if (empty($checkUsers)) {
+                $pdo->exec("
+                    CREATE TABLE IF NOT EXISTS users (
+                        id VARCHAR(100) PRIMARY KEY,
+                        name VARCHAR(150) NOT NULL,
+                        email VARCHAR(255) UNIQUE NOT NULL,
+                        password_hash VARCHAR(255) NOT NULL,
+                        role ENUM('admin', 'gerant') NOT NULL DEFAULT 'gerant',
+                        is_active BOOLEAN DEFAULT TRUE,
+                        created_by VARCHAR(100) NULL,
+                        last_login_at TIMESTAMP NULL DEFAULT NULL,
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                        INDEX idx_user_email (email),
+                        INDEX idx_user_role (role),
+                        INDEX idx_user_active (is_active),
+                        FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
+                    ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+                ");
+            }
+
+            // Vérifier et insérer l'administrateur par défaut si aucun compte n'existe
+            $adminCount = (int)$pdo->query("SELECT COUNT(*) FROM users WHERE role = 'admin'")->fetchColumn();
+            if ($adminCount === 0) {
+                $defaultHash = password_hash('AdminNdolo2026!', PASSWORD_BCRYPT, ['cost' => 12]);
+                $stmt = $pdo->prepare("
+                    INSERT INTO users (id, name, email, password_hash, role, is_active)
+                    VALUES (:id, :name, :email, :hash, 'admin', 1)
+                    ON DUPLICATE KEY UPDATE name=VALUES(name)
+                ");
+                $stmt->execute([
+                    'id'    => 'usr_superadmin',
+                    'name'  => 'Administrateur Ndolo',
+                    'email' => 'admin@ndolo-rituals.fr',
+                    'hash'  => $defaultHash,
+                ]);
+            }
         } catch (\Throwable) {
             // Ignorer si déjà initialisé
         }

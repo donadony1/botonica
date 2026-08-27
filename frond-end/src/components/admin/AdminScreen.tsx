@@ -4,12 +4,13 @@ import DashboardTab from './DashboardTab';
 import ProductsTab from './ProductsTab';
 import ArticlesTab from './ArticlesTab';
 import OrdersTab from './OrdersTab';
+import TeamTab from './TeamTab';
 import SettingsTab from './SettingsTab';
 import AdminLoginModal from './AdminLoginModal';
 import { useAdmin } from '../../context/AdminContext';
-import { getAdminSession, clearAdminSession } from '../../lib/security';
+import { getAdminSession, clearAdminSession, getAuthUser } from '../../lib/security';
 
-type AdminTab = 'dashboard' | 'products' | 'articles' | 'orders' | 'settings';
+type AdminTab = 'dashboard' | 'products' | 'articles' | 'orders' | 'team' | 'settings';
 
 interface AdminScreenProps {
   onNavigate: (screen: ScreenType) => void;
@@ -20,6 +21,7 @@ const NAV_ITEMS: { id: AdminTab; label: string; icon: string }[] = [
   { id: 'products', label: 'Produits', icon: 'inventory_2' },
   { id: 'articles', label: 'Journal & Articles', icon: 'article' },
   { id: 'orders', label: 'Commandes & Factures', icon: 'receipt_long' },
+  { id: 'team', label: 'Équipe & Gérants', icon: 'manage_accounts' },
   { id: 'settings', label: 'Réglages', icon: 'tune' },
 ];
 
@@ -87,10 +89,19 @@ export default function AdminScreen({ onNavigate }: AdminScreenProps) {
           <div>
             <div className="flex items-center gap-1.5">
               <span className="text-white font-bold text-base sm:text-lg tracking-wide">Ndolo</span>
-              <span className="text-[#6a7d69] text-[10px] sm:text-xs uppercase tracking-widest font-semibold bg-[#202c1f] px-1.5 py-0.5 rounded">
-                Admin
+              <span className={`text-[10px] sm:text-xs uppercase tracking-widest font-semibold px-1.5 py-0.5 rounded ${
+                getAuthUser()?.role === 'admin'
+                  ? 'bg-[#bb0a4a]/25 text-[#ff6699] border border-[#bb0a4a]/40'
+                  : 'bg-emerald-950/40 text-emerald-300 border border-emerald-700/40'
+              }`}>
+                {getAuthUser()?.role === 'admin' ? 'Admin' : 'Gérant'}
               </span>
             </div>
+            {getAuthUser()?.name && (
+              <p className="text-[11px] text-[#8ca08b] hidden sm:block truncate max-w-[150px]">
+                {getAuthUser()?.name}
+              </p>
+            )}
           </div>
         </div>
 
@@ -230,6 +241,7 @@ export default function AdminScreen({ onNavigate }: AdminScreenProps) {
             {activeTab === 'products' && <ProductsTab />}
             {activeTab === 'articles' && <ArticlesTab />}
             {activeTab === 'orders' && <OrdersTab />}
+            {activeTab === 'team' && <TeamTab />}
             {activeTab === 'settings' && <SettingsTab />}
           </div>
         </main>
