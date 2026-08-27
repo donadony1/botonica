@@ -29,7 +29,14 @@ export default function AdminScreen({ onNavigate }: AdminScreenProps) {
   const [activeTab, setActiveTab] = useState<AdminTab>('dashboard');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => !!getAdminSession());
-  const { products, articles, dataSource, isLoadingProducts, refreshProducts } = useAdmin();
+  const { products, articles, dataSource, isLoadingProducts, refreshProducts, refreshArticles } = useAdmin();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      refreshProducts();
+      refreshArticles();
+    }
+  }, [isAuthenticated, refreshProducts, refreshArticles]);
 
   useEffect(() => {
     // Vérification périodique de l'expiration de session

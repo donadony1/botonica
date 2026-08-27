@@ -3,6 +3,7 @@ import { Product } from '../../types';
 import { useAdmin } from '../../context/AdminContext';
 import { uploadProductImage } from '../../lib/api';
 import { CKEditorComponent } from './CKEditorComponent';
+import { SUPPORTED_CURRENCIES, getCurrencySymbol } from '../../lib/currency';
 
 interface Props {
   product: Product | null;
@@ -33,7 +34,13 @@ function generateId(name: string): string {
 }
 
 export default function ProductFormModal({ product, onClose }: Props) {
-  const { addProduct, updateProduct } = useAdmin();
+  const { addProduct, updateProduct, siteSettings } = useAdmin();
+  const activeCurrency = (siteSettings?.currency || 'EUR').trim().toUpperCase() || 'EUR';
+  const currencyInfo = SUPPORTED_CURRENCIES[activeCurrency] || {
+    code: activeCurrency,
+    symbol: getCurrencySymbol(activeCurrency),
+    label: activeCurrency,
+  };
   const isEdit = !!product;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [descLang, setDescLang] = useState<'fr' | 'en'>('fr');
@@ -414,9 +421,27 @@ export default function ProductFormModal({ product, onClose }: Props) {
                 </select>
               </div>
               <div>
-                <label className={labelCls}>Prix (€) *</label>
-                <input type="number" step="0.01" min="0" value={form.price} onChange={e => set('price', e.target.value)} placeholder="24.00" className={inputCls('price')} />
+                <label className={labelCls}>
+                  Prix ({currencyInfo.symbol} — {currencyInfo.code}) *
+                </label>
+                <div className="relative flex items-center">
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={form.price}
+                    onChange={e => set('price', e.target.value)}
+                    placeholder="24.00"
+                    className={`${inputCls('price')} pr-14`}
+                  />
+                  <span className="absolute right-3 px-2 py-0.5 rounded-md bg-[#1d271d] border border-[#3d4f3c] text-xs font-bold text-emerald-400">
+                    {currencyInfo.symbol}
+                  </span>
+                </div>
                 {errors.price && <p className="text-red-400 text-xs mt-1">{errors.price}</p>}
+                <p className="text-[#6a7d69] text-[11px] mt-1">
+                  Devise active configurée dans les réglages : <strong className="text-[#9aad98]">{currencyInfo.label}</strong>
+                </p>
               </div>
             </div>
           </section>

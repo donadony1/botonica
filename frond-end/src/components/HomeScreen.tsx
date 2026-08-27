@@ -1,6 +1,8 @@
 import React from 'react';
 import { Product, Article, ScreenType } from '../types';
 import { useLanguage } from '../context/LanguageContext';
+import { useAdmin } from '../context/AdminContext';
+import { formatPrice } from '../lib/currency';
 
 interface HomeScreenProps {
   products: Product[];
@@ -20,6 +22,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   onNavigate,
 }) => {
   const { language, t } = useLanguage();
+  const { siteSettings } = useAdmin();
 
   // Find signature product and featured products
   const signatureProduct =
@@ -421,7 +424,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               </div>
 
               <div className="font-serif text-3xl text-[#3D2B1F] font-bold mt-1">
-                {(signatureProduct.price || 0).toFixed(2)} €
+                {formatPrice(signatureProduct.price || 0, siteSettings.currency)}
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
@@ -514,7 +517,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
                     <div className="flex items-center justify-between pt-4 border-t border-[#f1ede9]">
                       <span className="font-serif text-2xl font-bold text-[#3D2B1F]">
-                        {(prod.price || 0).toFixed(2)} €
+                        {formatPrice(prod.price || 0, siteSettings.currency)}
                       </span>
 
                       <button

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Product } from '../types';
 import { useLanguage } from '../context/LanguageContext';
+import { useAdmin } from '../context/AdminContext';
+import { formatPrice } from '../lib/currency';
 
 interface ShopScreenProps {
   products: Product[];
@@ -14,6 +16,7 @@ export const ShopScreen: React.FC<ShopScreenProps> = ({
   onAddToCart,
 }) => {
   const { language, t } = useLanguage();
+  const { siteSettings } = useAdmin();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -26,16 +29,19 @@ export const ShopScreen: React.FC<ShopScreenProps> = ({
   ];
 
   const filteredProducts = products.filter((product) => {
-    const matchesCat = selectedCategory === 'all' ? true : product.category === selectedCategory;
+    if (!product) return false;
+    const prodCat = product.category || 'soaps';
+    const matchesCat = selectedCategory === 'all' ? true : prodCat === selectedCategory;
 
-    const matchesSearch =
-      searchQuery.trim() === '' ||
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (product.nameEn && product.nameEn.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return matchesCat;
 
-    return matchesCat && matchesSearch;
+    const nameMatches = (product.name || '').toLowerCase().includes(q);
+    const nameEnMatches = (product.nameEn || '').toLowerCase().includes(q);
+    const descMatches = (product.description || '').toLowerCase().includes(q);
+    const tagsMatches = Array.isArray(product.tags) && product.tags.some((t) => typeof t === 'string' && t.toLowerCase().includes(q));
+
+    return matchesCat && (nameMatches || nameEnMatches || descMatches || tagsMatches);
   });
 
   return (
@@ -142,7 +148,7 @@ export const ShopScreen: React.FC<ShopScreenProps> = ({
                     className="w-full aspect-square rounded-2xl overflow-hidden mb-5 relative cursor-pointer bg-[#eeeeee]"
                   >
                     <img
-                      src={product.images[0]}
+                      src={product.images?.[0] || product.image || 'https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=600&auto=format&fit=crop&q=80'}
                       alt={displayName}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
@@ -192,7 +198,7 @@ export const ShopScreen: React.FC<ShopScreenProps> = ({
                 <div className="pt-4 border-t border-[#f3f3f4]">
                   <div className="flex justify-between items-baseline mb-4">
                     <span className="font-serif-luxury text-2xl text-[#bb0a4a] font-bold">
-                      {product.price.toFixed(2)} €
+                      {formatPrice(product.price, siteSettings.currency)}
                     </span>
                     <span className="text-xs text-[#747871]">{product.weight || '120g'}</span>
                   </div>

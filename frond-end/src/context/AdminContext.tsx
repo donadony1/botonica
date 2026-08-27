@@ -9,6 +9,8 @@ import {
   createArticle,
   updateArticleAPI,
   deleteArticleAPI,
+  fetchSiteSettings,
+  saveSiteSettingsAPI,
 } from '../lib/api';
 
 const DEFAULT_SETTINGS: SiteSettings = {
@@ -33,10 +35,43 @@ const STORAGE_KEY_ARTICLES = 'ndolo_admin_articles';
 const STORAGE_KEY_SETTINGS = 'ndolo_admin_settings';
 const STORAGE_KEY_REVIEWS  = 'ndolo_admin_reviews';
 
+function loadProducts(): Product[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_PRODUCTS);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed as Product[];
+      }
+    }
+  } catch { /* ignore */ }
+  return [];
+}
+
+function loadArticles(): Article[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_ARTICLES);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed as Article[];
+      }
+    }
+  } catch { /* ignore */ }
+  return [];
+}
+
 function loadSettings(): SiteSettings {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_SETTINGS);
-    if (raw) return { ...DEFAULT_SETTINGS, ...JSON.parse(raw) } as SiteSettings;
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      return {
+        ...DEFAULT_SETTINGS,
+        ...parsed,
+        currency: (parsed.currency || 'EUR').trim().toUpperCase() || 'EUR',
+      } as SiteSettings;
+    }
   } catch { /* ignore */ }
   return DEFAULT_SETTINGS;
 }
@@ -63,7 +98,8 @@ interface AdminContextValue {
   addArticle: (article: Article) => Promise<void>;
   updateArticle: (article: Article) => Promise<void>;
   deleteArticle: (id: string) => Promise<void>;
-  updateSettings: (settings: SiteSettings) => void;
+  updateSettings: (settings: SiteSettings) => Promise<void>;
+  refreshSettings: () => Promise<void>;
   addReview: (review: Omit<Review, 'id' | 'status' | 'date'>) => void;
   updateReviewStatus: (id: string, status: 'approved' | 'rejected') => void;
   deleteReview: (id: string) => void;
@@ -75,12 +111,29 @@ interface AdminContextValue {
 const AdminContext = createContext<AdminContextValue | null>(null);
 
 export function AdminProvider({ children }: { children: ReactNode }) {
-  const [products, setProducts]           = useState<Product[]>([]);
-  const [articles, setArticles]           = useState<Article[]>([]);
+  const [products, setProducts]           = useState<Product[]>(loadProducts);
+  const [articles, setArticles]           = useState<Article[]>(loadArticles);
   const [isLoadingProducts, setLoading]   = useState<boolean>(true);
   const [isLoadingArticles, setLoadingArt] = useState<boolean>(true);
   const [siteSettings, setSiteSettings]   = useState<SiteSettings>(loadSettings);
   const [reviews, setReviews]             = useState<Review[]>(loadReviews);
+
+  const refreshSettings = useCallback(async () => {
+    try {
+      const apiSettings = await fetchSiteSettings();
+      if (apiSettings) {
+        const merged: SiteSettings = {
+          ...DEFAULT_SETTINGS,
+          ...apiSettings,
+          currency: (apiSettings.currency || 'EUR').trim().toUpperCase() || 'EUR',
+        };
+        setSiteSettings(merged);
+        localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(merged));
+      }
+    } catch {
+      // Garder les settings locaux
+    }
+  }, []);
 
   const refreshProducts = useCallback(async () => {
     setLoading(true);
@@ -89,12 +142,9 @@ export function AdminProvider({ children }: { children: ReactNode }) {
       if (apiProducts !== null) {
         setProducts(apiProducts);
         localStorage.setItem(STORAGE_KEY_PRODUCTS, JSON.stringify(apiProducts));
-      } else {
-        setProducts([]);
       }
     } catch (err) {
       console.error('[API] Erreur lors du chargement des produits:', err);
-      setProducts([]);
     } finally {
       setLoading(false);
     }
@@ -107,25 +157,37 @@ export function AdminProvider({ children }: { children: ReactNode }) {
       if (apiArticles !== null) {
         setArticles(apiArticles);
         localStorage.setItem(STORAGE_KEY_ARTICLES, JSON.stringify(apiArticles));
-      } else {
-        setArticles([]);
       }
     } catch (err) {
       console.error('[API] Erreur lors du chargement des articles:', err);
-      setArticles([]);
     } finally {
       setLoadingArt(false);
     }
   }, []);
 
   useEffect(() => {
-    // Nettoyer les anciens caches frontend contenant les faux produits/articles
-    localStorage.removeItem(STORAGE_KEY_PRODUCTS);
-    localStorage.removeItem(STORAGE_KEY_ARTICLES);
-
     refreshProducts();
     refreshArticles();
-  }, [refreshProducts, refreshArticles]);
+    refreshSettings();
+  }, [refreshProducts, refreshArticles, refreshSettings]);
+
+  // Synchronisation dynamique des variables CSS et du titre du document
+  useEffect(() => {
+    if (siteSettings) {
+      if (siteSettings.primaryColor) {
+        document.documentElement.style.setProperty('--color-primary', siteSettings.primaryColor);
+      }
+      if (siteSettings.secondaryColor) {
+        document.documentElement.style.setProperty('--color-secondary', siteSettings.secondaryColor);
+      }
+      if (siteSettings.accentColor) {
+        document.documentElement.style.setProperty('--color-accent', siteSettings.accentColor);
+      }
+      if (siteSettings.siteName && !document.title.includes('—')) {
+        document.title = siteSettings.metaTitle || `${siteSettings.siteName} — ${siteSettings.tagline}`;
+      }
+    }
+  }, [siteSettings]);
 
   const addProduct = useCallback(async (product: Product) => {
     const result = await createProduct(product);
@@ -175,9 +237,18 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     }
   }, [refreshArticles]);
 
-  const updateSettings = useCallback((settings: SiteSettings) => {
-    localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(settings));
-    setSiteSettings(settings);
+  const updateSettings = useCallback(async (settings: SiteSettings) => {
+    const cleanSettings: SiteSettings = {
+      ...settings,
+      currency: (settings.currency || 'EUR').trim().toUpperCase() || 'EUR',
+    };
+    localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(cleanSettings));
+    setSiteSettings(cleanSettings);
+    try {
+      await saveSiteSettingsAPI(cleanSettings);
+    } catch (err) {
+      console.warn('[Settings] Sauvegarde locale active, échec sync backend:', err);
+    }
   }, []);
 
   const addReview = useCallback((newRev: Omit<Review, 'id' | 'status' | 'date'>) => {

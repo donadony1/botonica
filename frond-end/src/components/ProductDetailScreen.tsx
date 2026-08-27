@@ -3,6 +3,7 @@ import { Product, ScreenType } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 import { useAdmin } from '../context/AdminContext';
 import { getProductUrl } from '../lib/router';
+import { formatPrice } from '../lib/currency';
 
 interface ProductDetailScreenProps {
   product: Product;
@@ -20,7 +21,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
   onNavigate,
 }) => {
   const { language, t } = useLanguage();
-  const { reviews, addReview } = useAdmin();
+  const { reviews, addReview, siteSettings } = useAdmin();
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -230,7 +231,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
           {/* Price & Stock info */}
           <div className="flex items-baseline gap-4 mb-6 pb-6 border-b border-[#c4c8c0]/30">
             <div className="font-serif-luxury text-3xl sm:text-4xl text-[#bb0a4a] font-bold">
-              {product.price.toFixed(2)} €
+              {formatPrice(product.price, siteSettings.currency)}
             </div>
             <span className="text-xs text-[#747871]">TTC — {product.weight || '120g'}</span>
           </div>
@@ -286,7 +287,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
               </span>
               {isOutOfStock
                 ? t('stock_out')
-                : `${t('add_to_cart')} — ${(product.price * quantity).toFixed(2)} €`}
+                : `${t('add_to_cart')} — ${formatPrice(product.price * quantity, siteSettings.currency)}`}
             </button>
           </div>
 
@@ -679,7 +680,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
               >
                 <div className="aspect-square rounded-2xl overflow-hidden mb-4 bg-[#eeeeee] relative">
                   <img
-                    src={p.images[0]}
+                    src={p.images?.[0] || p.image || 'https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=600&auto=format&fit=crop&q=80'}
                     alt={p.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
@@ -696,7 +697,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
                   {language === 'en' && p.taglineEn ? p.taglineEn : p.tagline}
                 </p>
                 <div className="flex justify-between items-center text-sm font-medium">
-                  <span className="font-serif font-bold text-[#1a1c1c]">{p.price.toFixed(2)} €</span>
+                  <span className="font-serif font-bold text-[#1a1c1c]">{formatPrice(p.price, siteSettings.currency)}</span>
                   <span className="text-xs text-[#824f39] font-semibold uppercase">
                     {t('view_product')} →
                   </span>

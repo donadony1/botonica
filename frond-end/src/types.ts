@@ -24,6 +24,7 @@ export interface Product {
   longDescription?: string;
   longDescriptionEn?: string;
   images: string[];
+  image?: string;
   aspectRatio?: 'square' | 'portrait' | 'tall';
   ingredients: ProductIngredient[];
   usageTips?: string;

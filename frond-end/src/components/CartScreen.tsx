@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { CartItem, Product, ScreenType } from '../types';
 import { CheckoutTunnel } from './CheckoutTunnel';
 import { useLanguage } from '../context/LanguageContext';
+import { useAdmin } from '../context/AdminContext';
+import { formatPrice } from '../lib/currency';
 
 interface CartScreenProps {
   cartItems: CartItem[];
@@ -21,6 +23,8 @@ export const CartScreen: React.FC<CartScreenProps> = ({
   onNavigate,
 }) => {
   const { language, t } = useLanguage();
+  const { siteSettings } = useAdmin();
+  const freeThreshold = siteSettings.freeShippingThreshold || 50;
   const [shippingMethod, setShippingMethod] = useState<'standard' | 'express'>('standard');
   const [discountCode, setDiscountCode] = useState<string>('');
   const [discountApplied, setDiscountApplied] = useState<number>(0);
@@ -32,7 +36,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
     0
   );
 
-  const shippingCost = shippingMethod === 'express' ? 12.0 : (subtotal >= 50 ? 0.0 : 4.90);
+  const shippingCost = shippingMethod === 'express' ? 12.0 : (subtotal >= freeThreshold ? 0.0 : 4.90);
   const total = Math.max(0, subtotal - discountApplied + shippingCost);
 
   const handleApplyDiscount = (e: React.FormEvent) => {
@@ -43,13 +47,13 @@ export const CartScreen: React.FC<CartScreenProps> = ({
       setDiscountApplied(discount);
       setDiscountMessage(language === 'fr' ? 'Code promo appliqué : -10%' : 'Promo code applied: -10%');
     } else if (cleanCode === 'NATUREL') {
-      if (subtotal >= 50) {
+      if (subtotal >= freeThreshold) {
         const discount = Math.min(subtotal, 15.0);
         setDiscountApplied(discount);
-        setDiscountMessage(language === 'fr' ? 'Code promo appliqué : -15,00 €' : 'Promo code applied: -15.00 €');
+        setDiscountMessage(language === 'fr' ? `Code promo appliqué : -${formatPrice(15, siteSettings.currency)}` : `Promo code applied: -${formatPrice(15, siteSettings.currency)}`);
       } else {
         setDiscountApplied(0);
-        setDiscountMessage(language === 'fr' ? 'Le code NATUREL requiert 50€ d\'achat minimum' : 'NATUREL code requires 50€ min order');
+        setDiscountMessage(language === 'fr' ? `Le code NATUREL requiert ${formatPrice(freeThreshold, siteSettings.currency)} d'achat minimum` : `NATUREL code requires ${formatPrice(freeThreshold, siteSettings.currency)} min order`);
       }
     } else if (cleanCode === '') {
       setDiscountApplied(0);
@@ -113,7 +117,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                     className="w-full sm:w-32 h-32 md:w-36 md:h-36 rounded-2xl overflow-hidden shrink-0 cursor-pointer bg-[#eeeeee]"
                   >
                     <img
-                      src={product.images[0]}
+                      src={product.images?.[0] || product.image || 'https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=600&auto=format&fit=crop&q=80'}
                       alt={displayName}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
@@ -180,7 +184,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                       </div>
 
                       <div className="font-serif-luxury text-2xl text-[#1a1c1c] font-bold">
-                        {(product.price * quantity).toFixed(2)} €
+                        {formatPrice(product.price * quantity, siteSettings.currency)}
                       </div>
                     </div>
                   </div>
@@ -202,15 +206,15 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                   <div className="flex justify-between items-center">
                     <span>{t('cart_subtotal')}</span>
                     <span className="font-serif text-lg text-[#1a1c1c] font-bold">
-                      {subtotal.toFixed(2)} €
+                      {formatPrice(subtotal, siteSettings.currency)}
                     </span>
                   </div>
 
                   {/* Shipping preview */}
                   <div className="flex justify-between items-center text-xs">
-                    <span>Livraison estimée (France) :</span>
+                    <span>Livraison estimée :</span>
                     <span className="font-semibold text-[#1a1c1c]">
-                      {shippingCost === 0 ? 'Offerte (dès 50€)' : `${shippingCost.toFixed(2)} €`}
+                      {shippingCost === 0 ? `Offerte (dès ${formatPrice(freeThreshold, siteSettings.currency)})` : formatPrice(shippingCost, siteSettings.currency)}
                     </span>
                   </div>
 
@@ -252,7 +256,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                   {discountApplied > 0 && (
                     <div className="flex justify-between text-xs text-[#bb0a4a] font-semibold pt-1">
                       <span>{t('cart_discount_applied')}</span>
-                      <span>- {discountApplied.toFixed(2)} €</span>
+                      <span>- {formatPrice(discountApplied, siteSettings.currency)}</span>
                     </div>
                   )}
                 </div>
@@ -263,7 +267,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                 <div className="flex justify-between items-baseline mb-6">
                   <span className="text-base font-semibold text-[#1a1c1c]">{t('cart_total')}</span>
                   <span className="font-serif-luxury text-3xl sm:text-4xl text-[#1a1c1c] font-bold">
-                    {total.toFixed(2)} €
+                    {formatPrice(total, siteSettings.currency)}
                   </span>
                 </div>
 

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchAdminOrders } from '../../lib/api';
+import { useAdmin } from '../../context/AdminContext';
+import { formatPrice } from '../../lib/currency';
 
 interface OrderRecord {
   id: string;
@@ -17,6 +19,7 @@ interface OrderRecord {
 }
 
 export default function OrdersTab() {
+  const { siteSettings } = useAdmin();
   const [orders, setOrders] = useState<OrderRecord[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState('');
@@ -137,10 +140,7 @@ export default function OrdersTab() {
                       </span>
                     </td>
                     <td className="p-4 text-right font-bold text-white font-serif text-sm">
-                      {typeof ord.total_amount === 'number'
-                        ? ord.total_amount.toFixed(2)
-                        : parseFloat(ord.total_amount || '0').toFixed(2)}{' '}
-                      €
+                      {formatPrice(ord.total_amount, siteSettings.currency)}
                     </td>
                     <td className="p-4 text-center">
                       <span className="inline-flex items-center gap-1 text-emerald-400 text-[11px] font-medium">

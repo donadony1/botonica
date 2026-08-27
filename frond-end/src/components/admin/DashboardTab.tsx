@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAdmin } from '../../context/AdminContext';
 import { ScreenType } from '../../types';
 import { fetchDashboardStats } from '../../lib/api';
+import { formatPrice } from '../../lib/currency';
 
 interface DashboardTabProps {
   onSelectTab: (tab: 'products' | 'articles' | 'orders' | 'settings') => void;
@@ -23,7 +24,7 @@ interface DashboardStats {
 }
 
 export default function DashboardTab({ onSelectTab, onNavigate }: DashboardTabProps) {
-  const { products, articles, dataSource, refreshProducts, refreshArticles } = useAdmin();
+  const { products, articles, siteSettings, refreshProducts, refreshArticles } = useAdmin();
   const [stats, setStats] = useState<DashboardStats>({
     total_products: products.length,
     total_articles: articles.length,
@@ -129,7 +130,7 @@ export default function DashboardTab({ onSelectTab, onNavigate }: DashboardTabPr
           </div>
           <div>
             <div className="text-2xl sm:text-3xl font-bold text-white font-serif tracking-tight">
-              {totalRevenue.toFixed(2)} €
+              {formatPrice(totalRevenue, siteSettings.currency)}
             </div>
             <span className="text-[11px] text-emerald-400 flex items-center gap-1 mt-1 font-medium">
               <span className="material-symbols-outlined text-[14px]">database</span>
@@ -384,10 +385,7 @@ export default function DashboardTab({ onSelectTab, onNavigate }: DashboardTabPr
                         {ord.created_at ? ord.created_at.slice(0, 10) : 'Aujourd\'hui'}
                       </td>
                       <td className="py-3 text-right font-bold text-white font-serif">
-                        {typeof ord.total_amount === 'number'
-                          ? ord.total_amount.toFixed(2)
-                          : parseFloat(ord.total_amount || '0').toFixed(2)}{' '}
-                        €
+                        {formatPrice(ord.total_amount, siteSettings.currency)}
                       </td>
                       <td className="py-3 text-right">
                         {ord.invoice_number ? (

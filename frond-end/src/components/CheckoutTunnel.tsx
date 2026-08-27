@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { CartItem } from '../types';
 import { useLanguage } from '../context/LanguageContext';
+import { useAdmin } from '../context/AdminContext';
 import { calculateCart, COUNTRIES, CartCalculationResult, ShippingMethodInfo, submitCheckoutOrder } from '../lib/api';
 import { InvoiceModal } from './InvoiceModal';
+import { formatPrice } from '../lib/currency';
 
 interface CheckoutTunnelProps {
   isOpen: boolean;
@@ -22,6 +24,7 @@ export const CheckoutTunnel: React.FC<CheckoutTunnelProps> = ({
   onClearCart,
 }) => {
   const { language, t } = useLanguage();
+  const { siteSettings } = useAdmin();
   const [currentStep, setCurrentStep] = useState<TunnelStep>('shipping');
 
   // Customer & Shipping Info
@@ -334,7 +337,7 @@ export const CheckoutTunnel: React.FC<CheckoutTunnelProps> = ({
                         </div>
                       </div>
                       <span className="font-serif font-bold text-sm text-[#bb0a4a]">
-                        {meth.cost === 0 ? 'Gratuit' : `${meth.cost.toFixed(2)} €`}
+                        {meth.cost === 0 ? 'Gratuit' : formatPrice(meth.cost, siteSettings.currency)}
                       </span>
                     </label>
                   ))}
@@ -374,13 +377,13 @@ export const CheckoutTunnel: React.FC<CheckoutTunnelProps> = ({
               <div className="text-xs space-y-2 text-[#434842]">
                 <div className="flex justify-between">
                   <span>Sous-total articles ({calculation.total_quantity} ex.) :</span>
-                  <span>{calculation.subtotal_gross.toFixed(2)} €</span>
+                  <span>{formatPrice(calculation.subtotal_gross, siteSettings.currency)}</span>
                 </div>
 
                 {calculation.discount_amount > 0 && (
                   <div className="flex justify-between text-[#bb0a4a] font-medium">
                     <span>Remise appliquée ({couponCode}) :</span>
-                    <span>- {calculation.discount_amount.toFixed(2)} €</span>
+                    <span>- {formatPrice(calculation.discount_amount, siteSettings.currency)}</span>
                   </div>
                 )}
 
@@ -389,14 +392,14 @@ export const CheckoutTunnel: React.FC<CheckoutTunnelProps> = ({
                   <span>
                     {calculation.shipping.cost === 0
                       ? 'Offert'
-                      : `${calculation.shipping.cost.toFixed(2)} €`}
+                      : formatPrice(calculation.shipping.cost, siteSettings.currency)}
                   </span>
                 </div>
 
                 <div className="pt-2 border-t border-[#f3f3f4] space-y-1">
                   <div className="flex justify-between text-[#747871]">
                     <span>{t('tunnel_amount_ht')} :</span>
-                    <span>{calculation.tax_info.amount_ht.toFixed(2)} €</span>
+                    <span>{formatPrice(calculation.tax_info.amount_ht, siteSettings.currency)}</span>
                   </div>
                   <div className="flex justify-between text-[#747871]">
                     <span>
@@ -404,14 +407,14 @@ export const CheckoutTunnel: React.FC<CheckoutTunnelProps> = ({
                         ? t('tunnel_vat', { rate: calculation.tax_info.vat_rate })
                         : t('tunnel_vat_exempt')} :
                     </span>
-                    <span>{calculation.tax_info.vat_amount.toFixed(2)} €</span>
+                    <span>{formatPrice(calculation.tax_info.vat_amount, siteSettings.currency)}</span>
                   </div>
                 </div>
 
                 <div className="pt-3 border-t border-[#c4c8c0]/40 flex justify-between items-baseline text-base sm:text-lg font-bold text-[#1a1c1c]">
                   <span>Total à régler TTC :</span>
                   <span className="font-serif-luxury text-2xl sm:text-3xl text-[#bb0a4a]">
-                    {calculation.total_amount.toFixed(2)} €
+                    {formatPrice(calculation.total_amount, siteSettings.currency)}
                   </span>
                 </div>
               </div>
@@ -586,7 +589,7 @@ export const CheckoutTunnel: React.FC<CheckoutTunnelProps> = ({
                 ) : (
                   <>
                     <span className="material-symbols-outlined text-[18px]">lock</span>
-                    <span>{t('tunnel_confirm_btn')} — {calculation.total_amount.toFixed(2)} €</span>
+                    <span>{t('tunnel_confirm_btn')} — {formatPrice(calculation.total_amount, siteSettings.currency)}</span>
                   </>
                 )}
               </button>
@@ -648,7 +651,7 @@ export const CheckoutTunnel: React.FC<CheckoutTunnelProps> = ({
               {calculation && (
                 <div className="pt-2 border-t border-[#f3f3f4] flex justify-between font-serif text-base font-bold text-[#26170c]">
                   <span>Montant Réglé TTC :</span>
-                  <span className="text-[#bb0a4a]">{calculation.total_amount.toFixed(2)} €</span>
+                  <span className="text-[#bb0a4a]">{formatPrice(calculation.total_amount, siteSettings.currency)}</span>
                 </div>
               )}
             </div>

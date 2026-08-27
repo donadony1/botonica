@@ -1,4 +1,4 @@
-import { CartItem, Product, Article, User, AuthSessionUser, UserRole } from '../types';
+import { CartItem, Product, Article, User, AuthSessionUser, UserRole, SiteSettings } from '../types';
 import { getAdminSession, DEFAULT_ADMIN_TOKEN } from './security';
 
 const ENV_API_URL =
@@ -103,14 +103,54 @@ function normalizeProduct(p: any): Product {
   if (!p || typeof p !== 'object') return p;
   const rawImages: any[] = Array.isArray(p.images)
     ? p.images
-    : typeof p.images === 'string'
-    ? [p.images]
+    : typeof p.images === 'string' && p.images.trim()
+    ? (p.images.trim().startsWith('[') ? (JSON.parse(p.images) || []) : [p.images.trim()])
     : [];
-  const normalizedImages = rawImages.map(normalizeImageUrl).filter(Boolean);
-  const primaryImage = normalizeImageUrl(p.image || normalizedImages[0]);
+
+  const normalizedImages = rawImages
+    .map(img => (typeof img === 'string' ? normalizeImageUrl(img) : ''))
+    .filter(Boolean);
+
+  const fallbackDefaultImg = 'https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=600&auto=format&fit=crop&q=80';
+  const primaryImage = normalizeImageUrl(p.image) || normalizedImages[0] || fallbackDefaultImg;
+
+  let cleanTags: string[] = [];
+  if (Array.isArray(p.tags)) {
+    cleanTags = p.tags.map(String);
+  } else if (typeof p.tags === 'string' && p.tags.trim()) {
+    try {
+      cleanTags = p.tags.startsWith('[') ? JSON.parse(p.tags) : p.tags.split(',');
+    } catch {
+      cleanTags = [p.tags];
+    }
+  }
+
+  let cleanIngredients: any[] = [];
+  if (Array.isArray(p.ingredients)) {
+    cleanIngredients = p.ingredients;
+  } else if (typeof p.ingredients === 'string' && p.ingredients.trim()) {
+    try {
+      cleanIngredients = JSON.parse(p.ingredients) || [];
+    } catch {
+      cleanIngredients = [];
+    }
+  }
 
   return {
     ...p,
+    id: String(p.id || ''),
+    name: String(p.name || 'Produit Ndolo'),
+    tagline: String(p.tagline || ''),
+    description: String(p.description || ''),
+    category: (p.category || 'soaps') as any,
+    price: typeof p.price === 'number' ? p.price : (parseFloat(p.price) || 0),
+    rating: typeof p.rating === 'number' ? p.rating : (parseFloat(p.rating) || 5.0),
+    reviewCount: typeof p.reviewCount === 'number' ? p.reviewCount : (parseInt(p.reviewCount, 10) || 0),
+    stock: typeof p.stock === 'number' ? p.stock : (parseInt(p.stock, 10) || 0),
+    lowStockThreshold: typeof p.lowStockThreshold === 'number' ? p.lowStockThreshold : (parseInt(p.lowStockThreshold, 10) || 5),
+    featured: Boolean(p.featured && p.featured !== '0' && p.featured !== 0),
+    tags: cleanTags,
+    ingredients: cleanIngredients,
     image: primaryImage,
     images: normalizedImages.length > 0 ? normalizedImages : [primaryImage],
   };
@@ -901,6 +941,51 @@ export async function deleteStaffUser(id: string): Promise<{ success: boolean; m
     return { success: false, error: err?.message || 'Erreur lors de la suppression.' };
   }
 }
+
+// ─────────────────────────────────────────────────────────
+// PARAMÈTRES DU SITE (RÉGLAGES, IDENTITÉ, DEVISE, LOGO)
+// ─────────────────────────────────────────────────────────
+
+/**
+ * Récupère les réglages du site depuis le backend MySQL
+ */
+export async function fetchSiteSettings(): Promise<SiteSettings | null> {
+  try {
+    const res = await callBackend('/settings', { method: 'GET' });
+    if (!res) return null;
+
+    const json = await res.json();
+    if (json.success && json.data) {
+      return json.data as SiteSettings;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Enregistre les réglages du site dans le backend MySQL
+ */
+export async function saveSiteSettingsAPI(settings: SiteSettings): Promise<{ success: boolean; message?: string; data?: SiteSettings; error?: string }> {
+  try {
+    const res = await callBackend('/settings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(settings),
+    });
+
+    if (!res) {
+      return { success: false, error: 'Impossible de joindre le serveur pour sauvegarder les réglages.' };
+    }
+
+    const json = await res.json();
+    return json;
+  } catch (err: any) {
+    return { success: false, error: err?.message || 'Erreur lors de l\'enregistrement des réglages.' };
+  }
+}
+
 
 
 

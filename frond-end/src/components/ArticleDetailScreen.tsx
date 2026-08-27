@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Article, Product, ScreenType } from '../types';
 import { useLanguage } from '../context/LanguageContext';
+import { useAdmin } from '../context/AdminContext';
 import { getArticleUrl } from '../lib/router';
+import { formatPrice } from '../lib/currency';
 
 interface ArticleDetailScreenProps {
   article: Article;
@@ -23,6 +25,7 @@ export const ArticleDetailScreen: React.FC<ArticleDetailScreenProps> = ({
   onNavigate,
 }) => {
   const { language } = useLanguage();
+  const { siteSettings } = useAdmin();
   const [copied, setCopied] = useState(false);
 
   const title = language === 'en' && article.titleEn ? article.titleEn : article.title;
@@ -192,7 +195,7 @@ export const ArticleDetailScreen: React.FC<ArticleDetailScreenProps> = ({
                     className="w-20 h-20 rounded-xl overflow-hidden bg-white shrink-0 cursor-pointer"
                   >
                     <img
-                      src={prod.images[0]}
+                      src={prod.images?.[0] || prod.image || 'https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=600&auto=format&fit=crop&q=80'}
                       alt={prod.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                     />
@@ -207,7 +210,7 @@ export const ArticleDetailScreen: React.FC<ArticleDetailScreenProps> = ({
                     </h4>
                     <span className="text-xs text-[#81756e] block mt-0.5 truncate">{prod.tagline}</span>
                     <span className="font-serif text-base font-bold text-[#3D2B1F] block mt-1">
-                      {prod.price.toFixed(2)} €
+                      {formatPrice(prod.price, siteSettings.currency)}
                     </span>
                   </div>
 

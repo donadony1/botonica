@@ -557,7 +557,11 @@ export default function ArticleFormModal({ article, allProducts, onClose }: Prop
                       onChange={() => {}}
                       className="accent-[#bb0a4a] rounded"
                     />
-                    <img src={prod.images[0]} alt={prod.name} className="w-8 h-8 rounded-md object-cover" />
+                    <img
+                      src={prod.images?.[0] || prod.image || 'https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=600&auto=format&fit=crop&q=80'}
+                      alt={prod.name}
+                      className="w-8 h-8 rounded-md object-cover"
+                    />
                     <div className="truncate text-xs font-medium">{prod.name}</div>
                   </div>
                 );

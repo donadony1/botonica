@@ -206,6 +206,18 @@ class Database
                 ");
             }
 
+            // Vérification de la table site_settings
+            $checkSettings = $pdo->query("SHOW TABLES LIKE 'site_settings'")->fetchAll();
+            if (empty($checkSettings)) {
+                $pdo->exec("
+                    CREATE TABLE IF NOT EXISTS site_settings (
+                        setting_key VARCHAR(100) PRIMARY KEY,
+                        setting_value JSON NOT NULL,
+                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                    ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+                ");
+            }
+
             // Vérification de la table users (Authentification & Rôles Admin / Gérant)
             $checkUsers = $pdo->query("SHOW TABLES LIKE 'users'")->fetchAll();
             if (empty($checkUsers)) {

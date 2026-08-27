@@ -1,6 +1,7 @@
 import React from 'react';
 import { Product, ScreenType } from '../types';
 import { useAdmin } from '../context/AdminContext';
+import { formatPrice } from '../lib/currency';
 
 interface RitualsScreenProps {
   signatureProduct: Product;
@@ -15,7 +16,7 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
   onSelectProduct,
   onNavigate,
 }) => {
-  const { reviews } = useAdmin();
+  const { reviews, siteSettings } = useAdmin();
   const approvedReviews = reviews.filter((r) => r.status === 'approved');
   return (
     <div className="w-full flex-grow pt-8 pb-20 px-5 md:px-12 max-w-[1280px] mx-auto">
@@ -61,7 +62,7 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
               onClick={() => signatureProduct ? onAddToCart(signatureProduct, 1) : onNavigate('shop')}
               className="bg-[#bb0a4a] text-white text-xs font-semibold uppercase tracking-[0.2em] py-4 px-8 rounded-full hover:bg-[#b7003a] transition-all shadow-md active:scale-95 text-center cursor-pointer"
             >
-              {signatureProduct ? `Acheter maintenant - ${(signatureProduct.price || 0).toFixed(2)}€` : 'Découvrir la boutique'}
+              {signatureProduct ? `Acheter maintenant - ${formatPrice(signatureProduct.price || 0, siteSettings.currency)}` : 'Découvrir la boutique'}
             </button>
             <button
               onClick={() => signatureProduct ? onSelectProduct(signatureProduct) : onNavigate('shop')}
@@ -216,13 +217,13 @@ export const RitualsScreen: React.FC<RitualsScreenProps> = ({
           onClick={() => signatureProduct ? onAddToCart(signatureProduct, 1) : onNavigate('shop')}
           className="bg-[#bb0a4a] text-white text-xs font-semibold uppercase tracking-[0.2em] py-4 px-12 rounded-full hover:bg-[#b7003a] transition-all shadow-md hover:-translate-y-0.5 active:scale-95 duration-300 cursor-pointer"
         >
-          {signatureProduct ? `Ajouter au Panier - ${(signatureProduct.price || 0).toFixed(2)}€` : 'Découvrir nos savons'}
+          {signatureProduct ? `Ajouter au Panier - ${formatPrice(signatureProduct.price || 0, siteSettings.currency)}` : 'Découvrir nos savons'}
         </button>
         <p className="text-xs text-[#434842] mt-6 opacity-80 flex items-center gap-1.5">
           <span className="material-symbols-outlined text-[16px] text-[#bb0a4a]">
             local_shipping
           </span>
-          Livraison offerte dès 50€ d'achat • Expédition sous 24h
+          Livraison offerte dès {formatPrice(siteSettings.freeShippingThreshold || 50, siteSettings.currency)} d'achat • Expédition sous 24h
         </p>
       </section>
     </div>

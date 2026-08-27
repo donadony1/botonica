@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ScreenType } from '../types';
 import { useLanguage } from '../context/LanguageContext';
+import { useAdmin } from '../context/AdminContext';
+import { normalizeImageUrl } from '../lib/api';
 
 interface HeaderProps {
   currentScreen: ScreenType;
@@ -11,6 +13,7 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate, cartCount }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
+  const { siteSettings } = useAdmin();
 
   // Fermeture automatique du menu avec la touche Échap
   useEffect(() => {
@@ -86,17 +89,6 @@ export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate, cartC
               >
                 {language === 'fr' ? 'Journal' : 'Journal'}
               </button>
-              <button
-                onClick={() => onNavigate('admin')}
-                className={`text-xs uppercase tracking-widest transition-colors cursor-pointer ${
-                  currentScreen === 'admin'
-                    ? 'text-[#3D2B1F] font-bold border-b-2 border-[#3D2B1F] pb-1'
-                    : 'text-[#4f453f] hover:text-[#3D2B1F]'
-                }`}
-                title="Administration"
-              >
-                {t('nav_admin')}
-              </button>
             </nav>
           </div>
 
@@ -104,9 +96,20 @@ export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate, cartC
           <button
             id="header-logo-btn"
             onClick={() => onNavigate('home')}
-            className="font-serif text-2xl md:text-3xl tracking-[0.25em] text-[#26170c] font-semibold select-none hover:opacity-85 transition-opacity cursor-pointer"
+            className="flex items-center justify-center hover:opacity-85 transition-opacity cursor-pointer py-1 max-w-[180px] sm:max-w-[240px]"
+            title={siteSettings.siteName || 'Ndolo Rituals'}
           >
-            NDOLO
+            {siteSettings.logoUrl ? (
+              <img
+                src={normalizeImageUrl(siteSettings.logoUrl)}
+                alt={siteSettings.siteName || 'Ndolo'}
+                className="max-h-8 sm:max-h-10 w-auto object-contain"
+              />
+            ) : (
+              <span className="font-serif text-2xl md:text-3xl tracking-[0.25em] text-[#26170c] font-semibold select-none">
+                {siteSettings.siteName?.toUpperCase() || 'NDOLO'}
+              </span>
+            )}
           </button>
 
           {/* Right actions: Language toggle + Cart button */}
@@ -202,17 +205,6 @@ export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate, cartC
               }`}
             >
               {language === 'fr' ? 'Journal & Articles' : 'Journal & Articles'}
-            </button>
-            <button
-              onClick={() => {
-                onNavigate('admin');
-                setMobileMenuOpen(false);
-              }}
-              className={`block w-full text-left py-2 font-serif text-xl cursor-pointer ${
-                currentScreen === 'admin' ? 'text-[#3D2B1F] font-semibold' : 'text-[#4f453f]'
-              }`}
-            >
-              ⚙ {t('nav_admin')}
             </button>
             <button
               onClick={() => {

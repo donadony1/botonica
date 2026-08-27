@@ -234,6 +234,7 @@ require_once __DIR__ . '/../controllers/UploadController.php';
 require_once __DIR__ . '/../controllers/ArticleController.php';
 require_once __DIR__ . '/../controllers/OrderController.php';
 require_once __DIR__ . '/../controllers/UserController.php';
+require_once __DIR__ . '/../controllers/SettingController.php';
 
 use Ndolo\Controllers\ProductController;
 use Ndolo\Controllers\CartController;
@@ -241,10 +242,24 @@ use Ndolo\Controllers\UploadController;
 use Ndolo\Controllers\ArticleController;
 use Ndolo\Controllers\OrderController;
 use Ndolo\Controllers\UserController;
+use Ndolo\Controllers\SettingController;
 
 try {
+    // ── ROUTE PARAMÈTRES DU SITE (GET Public, POST/PUT Admin) ─
+    if ($uri === '/settings') {
+        $settingCtrl = new SettingController();
+        if ($requestMethod === 'GET') {
+            $settingCtrl->getSettings();
+        } elseif ($requestMethod === 'POST' || $requestMethod === 'PUT') {
+            checkAdminAuth();
+            $settingCtrl->updateSettings();
+        } else {
+            http_response_code(405);
+            echo json_encode(['success' => false, 'error' => 'Méthode non autorisée.']);
+        }
+
     // ── ROUTE AUTHENTIFICATION (LOGIN & PROFIL) ───────────
-    if ($uri === '/auth/login' && $requestMethod === 'POST') {
+    } elseif ($uri === '/auth/login' && $requestMethod === 'POST') {
         checkRateLimit('login', 15, 60);
         (new UserController())->login();
 

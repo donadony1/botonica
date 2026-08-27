@@ -1,6 +1,8 @@
 import React from 'react';
 import { CartItem } from '../types';
 import { CartCalculationResult } from '../lib/api';
+import { useAdmin } from '../context/AdminContext';
+import { formatPrice } from '../lib/currency';
 
 interface InvoiceModalProps {
   isOpen: boolean;
@@ -30,6 +32,7 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
   cartItems,
   calculation,
 }) => {
+  const { siteSettings } = useAdmin();
   if (!isOpen) return null;
 
   const today = new Date().toLocaleDateString('fr-FR', {
@@ -184,9 +187,9 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
                         </span>
                       </td>
                       <td className="p-3.5 text-center font-medium">{item.quantity}</td>
-                      <td className="p-3.5 text-right">{item.product.price.toFixed(2)} €</td>
+                      <td className="p-3.5 text-right">{formatPrice(item.product.price, siteSettings.currency)}</td>
                       <td className="p-3.5 text-right font-bold text-[#26170c]">
-                        {lineTotal.toFixed(2)} €
+                        {formatPrice(lineTotal, siteSettings.currency)}
                       </td>
                     </tr>
                   );
@@ -207,25 +210,25 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
             <div className="space-y-2 text-xs">
               <div className="flex justify-between text-[#64635c]">
                 <span>Sous-total articles :</span>
-                <span className="font-medium text-[#26170c]">{subtotal.toFixed(2)} €</span>
+                <span className="font-medium text-[#26170c]">{formatPrice(subtotal, siteSettings.currency)}</span>
               </div>
               {discount > 0 && (
                 <div className="flex justify-between text-[#bb0a4a] font-semibold">
                   <span>Remise code promo :</span>
-                  <span>-{discount.toFixed(2)} €</span>
+                  <span>-{formatPrice(discount, siteSettings.currency)}</span>
                 </div>
               )}
               <div className="flex justify-between text-[#64635c]">
                 <span>Frais de port :</span>
-                <span className="font-medium text-[#26170c]">{shipping.toFixed(2)} €</span>
+                <span className="font-medium text-[#26170c]">{formatPrice(shipping, siteSettings.currency)}</span>
               </div>
               <div className="flex justify-between text-[#81756e] text-[11px]">
                 <span>Dont TVA (20.00%) :</span>
-                <span>{vat.toFixed(2)} €</span>
+                <span>{formatPrice(vat, siteSettings.currency)}</span>
               </div>
               <div className="pt-2 border-t-2 border-[#3D2B1F] flex justify-between font-serif text-base sm:text-lg font-bold text-[#26170c]">
                 <span>TOTAL PAYÉ TTC :</span>
-                <span className="text-[#bb0a4a]">{total.toFixed(2)} €</span>
+                <span className="text-[#bb0a4a]">{formatPrice(total, siteSettings.currency)}</span>
               </div>
             </div>
           </div>

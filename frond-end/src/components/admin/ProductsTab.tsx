@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Product } from '../../types';
 import { useAdmin } from '../../context/AdminContext';
 import ProductFormModal from './ProductFormModal';
+import { formatPrice } from '../../lib/currency';
 
 const CATEGORY_LABELS: Record<string, string> = {
   soaps: '🧼 Savons',
@@ -11,7 +12,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 export default function ProductsTab() {
-  const { products, deleteProduct } = useAdmin();
+  const { products, deleteProduct, siteSettings } = useAdmin();
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
@@ -136,7 +137,7 @@ export default function ProductsTab() {
                         </span>
                       </td>
                       <td className="px-4 py-4">
-                        <span className="text-white font-semibold">{product.price.toFixed(2)} €</span>
+                        <span className="text-white font-semibold">{formatPrice(product.price, siteSettings.currency)}</span>
                       </td>
                       <td className="px-4 py-4">
                         {isOut ? (
